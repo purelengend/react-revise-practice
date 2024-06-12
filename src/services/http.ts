@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 // Constants
-import { AXIOS_DEFAULT_CONFIG } from "../constants";
+import { AXIOS_DEFAULT_CONFIG } from "@/constants";
 
 const createHttp = (config: AxiosRequestConfig) => {
   const http = axios.create({ ...AXIOS_DEFAULT_CONFIG, ...config });
