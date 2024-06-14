@@ -1,5 +1,5 @@
 import { Box, Button } from "@chakra-ui/react";
-import React, { memo, useContext } from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 
 // Components
@@ -8,7 +8,7 @@ import { Sidebar } from "@/components";
 // Contexts
 import { SidebarContext } from "@/context";
 
-const MainLayout = memo((props: { children?: React.ReactNode }) => {
+const MainLayout = (props: { children?: React.ReactNode }) => {
   const { sidebarState, openSidebar, closeSidebar } =
     useContext(SidebarContext);
 
@@ -23,6 +23,6 @@ const MainLayout = memo((props: { children?: React.ReactNode }) => {
       {props.children}
     </Box>
   );
-});
+};
 
 export default MainLayout;

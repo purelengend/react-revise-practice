@@ -5,11 +5,14 @@ import {
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
+  HStack,
   Link,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { UserCard } from "../common";
-import { ROLES } from "@/constants";
+import { ROLES, SIDEBAR_ITEM_LIST } from "@/constants";
 
 export type SidebarProps = {
   sidebarState: boolean;
@@ -30,24 +33,51 @@ const Sidebar = ({ sidebarState, onCloseSidebar }: SidebarProps) => {
         bg="white.200"
         position="relative"
         maxW={270}
-        px={4.5}
-        py={6.25}
+        px={6.25}
+        py={4.5}
       >
         <Center borderLeft="4px solid" borderLeftColor="yellow.100">
           <Link
             as={ReactRouterLink}
             to="/"
-            width={220}
+            w={220}
+            fontWeight="bold"
             fontSize="lg"
             textAlign="center"
-            outline="none"
             _hover={{ textDecoration: "none" }}
           >
             CRUD OPERATIONS
           </Link>
         </Center>
 
-        <UserCard mt={13.5} name="Karthi" role={ROLES.ADMIN} />
+        <UserCard mt={13.5} name="Karthi Madesh" role={ROLES.ADMIN} />
+        <VStack mt={22.5} px={3.75}>
+          {SIDEBAR_ITEM_LIST.map((item) => {
+            return (
+              <Link
+                as={ReactRouterLink}
+                key={item.title}
+                to={item.destination}
+                _hover={{ textDecoration: "none", bg: "yellow.200" }}
+                w="full"
+                py={2.5}
+                borderRadius={4}
+              >
+                <HStack pl={10} gap={4}>
+                  {/* <Image
+                    boxSize={5}
+                    src="/assets/icons/Home.svg"
+                    alt="Home page icon"
+                  /> */}
+                  {item.icon}
+                  <Text textAlign="center" fontWeight="500" fontSize="sm">
+                    {item.title}
+                  </Text>
+                </HStack>
+              </Link>
+            );
+          })}
+        </VStack>
         <DrawerCloseButton
           position="absolute"
           boxSize={6}
