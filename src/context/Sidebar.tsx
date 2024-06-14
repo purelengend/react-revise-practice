@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, memo } from "react";
 
 // Hooks
 import { useSidebar } from "@/hooks";
@@ -13,19 +13,19 @@ export const SidebarContext = createContext<SidebarContextProps>(
   {} as SidebarContextProps,
 );
 
-export const SidebarContextProvider = (props: {
-  children: React.ReactNode;
-}) => {
-  const { sidebarState, openSidebar, closeSidebar } = useSidebar();
-  return (
-    <SidebarContext.Provider
-      value={{
-        sidebarState,
-        openSidebar,
-        closeSidebar,
-      }}
-    >
-      {props.children}
-    </SidebarContext.Provider>
-  );
-};
+export const SidebarContextProvider = memo(
+  (props: { children: React.ReactNode }) => {
+    const { sidebarState, openSidebar, closeSidebar } = useSidebar();
+    return (
+      <SidebarContext.Provider
+        value={{
+          sidebarState,
+          openSidebar,
+          closeSidebar,
+        }}
+      >
+        {props.children}
+      </SidebarContext.Provider>
+    );
+  },
+);
