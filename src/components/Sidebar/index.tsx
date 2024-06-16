@@ -10,8 +10,13 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { memo } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
+
+// Components
 import { UserCard } from "../common";
+
+// Constants
 import { ROLES, SIDEBAR_ITEM_LIST } from "@/constants";
 
 export type SidebarProps = {
@@ -19,13 +24,16 @@ export type SidebarProps = {
   onCloseSidebar: () => void;
 };
 
-const Sidebar = ({ sidebarState, onCloseSidebar }: SidebarProps) => {
+const Sidebar = memo(({ sidebarState, onCloseSidebar }: SidebarProps) => {
   return (
     <Drawer
       placement="left"
       isOpen={sidebarState}
       onClose={onCloseSidebar}
       closeOnOverlayClick={true}
+      variant={{
+        md: "clickThrough",
+      }}
     >
       <DrawerOverlay bg="rgba(101, 101, 101, .6)"></DrawerOverlay>
 
@@ -64,11 +72,6 @@ const Sidebar = ({ sidebarState, onCloseSidebar }: SidebarProps) => {
                 borderRadius={4}
               >
                 <HStack pl={10} gap={4}>
-                  {/* <Image
-                    boxSize={5}
-                    src="/assets/icons/Home.svg"
-                    alt="Home page icon"
-                  /> */}
                   {item.icon}
                   <Text textAlign="center" fontWeight="500" fontSize="sm">
                     {item.title}
@@ -90,6 +93,6 @@ const Sidebar = ({ sidebarState, onCloseSidebar }: SidebarProps) => {
       </DrawerContent>
     </Drawer>
   );
-};
+});
 
 export default Sidebar;

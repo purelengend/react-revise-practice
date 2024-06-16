@@ -1,18 +1,14 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
 // Layout
 import MainLayout from "@/layout/MainLayout";
-
-// Pages
-import { MainPage } from "./pages";
-
-//Themes
-import themes from "./themes";
+import { ChakraProvider } from "@chakra-ui/react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Context
 import { SidebarContextProvider } from "./context";
-
+// Pages
+import { MainPage } from "./pages";
+//Themes
+import themes from "./themes";
 // Chakra UI Fonts
 import { Fonts } from "./themes/base";
 
@@ -20,12 +16,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: (
-      <MainLayout>
-        <div>Oops. Path not found!</div>
-      </MainLayout>
-    ),
+    errorElement: <div>Oops. Path not found!</div>,
     children: [
+      {
+        path: "/*",
+        element: <div>Oops. Children path not found</div>,
+      },
       { index: true, element: <div>Index page</div> },
       {
         path: "/students",

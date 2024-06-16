@@ -1,7 +1,6 @@
-import { createContext } from "react";
-
 // Hooks
 import { useSidebar } from "@/hooks";
+import { createContext, useCallback } from "react";
 
 export type SidebarContextProps = {
   sidebarState: boolean;
@@ -17,12 +16,21 @@ export const SidebarContextProvider = (props: {
   children: React.ReactNode;
 }) => {
   const { sidebarState, openSidebar, closeSidebar } = useSidebar();
+
+  const openSidebarCallback = useCallback(() => {
+    openSidebar;
+  }, [openSidebar]);
+
+  const closeSidebarCallback = useCallback(() => {
+    closeSidebar;
+  }, [closeSidebar]);
+
   return (
     <SidebarContext.Provider
       value={{
         sidebarState,
-        openSidebar,
-        closeSidebar,
+        openSidebar: openSidebarCallback,
+        closeSidebar: closeSidebarCallback,
       }}
     >
       {props.children}
