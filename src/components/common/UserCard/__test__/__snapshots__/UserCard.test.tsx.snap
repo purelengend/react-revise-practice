@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserCard test cases should render correctly 1`] = `
+<div>
+  <div
+    class="chakra-card css-qdyteg"
+  >
+    <div
+      class="chakra-card__body css-xe2qne"
+    >
+      <img
+        class="chakra-image css-161novc"
+        src="test avatarUrl"
+      />
+      <h2
+        class="chakra-heading css-1ksucz6"
+      >
+        test name
+      </h2>
+      <p
+        class="chakra-text css-fmlsi3"
+      >
+        Admin
+      </p>
+    </div>
+  </div>
+</div>
+`;
