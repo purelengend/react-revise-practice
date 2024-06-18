@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import Sidebar from "..";
+import Header from "..";
 
-describe("Sidebar test cases", () => {
+describe("Header test cases", () => {
   it("should render correctly", () => {
-    const { container } = render(<Sidebar />);
+    const { container } = render(<Header />);
     expect(container).toMatchSnapshot();
   });
 });
