@@ -1,7 +1,7 @@
-// Layout
-import MainLayout from "@/layout/MainLayout";
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+// Layout
+import MainLayout from "@/layout/MainLayout";
 
 // Context
 import { SidebarContextProvider } from "./context";
@@ -12,8 +12,7 @@ import themes from "./themes";
 // Chakra UI Fonts
 import { Fonts } from "./themes/base";
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,

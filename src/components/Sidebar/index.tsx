@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { memo } from "react";
+import { useContext } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 
 // Components
@@ -19,28 +19,33 @@ import { UserCard } from "../common";
 // Constants
 import { ROLES, SIDEBAR_ITEM_LIST } from "@/constants";
 
-export type SidebarProps = {
-  sidebarState: boolean;
-  onCloseSidebar: () => void;
-};
+// Context
+import { SidebarContext } from "@/context";
 
-const Sidebar = memo(({ sidebarState, onCloseSidebar }: SidebarProps) => {
+const Sidebar = () => {
+  const { sidebarState, closeSidebar } = useContext(SidebarContext);
   return (
     <Drawer
       placement="left"
       isOpen={sidebarState}
-      onClose={onCloseSidebar}
+      onClose={closeSidebar}
       closeOnOverlayClick={true}
       variant={{
         md: "clickThrough",
       }}
+      trapFocus={false}
     >
-      <DrawerOverlay bg="rgba(101, 101, 101, .6)"></DrawerOverlay>
+      <DrawerOverlay
+        display={{
+          md: "none",
+        }}
+        bg="rgba(101, 101, 101, .6)"
+      ></DrawerOverlay>
 
       <DrawerContent
         bg="white.200"
         position="relative"
-        maxW={270}
+        maxW={67.5}
         px={6.25}
         py={4.5}
       >
@@ -48,7 +53,7 @@ const Sidebar = memo(({ sidebarState, onCloseSidebar }: SidebarProps) => {
           <Link
             as={ReactRouterLink}
             to="/"
-            w={220}
+            w={55}
             fontWeight="bold"
             fontSize="lg"
             textAlign="center"
@@ -82,17 +87,20 @@ const Sidebar = memo(({ sidebarState, onCloseSidebar }: SidebarProps) => {
           })}
         </VStack>
         <DrawerCloseButton
+          display={{
+            md: "none",
+          }}
           position="absolute"
           boxSize={6}
           top={0}
           right={1}
-          onClick={onCloseSidebar}
+          onClick={closeSidebar}
         >
           <CloseIcon w={3} h={3} />
         </DrawerCloseButton>
       </DrawerContent>
     </Drawer>
   );
-});
+};
 
 export default Sidebar;

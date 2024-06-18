@@ -25,6 +25,7 @@ const preview: Preview = {
       </ChakraProvider>
     ),
   ],
+  tags: ["autodocs"],
 };
 
 export default preview;

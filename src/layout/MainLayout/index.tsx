@@ -1,14 +1,14 @@
-// Components
-import { Sidebar } from "@/components";
-// Contexts
-import { SidebarContext } from "@/context";
-import { Box, Button } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 
+// Components
+import { Header, Sidebar } from "@/components";
+// Contexts
+import { SidebarContext } from "@/context";
+
 const MainLayout = (props: { children?: React.ReactNode }) => {
-  const { sidebarState, openSidebar, closeSidebar } =
-    useContext(SidebarContext);
+  const { sidebarState } = useContext(SidebarContext);
 
   return (
     <Box
@@ -20,9 +20,9 @@ const MainLayout = (props: { children?: React.ReactNode }) => {
       }}
       transition="all 0.325s ease-in-out"
     >
-      <Sidebar sidebarState={sidebarState} onCloseSidebar={closeSidebar} />
+      <Sidebar />
 
-      <Button onClick={openSidebar}>Open Sidebar</Button>
+      <Header />
 
       <Outlet />
 
