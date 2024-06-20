@@ -11,5 +11,5 @@ const http = createHttp({
   baseURL: `${import.meta.env.VITE_STUDENT_API}/${ROUTES.STUDENT}`,
 });
 
-export const getAllStudentDetails = async (): Promise<Student[]> =>
-  (await http.get<Student[]>()).data;
+export const getAllStudentDetails = async (path: string): Promise<Student[]> =>
+  (await http.get<Student[]>(path)).data;

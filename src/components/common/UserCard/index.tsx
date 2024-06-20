@@ -31,7 +31,7 @@ const UserCard = memo(
             borderRadius="50%"
             objectFit="contain"
           />
-          <Heading fontWeight="bold" textAlign="center" mt={5} fontSize="md">
+          <Heading textAlign="center" mt={5} fontSize="md">
             {name}
           </Heading>
 

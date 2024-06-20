@@ -6,3 +6,8 @@ export * from "./ReportIcon";
 export * from "./SettingsIcon";
 export * from "./SearchIcon";
 export * from "./NotificationIcon";
+export * from "./SortIcon";
+export * from "./SortArrowDownIcon";
+export * from "./SortArrowUpIcon";
+export * from "./DefaultAvatarIcon";
+export * from "./AttachmentIcon";
