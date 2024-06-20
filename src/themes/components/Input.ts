@@ -8,6 +8,7 @@ const baseStyle = definePartsStyle({
   field: {
     fontWeight: "normal",
     borderRadius: "lg",
+    color: "gray.100",
   },
 });
 
@@ -24,9 +25,30 @@ const sizes = {
   }),
 };
 
+const outline = definePartsStyle({
+  field: {
+    border: "1px solid",
+    borderColor: "white.300",
+    bg: "white",
+  },
+});
+
+const filled = definePartsStyle({
+  field: {
+    border: "1px solid",
+    borderColor: "white.300",
+    bg: "white.400",
+    height: 12,
+  },
+});
+
 export const Input = defineMultiStyleConfig({
   sizes,
   baseStyle,
+  variants: {
+    outline,
+    filled,
+  },
   defaultProps: {
     size: "sm",
     variant: "outline",

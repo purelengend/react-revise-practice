@@ -34,6 +34,7 @@ const Sidebar = () => {
         md: "clickThrough",
       }}
       trapFocus={false}
+      blockScrollOnMount={false}
     >
       <DrawerOverlay
         display={{

@@ -9,7 +9,7 @@ import {
 } from "@/components/common/Icons";
 
 // Types
-import { SideBarItemList } from "@/types/sidebar";
+import { SideBarItemList } from "@/types";
 
 export const SIDEBAR_ITEM_LIST: SideBarItemList = [
   {

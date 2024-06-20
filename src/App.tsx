@@ -1,17 +1,23 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 // Layout
 import MainLayout from "@/layout/MainLayout";
 
 // Context
-import { SidebarContextProvider } from "./context";
+import { SidebarContextProvider, UrlContextProvider } from "./context";
+
 // Pages
-import { MainPage } from "./pages";
+import { StudentPage } from "./pages";
+
 //Themes
 import themes from "./themes";
+
 // Chakra UI Fonts
 import { Fonts } from "./themes/base";
 
+// Router config
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,19 +31,34 @@ const router = createBrowserRouter([
       { index: true, element: <div>Index page</div> },
       {
         path: "/students",
-        element: <MainPage />,
+        element: <StudentPage />,
       },
     ],
   },
 ]);
+
+// QueryClient config
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 15000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 function App() {
   return (
-    <ChakraProvider theme={themes}>
-      <Fonts />
-      <SidebarContextProvider>
-        <RouterProvider router={router} />
-      </SidebarContextProvider>
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={themes}>
+        <Fonts />
+        <SidebarContextProvider>
+          <UrlContextProvider>
+            <RouterProvider router={router} />
+          </UrlContextProvider>
+        </SidebarContextProvider>
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 

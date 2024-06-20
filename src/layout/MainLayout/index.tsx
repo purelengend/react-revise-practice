@@ -13,8 +13,8 @@ const MainLayout = (props: { children?: React.ReactNode }) => {
   return (
     <Box
       w="full"
-      h="100vh"
-      bg="white.100"
+      h="full"
+      bg="white"
       pl={{
         md: sidebarState ? 270 : 0,
       }}
