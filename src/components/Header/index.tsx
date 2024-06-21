@@ -11,8 +11,8 @@ const Header = () => {
   const { toggleSidebar } = useContext(SidebarContext);
 
   // TODO: implement later
-  const handleSearchSubmit = useCallback(({ searchValue }: SearchFormInput) => {
-    console.log(searchValue);
+  const handleSearchSubmit = useCallback((data: SearchFormInput) => {
+    console.log(data);
   }, []);
 
   return (
@@ -20,11 +20,6 @@ const Header = () => {
       <IconButton
         aria-label="Toggle sidebar"
         icon={<HamburgerIcon boxSize={8} />}
-        variant="outline"
-        border="none"
-        _hover={{
-          bg: "blackAlpha.100",
-        }}
         onClick={toggleSidebar}
       />
       <HStack gap={6} mr={{ md: 12 }}>

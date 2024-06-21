@@ -4,7 +4,7 @@ import { extendTheme } from "@chakra-ui/react";
 import { colors, fonts, space, breakpoints, fontSizes, sizes } from "./base";
 
 // Component themes
-import { Drawer, Form, Input, Link } from "./components";
+import { Alert, Drawer, Form, IconButton, Input, Link } from "./components";
 
 const themes = extendTheme({
   colors,
@@ -18,6 +18,8 @@ const themes = extendTheme({
     Link,
     Input,
     Form,
+    Alert,
+    Button: IconButton,
   },
 });
 
