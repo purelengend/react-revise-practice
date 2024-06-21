@@ -4,6 +4,7 @@ import {
   Center,
   HStack,
   Heading,
+  IconButton,
   Image,
   Stack,
   useDisclosure,
@@ -11,9 +12,10 @@ import {
 
 // Components
 import { CustomTable, SortSelect, StudentFormModal } from "@/components";
+import { DeleteIcon, EditIcon } from "@/components/common/Icons";
 
 // Constants
-import { SORT_BY_OPTION_LIST } from "@/constants";
+import { DEFAULT_STUDENT_AVATAR_URL, SORT_BY_OPTION_LIST } from "@/constants";
 
 // Types
 import { Student } from "@/types";
@@ -32,7 +34,9 @@ const studentColumns: Array<ColumnProps<Student>> = [
         borderRadius="lg"
         w={16.25}
         h={13.75}
-        src={item.avatarUrl}
+        src={
+          item.avatarUrl === "" ? DEFAULT_STUDENT_AVATAR_URL : item.avatarUrl
+        }
       />
     ),
   },
@@ -50,11 +54,36 @@ const studentColumns: Array<ColumnProps<Student>> = [
   },
   {
     title: "Enroll Number",
-    key: "enrollNumber",
+    key: "id",
   },
   {
     title: "Admission Date",
     key: "dateOfAdmission",
+    render: (item: Student) => (
+      <>{new Date(item.dateOfAdmission).toLocaleString()}</>
+    ),
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (item: Student) => (
+      <HStack gap={8}>
+        <IconButton
+          aria-label="edit-student"
+          value={item.id}
+          onClick={(e) => console.log(e.currentTarget.value)}
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          aria-label="delete-student"
+          value={item.id}
+          onClick={(e) => console.log(e.currentTarget.value)}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </HStack>
+    ),
   },
 ];
 
@@ -109,7 +138,9 @@ const StudentPage = () => {
           </Button>
         </Stack>
       </Center>
+
       <CustomTable columns={studentColumns} data={studentData} />
+
       {isStudentFormModalOpen && (
         <StudentFormModal
           isOpen={isStudentFormModalOpen}

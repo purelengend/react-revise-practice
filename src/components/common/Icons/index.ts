@@ -11,3 +11,5 @@ export * from "./SortArrowDownIcon";
 export * from "./SortArrowUpIcon";
 export * from "./DefaultAvatarIcon";
 export * from "./AttachmentIcon";
+export * from "./EditIcon";
+export * from "./DeleteIcon";

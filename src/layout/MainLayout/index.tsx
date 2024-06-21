@@ -4,8 +4,9 @@ import { Outlet } from "react-router-dom";
 
 // Components
 import { Header, Sidebar } from "@/components";
+
 // Contexts
-import { SidebarContext } from "@/context";
+import { SidebarContext, UrlContextProvider } from "@/context";
 
 const MainLayout = (props: { children?: React.ReactNode }) => {
   const { sidebarState } = useContext(SidebarContext);
@@ -22,10 +23,11 @@ const MainLayout = (props: { children?: React.ReactNode }) => {
     >
       <Sidebar />
 
-      <Header />
+      <UrlContextProvider>
+        <Header />
 
-      <Outlet />
-
+        <Outlet />
+      </UrlContextProvider>
       {props.children}
     </Box>
   );

@@ -39,6 +39,7 @@ const filled = definePartsStyle({
     borderColor: "white.300",
     bg: "white.400",
     height: 12,
+    color: "black",
   },
 });
 

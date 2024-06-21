@@ -7,7 +7,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { ReactElement, useEffect, useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 
 // Hooks
 import { useStudent } from "@/hooks";
@@ -25,10 +25,6 @@ export type TableProps<T> = {
 
 const CustomTable = <T,>({ columns, data }: TableProps<T>) => {
   const { isFetchingStudentData } = useStudent();
-
-  useEffect(() => {
-    console.log(isFetchingStudentData);
-  }, [isFetchingStudentData]);
 
   const headers = useMemo(
     () =>
@@ -57,6 +53,11 @@ const CustomTable = <T,>({ columns, data }: TableProps<T>) => {
               h={21.25}
               borderRadius="lg"
               key={`row-${rowIndex}`}
+              sx={{
+                "& td:first-of-type, & td:last-of-type": {
+                  borderRadius: "lg",
+                },
+              }}
             >
               {columns.map((column, columnIndex) => {
                 const value = column.render

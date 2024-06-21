@@ -40,8 +40,6 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
           as="button"
           type="submit"
           aria-label="Search student"
-          variant="outline"
-          border="none"
           _hover={{
             bg: "none",
           }}
