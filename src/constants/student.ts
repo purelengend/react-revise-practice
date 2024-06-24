@@ -9,7 +9,6 @@ export const DEFAULT_STUDENT_DATA: Student = {
   name: "",
   email: "",
   phone: "",
-  enrollNumber: 0,
   dateOfAdmission: 0,
   avatarUrl: DEFAULT_STUDENT_AVATAR_URL,
 } as const;
