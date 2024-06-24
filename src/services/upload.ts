@@ -11,7 +11,7 @@ const http = createHttp({
   },
 });
 
-export const uploadImage = async (
+export const uploadImageAndGetUrl = async (
   image: FormData,
 ): Promise<AxiosResponse<ImgBBResponse>> => {
   return await http.post<FormData, ImgBBResponse>("", image);

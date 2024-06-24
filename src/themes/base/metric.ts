@@ -23,4 +23,5 @@ export const sizes: ThemeOverride["sizes"] = {
   55: "13.75rem",
   67.5: "16.875rem",
   169: "42.25rem",
+  190: "47.5rem",
 };

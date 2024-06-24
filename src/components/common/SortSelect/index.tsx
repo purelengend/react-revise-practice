@@ -17,7 +17,7 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
   const { sortValue, setSortValue, setOrderValue, path } =
     useContext(UrlContext);
 
-  const { refetchStudentData } = useStudent();
+  const { refetchStudents } = useStudent();
 
   useEffect(() => {
     if (sortValue !== "") {
@@ -26,8 +26,8 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
   }, [sortValue, isAscending, setOrderValue, setSortValue]);
 
   useEffect(() => {
-    refetchStudentData();
-  }, [path, refetchStudentData]);
+    refetchStudents();
+  }, [path, refetchStudents]);
 
   const SortByStateIcon = useMemo(
     () =>
