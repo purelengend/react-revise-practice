@@ -14,7 +14,7 @@ import { UrlContext } from "@/context";
 const SortSelect = (props: { sortList: Array<SortProps> }) => {
   const [isAscending, setIsAscending] = useState(true);
 
-  const { sortValue, setSortValue, setOrderValue, path } =
+  const { sortValue, setSortValue, setOrderValue, path, resetPageValue } =
     useContext(UrlContext);
 
   const { refetchStudents } = useStudent();
@@ -22,8 +22,9 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
   useEffect(() => {
     if (sortValue !== "") {
       isAscending ? setOrderValue("asc") : setOrderValue("desc");
+      resetPageValue();
     }
-  }, [sortValue, isAscending, setOrderValue, setSortValue]);
+  }, [sortValue, isAscending, setOrderValue, setSortValue, resetPageValue]);
 
   useEffect(() => {
     refetchStudents();

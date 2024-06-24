@@ -16,7 +16,7 @@ export const SORT_BY_OPTION_LIST: Array<SortProps> = [
   },
   {
     title: "Enroll Number",
-    value: "enrollNumber",
+    value: "id",
   },
   {
     title: "Admission Date",

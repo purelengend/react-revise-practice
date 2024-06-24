@@ -8,3 +8,4 @@ export * from "./sort";
 export * from "./action";
 export * from "./toast";
 export * from "./student";
+export * from "./pagination";

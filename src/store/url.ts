@@ -1,5 +1,5 @@
 // Constants
-import { URL_ACTION } from "@/constants";
+import { PAGE_LIMIT, URL_ACTION } from "@/constants";
 
 export type UrlAction =
   | { type: "SORT"; payload: string }
@@ -17,7 +17,7 @@ export const intialUrlState: UrlState = {
   sort: "",
   order: "",
   page: 1,
-  limit: 10,
+  limit: PAGE_LIMIT,
 };
 
 export const urlReducer = (state: UrlState, action: UrlAction) => {
