@@ -14,15 +14,12 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 
 // Components
 import { AttachmentIcon } from "../common/Icons";
-
-// Services
-import { uploadImage } from "@/services";
 
 // Types
 import { Student } from "@/types";
@@ -34,35 +31,35 @@ import { StudentSchema } from "@/schema";
 import { DEFAULT_STUDENT_AVATAR_URL, DEFAULT_STUDENT_DATA } from "@/constants";
 
 // Hooks
-import { useStudent } from "@/hooks";
+import { useImage } from "@/hooks";
 
 export type StudentFormModalProps = {
   isOpen: boolean;
+  isMutating: boolean;
+  student: Student;
   onClose: () => void;
-  studentData?: Student;
+  onSubmit: (data: Student) => void;
 };
 
 const StudentFormModal = memo(
-  ({ isOpen, onClose, studentData }: StudentFormModalProps) => {
+  ({
+    isOpen,
+    isMutating,
+    onClose,
+    student,
+    onSubmit,
+  }: StudentFormModalProps) => {
     const [selectedImage, setSelectedImage] = useState<File>();
 
-    const { mutateStudent, isMutatingStudent, isMutateStudentSuccess } =
-      useStudent();
-
-    // Close the modal when mutating successfully
-    useEffect(() => {
-      if (isMutateStudentSuccess) {
-        onClose();
-      }
-    }, [isMutateStudentSuccess, onClose]);
+    const { isUploadingImage, uploadImage, imageUrl } = useImage();
 
     const {
       control,
       handleSubmit,
       setValue,
-      formState: { errors },
+      formState: { errors, isDirty },
     } = useForm<Student>({
-      defaultValues: studentData ? studentData : DEFAULT_STUDENT_DATA,
+      defaultValues: student ? student : DEFAULT_STUDENT_DATA,
       resolver: valibotResolver(StudentSchema),
       mode: "onBlur",
     });
@@ -72,27 +69,16 @@ const StudentFormModal = memo(
         if (e.target.files) {
           const imageFile = e.target.files[0];
 
-          const imageFormData = new FormData();
-
-          imageFormData.append("image", imageFile);
-
-          const imageUrl = await uploadImage(imageFormData);
+          uploadImage(imageFile);
 
           if (imageUrl) {
             setSelectedImage(imageFile);
 
-            setValue("avatarUrl", imageUrl.data.data.url);
+            setValue("avatarUrl", imageUrl);
           }
         }
       },
-      [setValue],
-    );
-
-    const onMutationStudentSubmit = useCallback(
-      (data: Student) => {
-        mutateStudent(data);
-      },
-      [mutateStudent],
+      [imageUrl, setValue, uploadImage],
     );
 
     return (
@@ -119,21 +105,18 @@ const StudentFormModal = memo(
             py={9}
             borderBottom="1px solid"
             borderBottomColor="white.300"
+            fontSize="2xl"
           >
-            Modal Title
+            {student.id === "" ? "Add student" : "Edit student"}
           </ModalHeader>
-          <form
-            id="#student-form"
-            noValidate
-            onSubmit={handleSubmit(onMutationStudentSubmit)}
-          >
+          <form id="#student-form" noValidate onSubmit={handleSubmit(onSubmit)}>
             <ModalBody py={9}>
               <FormControl
                 isInvalid={!!errors}
                 display="flex"
                 flexDir="column"
                 gap={5}
-                opacity={isMutatingStudent ? 0.5 : 1}
+                opacity={isMutating ? 0.5 : 1}
               >
                 <Center>
                   <Box bg="gray.400" borderRadius="50%" pos="relative">
@@ -142,6 +125,7 @@ const StudentFormModal = memo(
                         boxSize={32}
                         objectFit="cover"
                         borderRadius="50%"
+                        opacity={isUploadingImage ? 0.5 : 1}
                         src={URL.createObjectURL(selectedImage)}
                       />
                     ) : (
@@ -149,7 +133,11 @@ const StudentFormModal = memo(
                         boxSize={32}
                         objectFit="cover"
                         borderRadius="50%"
-                        src={DEFAULT_STUDENT_AVATAR_URL}
+                        src={
+                          student
+                            ? student.avatarUrl
+                            : DEFAULT_STUDENT_AVATAR_URL
+                        }
                       />
                     )}
                     <FormLabel
@@ -164,7 +152,7 @@ const StudentFormModal = memo(
                       id="#avatar"
                       name="avatar"
                       type="file"
-                      isDisabled={isMutatingStudent}
+                      isDisabled={isMutating || isUploadingImage}
                       hidden
                       onChange={handleImageUpload}
                     />
@@ -189,7 +177,7 @@ const StudentFormModal = memo(
                         id="#name"
                         variant="filled"
                         isInvalid={!!errors.name}
-                        isDisabled={isMutatingStudent}
+                        isDisabled={isMutating}
                       />
                       {errors.name && (
                         <FormErrorMessage>
@@ -212,7 +200,7 @@ const StudentFormModal = memo(
                         type="email"
                         variant="filled"
                         isInvalid={!!errors.email}
-                        isDisabled={isMutatingStudent}
+                        isDisabled={isMutating}
                       />
                       {errors.email && (
                         <FormErrorMessage>
@@ -235,7 +223,7 @@ const StudentFormModal = memo(
                         type="text"
                         variant="filled"
                         isInvalid={!!errors.phone}
-                        isDisabled={isMutatingStudent}
+                        isDisabled={isMutating}
                       />
                       {errors.phone && (
                         <FormErrorMessage>
@@ -249,12 +237,18 @@ const StudentFormModal = memo(
                   control={control}
                   name="id"
                   render={({ field }) => (
+                    <Input {...field} id="#id" type="text" hidden />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="enrollNumber"
+                  render={({ field }) => (
                     <Input
                       {...field}
-                      id="#id"
-                      type="text"
+                      id="#enroll-number"
+                      type="number"
                       hidden
-                      variant="filled"
                     />
                   )}
                 />
@@ -267,7 +261,6 @@ const StudentFormModal = memo(
                       id="#admission-date"
                       type="number"
                       hidden
-                      variant="filled"
                     />
                   )}
                 />
@@ -280,8 +273,12 @@ const StudentFormModal = memo(
                 w={30}
                 px={7.5}
                 py={4}
-                colorScheme="gray"
                 onClick={onClose}
+                bg="blackAlpha.100"
+                _hover={{
+                  bg: "blackAlpha.300",
+                }}
+                isDisabled={isMutating || isUploadingImage}
               >
                 Cancel
               </Button>
@@ -294,7 +291,7 @@ const StudentFormModal = memo(
                 _hover={{
                   bg: "orange.400",
                 }}
-                isDisabled={isMutatingStudent}
+                isDisabled={isMutating || isUploadingImage || !isDirty}
               >
                 Submit
               </Button>

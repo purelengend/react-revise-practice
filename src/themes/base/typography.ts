@@ -10,4 +10,5 @@ export const fontSizes: ThemeOverride["fontSizes"] = {
   md: "17px",
   lg: "20px",
   xl: "22px",
+  "2xl": "32px",
 };

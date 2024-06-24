@@ -11,11 +11,20 @@ import {
 } from "@chakra-ui/react";
 
 // Components
-import { CustomTable, SortSelect, StudentFormModal } from "@/components";
+import {
+  CustomTable,
+  SortSelect,
+  StudentConfirmModal,
+  StudentFormModal,
+} from "@/components";
 import { DeleteIcon, EditIcon } from "@/components/common/Icons";
 
 // Constants
-import { DEFAULT_STUDENT_AVATAR_URL, SORT_BY_OPTION_LIST } from "@/constants";
+import {
+  DEFAULT_STUDENT_AVATAR_URL,
+  DEFAULT_STUDENT_DATA,
+  SORT_BY_OPTION_LIST,
+} from "@/constants";
 
 // Types
 import { Student } from "@/types";
@@ -23,69 +32,7 @@ import { ColumnProps } from "@/components/common/CustomTable";
 
 // Hooks
 import { useStudent } from "@/hooks/useStudent";
-
-const studentColumns: Array<ColumnProps<Student>> = [
-  {
-    title: "",
-    key: "image",
-    render: (item: Student) => (
-      <Image
-        display="block"
-        borderRadius="lg"
-        w={16.25}
-        h={13.75}
-        src={
-          item.avatarUrl === "" ? DEFAULT_STUDENT_AVATAR_URL : item.avatarUrl
-        }
-      />
-    ),
-  },
-  {
-    title: "Name",
-    key: "name",
-  },
-  {
-    title: "Email",
-    key: "email",
-  },
-  {
-    title: "Phone",
-    key: "phone",
-  },
-  {
-    title: "Enroll Number",
-    key: "id",
-  },
-  {
-    title: "Admission Date",
-    key: "dateOfAdmission",
-    render: (item: Student) => (
-      <>{new Date(item.dateOfAdmission).toLocaleString()}</>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (item: Student) => (
-      <HStack gap={8}>
-        <IconButton
-          aria-label="edit-student"
-          value={item.id}
-          onClick={(e) => console.log(e.currentTarget.value)}
-        >
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          aria-label="delete-student"
-          value={item.id}
-          onClick={(e) => console.log(e.currentTarget.value)}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </HStack>
-    ),
-  },
-];
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const StudentPage = () => {
   const {
@@ -94,7 +41,131 @@ const StudentPage = () => {
     onClose: onCloseStudentFormModal,
   } = useDisclosure();
 
-  const { studentData } = useStudent();
+  const {
+    isOpen: isStudentConfirmModalOpen,
+    onOpen: onOpenStudentConfirmModal,
+    onClose: onCloseStudentConfirmModal,
+  } = useDisclosure();
+
+  const [updateStudent, setUpdateStudent] =
+    useState<Student>(DEFAULT_STUDENT_DATA);
+
+  const [studentId, setStudentId] = useState<string>("");
+
+  const {
+    students,
+    mutateStudent,
+    isMutatingStudent,
+    isMutateStudentSuccess,
+    isDeletingStudent,
+    isDeleteStudentSuccess,
+    deleteStudent,
+  } = useStudent();
+
+  const handleOpenAddModal = useCallback(() => {
+    setUpdateStudent(DEFAULT_STUDENT_DATA);
+    onOpenStudentFormModal();
+  }, [onOpenStudentFormModal]);
+
+  const onMutationStudentSubmit = useCallback(
+    (data: Student) => {
+      mutateStudent(data);
+    },
+    [mutateStudent],
+  );
+
+  // Close mutation modal when mutating successfully
+  useEffect(() => {
+    if (isMutateStudentSuccess) onCloseStudentFormModal();
+  }, [isMutateStudentSuccess, onCloseStudentFormModal]);
+
+  // Close confirm modal when deleting successfully
+  useEffect(() => {
+    if (isDeleteStudentSuccess) onCloseStudentConfirmModal();
+  }, [isDeleteStudentSuccess, onCloseStudentConfirmModal]);
+
+  const onDeleteStudentSubmit = useCallback(
+    (data: Pick<Student, "id">) => {
+      deleteStudent(data.id);
+    },
+    [deleteStudent],
+  );
+
+  const studentColumns: Array<ColumnProps<Student>> = useMemo(
+    () => [
+      {
+        title: "",
+        key: "image",
+        render: (item: Student) => (
+          <Image
+            display="block"
+            borderRadius="lg"
+            w={16.25}
+            h={13.75}
+            src={
+              item.avatarUrl === ""
+                ? DEFAULT_STUDENT_AVATAR_URL
+                : item.avatarUrl
+            }
+          />
+        ),
+      },
+      {
+        title: "Name",
+        key: "name",
+      },
+      {
+        title: "Email",
+        key: "email",
+      },
+      {
+        title: "Phone",
+        key: "phone",
+      },
+      {
+        title: "Enroll Number",
+        key: "id",
+      },
+      {
+        title: "Admission Date",
+        key: "dateOfAdmission",
+        render: (item: Student) => (
+          <>{new Date(item.dateOfAdmission).toLocaleString()}</>
+        ),
+      },
+      {
+        title: "Action",
+        key: "action",
+        render: (item: Student) => {
+          return (
+            <HStack gap={8}>
+              <IconButton
+                aria-label="edit-student"
+                value={item.id}
+                onClick={() => {
+                  setUpdateStudent(item);
+                  onOpenStudentFormModal();
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                aria-label="delete-student"
+                value={item.id}
+                onClick={() => {
+                  setStudentId(item.id);
+                  onOpenStudentConfirmModal();
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </HStack>
+          );
+        },
+      },
+    ],
+    [onOpenStudentConfirmModal, onOpenStudentFormModal],
+  );
 
   return (
     <Box w="full" minH="100vh" h="full" px={7.5} py={3} bg="white.100">
@@ -132,19 +203,32 @@ const StudentPage = () => {
             _hover={{
               bg: "orange.400",
             }}
-            onClick={onOpenStudentFormModal}
+            onClick={handleOpenAddModal}
           >
             ADD NEW STUDENT
           </Button>
         </Stack>
       </Center>
 
-      <CustomTable columns={studentColumns} data={studentData} />
+      <CustomTable columns={studentColumns} data={students} />
 
       {isStudentFormModalOpen && (
         <StudentFormModal
           isOpen={isStudentFormModalOpen}
+          isMutating={isMutatingStudent}
           onClose={onCloseStudentFormModal}
+          student={updateStudent}
+          onSubmit={onMutationStudentSubmit}
+        />
+      )}
+
+      {isStudentConfirmModalOpen && (
+        <StudentConfirmModal
+          id={studentId}
+          isOpen={isStudentConfirmModalOpen}
+          isMutating={isDeletingStudent}
+          onClose={onCloseStudentConfirmModal}
+          onSubmit={onDeleteStudentSubmit}
         />
       )}
     </Box>

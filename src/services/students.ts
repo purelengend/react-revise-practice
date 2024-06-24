@@ -11,8 +11,11 @@ const http = createHttp({
   baseURL: `${import.meta.env.VITE_STUDENT_API}/${ROUTES.STUDENT}`,
 });
 
-export const getAllStudentDetails = async (path: string): Promise<Student[]> =>
+export const getAllStudents = async (path: string): Promise<Student[]> =>
   (await http.get<Student[]>(path)).data;
+
+export const getStudentById = async (id: string): Promise<Student[]> =>
+  (await http.get<Student[]>(`/${id}`)).data;
 
 export const createOrUpdateStudent = async (
   data: Student,
@@ -20,10 +23,14 @@ export const createOrUpdateStudent = async (
   if (data.id === "") {
     const dataWithDate: Student = {
       ...data,
+      enrollNumber: parseInt(data.id),
       dateOfAdmission: Date.now(),
     };
     return (await http.post<Student, Student>("", dataWithDate)).data;
   }
 
-  return (await http.put<Student>("", data)).data;
+  return (await http.put<Student>(`/${data.id}`, data)).data;
 };
+
+export const deleteStudentById = async (id: string): Promise<Student> =>
+  (await http.delete<Student>(`/${id}`)).data;

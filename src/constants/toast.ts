@@ -30,7 +30,7 @@ export const TOAST_MSG = {
   EDIT: {
     SUCCESS: {
       title: "Student edited.",
-      description: "This student information has been edited successfully!.",
+      description: "This student information has been edited successfully!",
     },
     ERROR: {
       title: "Student edit failed.",
@@ -41,7 +41,7 @@ export const TOAST_MSG = {
     SUCCESS: {
       title: "Student deleted.",
       description:
-        "This student has been removed from this system, this action can not undo.",
+        "This student has been removed from this system, this action cannot be undone.",
     },
     ERROR: {
       title: "Student deletion failed.",
