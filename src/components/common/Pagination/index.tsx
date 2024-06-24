@@ -1,4 +1,6 @@
+import { UrlContext } from "@/context";
 import { Button, Center } from "@chakra-ui/react";
+import { useContext } from "react";
 
 export type PaginationProps = {
   totalRecords: number;
@@ -6,6 +8,7 @@ export type PaginationProps = {
 };
 
 const Pagination = ({ totalRecords, pageLimit }: PaginationProps) => {
+  const { setPageValue, currentPage } = useContext(UrlContext);
   const pages: Array<number> = [];
 
   for (let i = 1; i <= Math.ceil(totalRecords / pageLimit); i++) {
@@ -28,7 +31,8 @@ const Pagination = ({ totalRecords, pageLimit }: PaginationProps) => {
             _active={{
               bg: "yellow.200",
             }}
-            onClick={(e) => console.log(e.currentTarget.value)}
+            isActive={currentPage === page}
+            onClick={(e) => setPageValue(parseInt(e.currentTarget.value))}
           >
             {page}
           </Button>

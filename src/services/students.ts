@@ -23,7 +23,6 @@ export const createOrUpdateStudent = async (
   if (data.id === "") {
     const dataWithDate: Student = {
       ...data,
-      enrollNumber: parseInt(data.id),
       dateOfAdmission: Date.now(),
     };
     return (await http.post<Student, Student>("", dataWithDate)).data;

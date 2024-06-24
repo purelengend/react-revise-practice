@@ -233,6 +233,7 @@ const StudentFormModal = memo(
                     </Box>
                   )}
                 />
+
                 <Controller
                   control={control}
                   name="id"
@@ -240,18 +241,7 @@ const StudentFormModal = memo(
                     <Input {...field} id="#id" type="text" hidden />
                   )}
                 />
-                <Controller
-                  control={control}
-                  name="enrollNumber"
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      id="#enroll-number"
-                      type="number"
-                      hidden
-                    />
-                  )}
-                />
+
                 <Controller
                   control={control}
                   name="dateOfAdmission"

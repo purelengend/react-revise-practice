@@ -10,6 +10,7 @@ export type UrlContextProps = {
   setOrderValue: (orderValue: string) => void;
   currentPage: number;
   setPageValue: (pageValue: number) => void;
+  resetPageValue: () => void;
 };
 
 export const UrlContext = createContext<UrlContextProps>({} as UrlContextProps);
@@ -22,6 +23,7 @@ export const UrlContextProvider = (props: { children: ReactNode }) => {
     setSortValue,
     currentPage,
     setPageValue,
+    resetPageValue,
   } = useUrl();
 
   const urlContextValue = useMemo(
@@ -32,8 +34,17 @@ export const UrlContextProvider = (props: { children: ReactNode }) => {
       setSortValue,
       currentPage,
       setPageValue,
+      resetPageValue,
     }),
-    [currentPage, path, setOrderValue, setPageValue, setSortValue, sortValue],
+    [
+      currentPage,
+      path,
+      resetPageValue,
+      setOrderValue,
+      setPageValue,
+      setSortValue,
+      sortValue,
+    ],
   );
   return (
     <UrlContext.Provider value={urlContextValue}>

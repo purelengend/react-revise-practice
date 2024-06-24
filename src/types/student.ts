@@ -3,7 +3,6 @@ export type Student = {
   name: string;
   email: string;
   phone: string;
-  enrollNumber: number;
   dateOfAdmission: number;
   avatarUrl: string;
 };

@@ -9,6 +9,7 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 // Components
 import {
@@ -32,8 +33,7 @@ import { Student } from "@/types";
 import { ColumnProps } from "@/components/common/CustomTable";
 
 // Hooks
-import { useStudent } from "@/hooks/useStudent";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useStudent, useStudentPagination } from "@/hooks";
 
 const StudentPage = () => {
   const {
@@ -63,6 +63,8 @@ const StudentPage = () => {
     deleteStudent,
   } = useStudent();
 
+  const { allStudents, refetchAllStudents } = useStudentPagination();
+
   const handleOpenAddModal = useCallback(() => {
     setUpdateStudent(DEFAULT_STUDENT_DATA);
     onOpenStudentFormModal();
@@ -77,13 +79,19 @@ const StudentPage = () => {
 
   // Close mutation modal when mutating successfully
   useEffect(() => {
-    if (isMutateStudentSuccess) onCloseStudentFormModal();
-  }, [isMutateStudentSuccess, onCloseStudentFormModal]);
+    if (isMutateStudentSuccess) {
+      onCloseStudentFormModal();
+      refetchAllStudents();
+    }
+  }, [isMutateStudentSuccess, onCloseStudentFormModal, refetchAllStudents]);
 
   // Close confirm modal when deleting successfully
   useEffect(() => {
-    if (isDeleteStudentSuccess) onCloseStudentConfirmModal();
-  }, [isDeleteStudentSuccess, onCloseStudentConfirmModal]);
+    if (isDeleteStudentSuccess) {
+      onCloseStudentConfirmModal();
+      refetchAllStudents();
+    }
+  }, [isDeleteStudentSuccess, onCloseStudentConfirmModal, refetchAllStudents]);
 
   const onDeleteStudentSubmit = useCallback(
     (data: Pick<Student, "id">) => {
@@ -169,51 +177,63 @@ const StudentPage = () => {
   );
 
   return (
-    <Box w="full" minH="100vh" h="full" px={7.5} py={3} bg="white.100">
-      <Center
-        justifyContent="space-between"
-        flexDirection={{
-          base: "column",
-          md: "row",
-        }}
-      >
-        <Heading fontSize="xl">Students List</Heading>
-        <Stack
-          gap={5}
-          justify="space-between"
-          direction={{
+    <Box
+      w="full"
+      minH="95.5vh"
+      display="flex"
+      flexDir="column"
+      justifyContent="space-between"
+      h="full"
+      px={7.5}
+      py={3}
+      bg="white.100"
+    >
+      <Box>
+        <Center
+          justifyContent="space-between"
+          flexDirection={{
             base: "column",
-            sm: "row",
-          }}
-          alignItems={{
-            base: "end",
-            sm: "initial",
+            md: "row",
           }}
         >
-          <HStack gap={5} justify="space-between">
-            <SortSelect sortList={SORT_BY_OPTION_LIST} />
-          </HStack>
-
-          <Button
-            w={50}
-            px={6}
-            py={3}
-            fontSize="sm"
-            color="white"
-            bg="yellow.200"
-            _hover={{
-              bg: "orange.400",
+          <Heading fontSize="xl">Students List</Heading>
+          <Stack
+            gap={5}
+            justify="space-between"
+            direction={{
+              base: "column",
+              sm: "row",
             }}
-            onClick={handleOpenAddModal}
+            alignItems={{
+              base: "end",
+              sm: "initial",
+            }}
           >
-            ADD NEW STUDENT
-          </Button>
-        </Stack>
-      </Center>
+            <HStack gap={5} justify="space-between">
+              <SortSelect sortList={SORT_BY_OPTION_LIST} />
+            </HStack>
 
-      <CustomTable columns={studentColumns} data={students} />
+            <Button
+              w={50}
+              px={6}
+              py={3}
+              fontSize="sm"
+              color="white"
+              bg="yellow.200"
+              _hover={{
+                bg: "orange.400",
+              }}
+              onClick={handleOpenAddModal}
+            >
+              ADD NEW STUDENT
+            </Button>
+          </Stack>
+        </Center>
 
-      <Pagination totalRecords={30} pageLimit={6} />
+        <CustomTable columns={studentColumns} data={students} />
+      </Box>
+
+      <Pagination totalRecords={allStudents?.length ?? 0} pageLimit={6} />
 
       {isStudentFormModalOpen && (
         <StudentFormModal
