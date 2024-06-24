@@ -1,11 +1,13 @@
 import { ThemeOverride } from "@chakra-ui/react";
 
 export const space: ThemeOverride["space"] = {
+  1.5: "0.375rem",
   3.75: "0.9375rem",
   4.5: "1.125rem",
   6.25: "1.5625rem",
   7.5: "1.875rem",
   13.5: "3.375rem",
+  15: "3.75rem",
   15.75: "3.9375rem",
   22.5: "5.625rem",
 };

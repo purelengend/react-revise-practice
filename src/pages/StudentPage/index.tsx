@@ -13,6 +13,7 @@ import {
 // Components
 import {
   CustomTable,
+  Pagination,
   SortSelect,
   StudentConfirmModal,
   StudentFormModal,
@@ -211,6 +212,8 @@ const StudentPage = () => {
       </Center>
 
       <CustomTable columns={studentColumns} data={students} />
+
+      <Pagination totalRecords={30} pageLimit={6} />
 
       {isStudentFormModalOpen && (
         <StudentFormModal
