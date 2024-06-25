@@ -13,7 +13,7 @@ exports[`UserCard test cases should render correctly 1`] = `
         src="test avatarUrl"
       />
       <h2
-        class="chakra-heading css-1ksucz6"
+        class="chakra-heading css-1j31z2v"
       >
         test name
       </h2>

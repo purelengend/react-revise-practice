@@ -4,8 +4,14 @@ import createHttp from "./http";
 // Types
 import { ImgBBResponse } from "@/types/image";
 
+// Utils
+import { required } from "@/utils/config";
+
+// Constants
+import { API } from "@/constants";
+
 const http = createHttp({
-  baseURL: `${import.meta.env.VITE_UPLOAD_IMAGE_API}?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
+  baseURL: `${required(API.IMAGE)}?key=${required(API.IMGBB_KEY)}`,
   headers: {
     "Content-Type": "multipart/form-data",
   },

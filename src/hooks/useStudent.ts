@@ -48,7 +48,7 @@ export const useStudent = (id: string = "") => {
     isPending: isMutatingStudent,
     isSuccess: isMutateStudentSuccess,
   } = useMutation({
-    mutationKey: ["students", "mutation"],
+    mutationKey: [QUERY_KEY.STUDENT, "mutation"],
     mutationFn: (data: Student) => createOrUpdateStudent(data),
     onSuccess: (_, { id }) => {
       if (id === "") {
@@ -94,7 +94,7 @@ export const useStudent = (id: string = "") => {
     isPending: isDeletingStudent,
     isSuccess: isDeleteStudentSuccess,
   } = useMutation({
-    mutationKey: ["students", "delete"],
+    mutationKey: [QUERY_KEY.STUDENT, "delete"],
     mutationFn: (id: string) => deleteStudentById(id),
     onSuccess: () => {
       toast({
