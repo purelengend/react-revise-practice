@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import * as v from "valibot";
 export const StudentSchema = v.object({
   id: v.string(),

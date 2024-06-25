@@ -81,6 +81,8 @@ const StudentPage = () => {
   useEffect(() => {
     if (isMutateStudentSuccess) {
       onCloseStudentFormModal();
+
+      // Update total pages of students
       refetchAllStudents();
     }
   }, [isMutateStudentSuccess, onCloseStudentFormModal, refetchAllStudents]);
@@ -89,6 +91,8 @@ const StudentPage = () => {
   useEffect(() => {
     if (isDeleteStudentSuccess) {
       onCloseStudentConfirmModal();
+
+      // Update total pages of students
       refetchAllStudents();
     }
   }, [isDeleteStudentSuccess, onCloseStudentConfirmModal, refetchAllStudents]);

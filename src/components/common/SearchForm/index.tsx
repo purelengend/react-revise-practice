@@ -5,12 +5,16 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
+import { useCallback, useEffect, useState } from "react";
 
 // Components
 import { SearchIcon } from "../Icons";
 
 // Constants
 import { SEARCH_INPUT_PLACEHOLDER } from "@/constants";
+
+// Hooks
+import { useDebounce } from "@/hooks/useDebounce";
 
 export type SearchFormProps = {
   onSubmit: (args: SearchFormInput) => void;
@@ -26,13 +30,38 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
     },
   });
 
+  const [searchText, setSearchText] = useState("");
+
+  const debouncedText = useDebounce(searchText.replace(/\s+/g, " ").trim()); // remove extra spaces of the search text
+
+  const handleOnchange = useCallback(
+    (
+      event: React.ChangeEvent<HTMLInputElement>,
+      onChange: (...event: unknown[]) => void,
+    ) => {
+      onChange(event);
+      setSearchText(event.target.value);
+    },
+    [],
+  );
+
+  // Submit form when debouncedText changes
+  useEffect(() => {
+    handleSubmit(onSubmit)();
+  }, [debouncedText, handleSubmit, onSubmit]);
+
   return (
     <InputGroup as="form" onSubmit={handleSubmit(onSubmit)}>
       <Controller
         name="searchValue"
         control={control}
-        render={({ field }) => (
-          <Input {...field} h={9.25} placeholder={SEARCH_INPUT_PLACEHOLDER} />
+        render={({ field: { onChange, ...rest } }) => (
+          <Input
+            {...rest}
+            h={9.25}
+            placeholder={SEARCH_INPUT_PLACEHOLDER}
+            onChange={(event) => handleOnchange(event, onChange)}
+          />
         )}
       />
       <InputRightElement>

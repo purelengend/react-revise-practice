@@ -22,7 +22,7 @@ import { UrlContext } from "@/context";
 import { Student } from "@/types";
 
 // Constants
-import { TOAST_DEFAULT_OPTIONS, TOAST_MSG } from "@/constants";
+import { QUERY_KEY, TOAST_DEFAULT_OPTIONS, TOAST_MSG } from "@/constants";
 
 export const useStudent = (id: string = "") => {
   const { path } = useContext(UrlContext);
@@ -36,7 +36,7 @@ export const useStudent = (id: string = "") => {
     refetch: refetchStudents,
     isFetching: isFetchingStudentData,
   } = useQuery({
-    queryKey: ["students", path],
+    queryKey: [QUERY_KEY.STUDENT, path],
     queryFn: () => {
       return getAllStudents(path);
     },
@@ -65,7 +65,7 @@ export const useStudent = (id: string = "") => {
         });
       }
 
-      queryClient.invalidateQueries({ queryKey: ["students", path] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT, path] });
     },
     onError: (_, { id }) => {
       if (id === "") {
@@ -85,7 +85,7 @@ export const useStudent = (id: string = "") => {
   });
 
   const { data: studentByIdData } = useQuery({
-    queryKey: ["students", id],
+    queryKey: [QUERY_KEY.STUDENT, id],
     queryFn: () => getStudentById(id),
   });
 
@@ -103,7 +103,7 @@ export const useStudent = (id: string = "") => {
         description: TOAST_MSG.DELETE.SUCCESS.description,
       });
 
-      queryClient.invalidateQueries({ queryKey: ["students", path] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT, path] });
     },
     onError: () => {
       toast({
