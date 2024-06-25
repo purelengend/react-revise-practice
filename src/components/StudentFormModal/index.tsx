@@ -14,7 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 
@@ -71,15 +71,18 @@ const StudentFormModal = memo(
 
           uploadImage(imageFile);
 
-          if (imageUrl) {
-            setSelectedImage(imageFile);
-
-            setValue("avatarUrl", imageUrl);
-          }
+          setSelectedImage(imageFile);
         }
       },
-      [imageUrl, setValue, uploadImage],
+      [uploadImage],
     );
+
+    // Set avatar url to form when uploading successfully
+    useEffect(() => {
+      if (imageUrl) {
+        setValue("avatarUrl", imageUrl);
+      }
+    }, [imageUrl, setValue]);
 
     return (
       <Modal

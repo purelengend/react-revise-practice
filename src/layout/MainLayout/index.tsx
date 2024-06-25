@@ -27,8 +27,8 @@ const MainLayout = (props: { children?: React.ReactNode }) => {
         <Header />
 
         <Outlet />
+        {props.children}
       </UrlContextProvider>
-      {props.children}
     </Box>
   );
 };

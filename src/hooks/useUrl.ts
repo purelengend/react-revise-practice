@@ -11,8 +11,8 @@ export const useUrl = () => {
 
   const path = useMemo(
     () =>
-      `?sortBy=${state.sort}&order=${state.order}&page=${state.page}&limit=${PAGE_LIMIT}`,
-    [state.order, state.page, state.sort],
+      `?sortBy=${state.sort}&order=${state.order}&page=${state.page}&limit=${PAGE_LIMIT}&name=${state.name}`,
+    [state.name, state.order, state.page, state.sort],
   );
 
   const setSortValue = useCallback((sortValue: string) => {
@@ -49,6 +49,13 @@ export const useUrl = () => {
     });
   }, []);
 
+  const setFilterValue = useCallback((filterValue: string) => {
+    dispatch({
+      type: URL_ACTION.FILTER,
+      payload: filterValue,
+    });
+  }, []);
+
   return {
     path,
     setSortValue,
@@ -57,5 +64,7 @@ export const useUrl = () => {
     currentPage: state.page,
     setPageValue,
     resetPageValue,
+    setFilterValue,
+    filterValue: state.name,
   };
 };
