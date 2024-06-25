@@ -1,0 +1,5 @@
+export const API = {
+  STUDENT: "VITE_STUDENT_API",
+  IMAGE: "VITE_UPLOAD_IMAGE_API",
+  IMGBB_KEY: "VITE_IMGBB_API_KEY",
+} as const;

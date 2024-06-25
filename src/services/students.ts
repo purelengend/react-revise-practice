@@ -5,10 +5,13 @@ import createHttp from "./http";
 import { Student } from "@/types";
 
 // Constants
-import { ROUTES } from "@/constants";
+import { API, ROUTES } from "@/constants";
+
+// Utils
+import { required } from "@/utils/config";
 
 const http = createHttp({
-  baseURL: `${import.meta.env.VITE_STUDENT_API}/${ROUTES.STUDENT}`,
+  baseURL: `${required(API.STUDENT)}/${ROUTES.STUDENT}`,
 });
 
 export const getAllStudents = async (path: string): Promise<Student[]> =>

@@ -17,7 +17,7 @@ exports[`SearchForm test cases should render correctly 1`] = `
     >
       <button
         aria-label="Search student"
-        class="chakra-button css-yjms6b"
+        class="chakra-button css-15ql2fp"
         type="submit"
       >
         <svg

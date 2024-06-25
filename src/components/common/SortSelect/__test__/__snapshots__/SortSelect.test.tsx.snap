@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SortSelect test cases should render correctly 1`] = `
+<div>
+  <button
+    class="chakra-button css-wbul9j"
+    data-testid="sort-button"
+    disabled=""
+    type="button"
+  >
+    <svg
+      class="chakra-icon css-1ad70y2"
+      data-testid="default"
+      focusable="false"
+      viewBox="0 0 14 20"
+    >
+      <path
+        d="M12.6017 10.9989H1.40169C0.15919 10.9989 -0.47081 12.4813 0.41294 13.345L6.01294 18.845C6.55981 19.3821 7.44794 19.3821 7.99481 18.845L13.5948 13.345C14.4698 12.4813 13.8442 10.9989 12.6017 10.9989ZM7.00169 17.8739L1.40169 12.3739H12.6017L7.00169 17.8739ZM1.40169 8.24893H12.6017C13.8442 8.24893 14.4742 6.7665 13.5904 5.90283L7.99044 0.402832C7.44357 -0.134277 6.55544 -0.134277 6.00857 0.402832L0.408565 5.90283C-0.466435 6.7665 0.15919 8.24893 1.40169 8.24893ZM7.00169 1.37393L12.6017 6.87393H1.40169L7.00169 1.37393Z"
+        fill="currentColor"
+      />
+    </svg>
+  </button>
+  <div
+    class="chakra-select__wrapper css-4x4dew"
+  >
+    <select
+      class="chakra-select css-mdekdx"
+    >
+      <option
+        disabled=""
+        hidden=""
+        value=""
+      >
+        Select a field
+      </option>
+      <option
+        value="mock value"
+      >
+        mock title
+      </option>
+    </select>
+    <div
+      class="chakra-select__icon-wrapper css-1td5bvu"
+    >
+      <svg
+        aria-hidden="true"
+        class="chakra-select__icon"
+        focusable="false"
+        role="presentation"
+        style="width: 1em; height: 1em; color: currentColor;"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

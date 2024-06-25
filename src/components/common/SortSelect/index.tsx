@@ -33,11 +33,11 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
   const SortByStateIcon = useMemo(
     () =>
       sortValue === "" ? (
-        <SortIcon />
+        <SortIcon data-testid="default" />
       ) : isAscending ? (
-        <SortArrowUpIcon />
+        <SortArrowUpIcon data-testid="asc" />
       ) : (
-        <SortArrowDownIcon />
+        <SortArrowDownIcon data-testid="desc" />
       ),
     [sortValue, isAscending],
   );
@@ -52,12 +52,14 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
   return (
     <>
       <Button
+        type="button"
         bg="transparent"
         _hover={{
           bg: "blackAlpha.100",
         }}
         onClick={orderCallback}
         isDisabled={sortValue === ""}
+        data-testid="sort-button"
       >
         {SortByStateIcon}
       </Button>
