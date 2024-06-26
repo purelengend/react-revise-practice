@@ -7,7 +7,7 @@ exports[`Header test cases should render correctly 1`] = `
   >
     <button
       aria-label="Toggle sidebar"
-      class="chakra-button css-10hh3mh"
+      class="chakra-button css-p7mkev"
       type="button"
     >
       <svg
@@ -40,7 +40,7 @@ exports[`Header test cases should render correctly 1`] = `
         >
           <button
             aria-label="Search student"
-            class="chakra-button css-yjms6b"
+            class="chakra-button css-15ql2fp"
             type="submit"
           >
             <svg

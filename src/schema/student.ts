@@ -1,18 +1,16 @@
 import * as v from "valibot";
+
+// Constants
+import { FORM_ERROR } from "@/constants";
+
 export const StudentSchema = v.object({
   id: v.string(),
-  name: v.pipe(
-    v.string(),
-    v.minLength(4, "Your name must have at least 4 characters"),
-  ),
-  email: v.pipe(
-    v.string(),
-    v.email("Please enter a valid email address, e.g., abc@mail.com"),
-  ),
+  name: v.pipe(v.string(), v.minLength(4, FORM_ERROR.NAME)),
+  email: v.pipe(v.string(), v.email(FORM_ERROR.EMAIL)),
   phone: v.pipe(
     v.string(),
-    v.regex(/^\d+$/, "Please enter a valid number digit"),
-    v.length(10, "Please enter a valid phone number with 10 digits"),
+    v.regex(/^\d+$/, FORM_ERROR.REGEX.PHONE),
+    v.length(10, FORM_ERROR.PHONE),
   ),
   dateOfAdmission: v.number(),
   avatarUrl: v.string(),

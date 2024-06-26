@@ -21,14 +21,16 @@ describe("SortSelect test cases", () => {
 
   const queryClient = new QueryClient();
 
-  const setup = () =>
-    render(
+  const setup = () => {
+    userEvent.setup();
+    return render(
       <QueryClientProvider client={queryClient}>
         <UrlContextProvider>
           <SortSelect sortList={mockSortList} />
         </UrlContextProvider>
       </QueryClientProvider>,
     );
+  };
 
   it("should render correctly", () => {
     const { container } = setup();
