@@ -20,7 +20,10 @@ describe("CustomTable test cases", () => {
     },
   ];
 
-  const mockData = [
+  const mockData: Array<{
+    value: string;
+    mock: string;
+  }> = [
     {
       value: "mock",
       mock: "mock",
@@ -29,17 +32,45 @@ describe("CustomTable test cases", () => {
 
   const queryClient = new QueryClient();
 
-  const setup = () =>
+  const setup = (
+    data: Array<{
+      value: string;
+      mock: string;
+    }>,
+    isFetching: boolean,
+  ) =>
     render(
       <QueryClientProvider client={queryClient}>
         <UrlContextProvider>
-          <CustomTable columns={mockColumn} data={mockData} />
+          <CustomTable
+            columns={mockColumn}
+            data={data}
+            isFetching={isFetching}
+          />
         </UrlContextProvider>
       </QueryClientProvider>,
     );
 
   it("should render correctly", () => {
-    const { container } = setup();
+    const { container } = setup(mockData, false);
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should be loading when fetching data", () => {
+    const { container } = setup(mockData, true);
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should handle loading state when the page is first loaded", () => {
+    const { container } = setup([], true);
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should handle message when no data is fetched", () => {
+    const { container } = setup([], false);
 
     expect(container).toMatchSnapshot();
   });

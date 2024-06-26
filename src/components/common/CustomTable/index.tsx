@@ -9,9 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { ReactElement, useMemo } from "react";
 
-// Hooks
-import { useStudent } from "@/hooks";
-
 export type ColumnProps<T> = {
   key: string;
   title: string | ReactElement;
@@ -21,11 +18,10 @@ export type ColumnProps<T> = {
 export type TableProps<T> = {
   columns: Array<ColumnProps<T>>;
   data?: Array<T>;
+  isFetching: boolean;
 };
 
-const CustomTable = <T,>({ columns, data }: TableProps<T>) => {
-  const { isFetchingStudentData } = useStudent();
-
+const CustomTable = <T,>({ columns, data, isFetching }: TableProps<T>) => {
   const headers = useMemo(
     () =>
       columns.map((column) => {
@@ -41,14 +37,14 @@ const CustomTable = <T,>({ columns, data }: TableProps<T>) => {
   const rows = useMemo(
     () =>
       !data?.length ? (
-        <Tr opacity={isFetchingStudentData ? 0.5 : 1}>
+        <Tr opacity={isFetching ? 0.5 : 1}>
           <Td colSpan={columns.length}>No data</Td>
         </Tr>
       ) : (
         data.map((row, rowIndex) => {
           return (
             <Tr
-              opacity={isFetchingStudentData ? 0.5 : 1}
+              opacity={isFetching ? 0.5 : 1}
               bg="white"
               h={21.25}
               borderRadius="lg"
@@ -70,7 +66,7 @@ const CustomTable = <T,>({ columns, data }: TableProps<T>) => {
           );
         })
       ),
-    [columns, data, isFetchingStudentData],
+    [columns, data, isFetching],
   );
   return (
     <TableContainer>

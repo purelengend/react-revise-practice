@@ -56,6 +56,7 @@ const StudentPage = () => {
   const {
     students,
     mutateStudent,
+    isFetchingStudentData,
     isMutatingStudent,
     isMutateStudentSuccess,
     isDeletingStudent,
@@ -234,7 +235,11 @@ const StudentPage = () => {
           </Stack>
         </Center>
 
-        <CustomTable columns={studentColumns} data={students} />
+        <CustomTable
+          columns={studentColumns}
+          data={students}
+          isFetching={isFetchingStudentData}
+        />
       </Box>
 
       <Pagination totalRecords={allStudents?.length ?? 0} pageLimit={6} />
