@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomTable test cases should render correctly 1`] = `
+<div>
+  <div
+    class="chakra-table__container css-zipzvv"
+  >
+    <table
+      class="chakra-table css-1xlmhul"
+    >
+      <thead
+        class="css-1mwmt6s"
+      >
+        <tr
+          class="css-0"
+        >
+          <th
+            class="css-gflm3x"
+          >
+            Mock Title
+          </th>
+          <th
+            class="css-gflm3x"
+          >
+            Mock render title
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="css-0"
+      >
+        <tr
+          class="css-17vy9fv"
+        >
+          <td
+            class="css-0"
+          >
+            mock
+          </td>
+          <td
+            class="css-0"
+          />
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
