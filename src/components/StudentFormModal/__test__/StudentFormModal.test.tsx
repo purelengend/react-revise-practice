@@ -19,9 +19,13 @@ describe("StudentFormModal test cases", () => {
 
   const {
     result: {
-      current: { onClose },
+      current: { isOpen, onClose },
     },
-  } = renderHook(() => useDisclosure({}));
+  } = renderHook(() =>
+    useDisclosure({
+      defaultIsOpen: true,
+    }),
+  );
 
   const mockData: Student = {
     id: "",
@@ -48,7 +52,7 @@ describe("StudentFormModal test cases", () => {
     return render(
       <QueryClientProvider client={queryClient}>
         <StudentFormModal
-          isOpen={true}
+          isOpen={isOpen}
           onClose={onClose}
           onSubmit={mockOnSubmit}
           isMutating={false}
@@ -129,5 +133,41 @@ describe("StudentFormModal test cases", () => {
     expect(emailError.textContent).toEqual(FORM_ERROR.EMAIL);
 
     expect(phoneError.textContent).toEqual(FORM_ERROR.PHONE);
+  });
+
+  it("should invoke submit function when clicking submit button", async () => {
+    setup(mockData);
+
+    const nameInput = screen.getByRole("textbox", {
+      name: /name/i,
+    });
+
+    const emailInput = screen.getByRole("textbox", {
+      name: /email/i,
+    });
+
+    const phoneInput = screen.getByRole("textbox", {
+      name: /phone/i,
+    });
+
+    await userEvent.type(nameInput, "valid name");
+
+    await userEvent.tab();
+
+    await userEvent.type(emailInput, "valid@gmail.com");
+
+    await userEvent.tab();
+
+    await userEvent.type(phoneInput, "1234567890");
+
+    await userEvent.tab();
+
+    const submitBtn = screen.getByRole("button", {
+      name: /submit/i,
+    });
+
+    await userEvent.click(submitBtn);
+
+    expect(mockOnSubmit).toHaveBeenCalled();
   });
 });
