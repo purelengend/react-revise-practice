@@ -1,19 +1,27 @@
 import { UrlContext } from "@/context";
 import { Button, Center } from "@chakra-ui/react";
-import { useContext } from "react";
+import { memo, useCallback, useContext } from "react";
 
 export type PaginationProps = {
   totalRecords: number;
   pageLimit: number;
 };
 
-const Pagination = ({ totalRecords, pageLimit }: PaginationProps) => {
+const Pagination = memo(({ totalRecords, pageLimit }: PaginationProps) => {
   const { setPageValue, currentPage } = useContext(UrlContext);
+
   const pages: Array<number> = [];
 
   for (let i = 1; i <= Math.ceil(totalRecords / pageLimit); i++) {
     pages.push(i);
   }
+
+  const handlePageChange = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      setPageValue(parseInt(e.currentTarget.value));
+    },
+    [setPageValue],
+  );
   return (
     <Center mt={15} gap={5}>
       {pages.map((page) => {
@@ -32,7 +40,7 @@ const Pagination = ({ totalRecords, pageLimit }: PaginationProps) => {
               bg: "yellow.200",
             }}
             isActive={currentPage === page}
-            onClick={(e) => setPageValue(parseInt(e.currentTarget.value))}
+            onClick={handlePageChange}
           >
             {page}
           </Button>
@@ -40,6 +48,6 @@ const Pagination = ({ totalRecords, pageLimit }: PaginationProps) => {
       })}
     </Center>
   );
-};
+});
 
 export default Pagination;
