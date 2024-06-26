@@ -14,6 +14,9 @@ import { Controller, useForm } from "react-hook-form";
 // Types
 import { Student } from "@/types";
 
+// Constants
+import { FORM_TITLE } from "@/constants";
+
 export type StudentConFirmModalProps = {
   id: string;
   isOpen: boolean;
@@ -65,7 +68,7 @@ const StudentConfirmModal = ({
           borderBottomColor="white.300"
           fontSize="2xl"
         >
-          Are you sure to delete student with enroll number: {id}?
+          {FORM_TITLE.DELETE(id)}
         </ModalHeader>
         <form id="#confirm-form" noValidate onSubmit={handleSubmit(onSubmit)}>
           <ModalBody py={9}>

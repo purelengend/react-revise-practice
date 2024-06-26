@@ -1,0 +1,133 @@
+import { screen, render, renderHook } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { useDisclosure } from "@chakra-ui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Component
+import StudentFormModal from "..";
+
+// Types
+import { Student } from "@/types";
+
+// Constants
+import { FORM_ERROR } from "@/constants";
+
+describe("StudentFormModal test cases", () => {
+  const mockOnSubmit = jest.fn();
+
+  window.URL.createObjectURL = jest.fn();
+
+  const {
+    result: {
+      current: { onClose },
+    },
+  } = renderHook(() => useDisclosure({}));
+
+  const mockData: Student = {
+    id: "",
+    name: "",
+    email: "",
+    phone: "",
+    dateOfAdmission: 0,
+    avatarUrl: "",
+  };
+
+  const mockDataWithId: Student = {
+    id: "0",
+    name: "",
+    email: "",
+    phone: "",
+    dateOfAdmission: 0,
+    avatarUrl: "",
+  };
+
+  const queryClient = new QueryClient();
+
+  const setup = (data: Student) => {
+    userEvent.setup();
+    return render(
+      <QueryClientProvider client={queryClient}>
+        <StudentFormModal
+          isOpen={true}
+          onClose={onClose}
+          onSubmit={mockOnSubmit}
+          isMutating={false}
+          student={data}
+        />
+      </QueryClientProvider>,
+    );
+  };
+  it("should render correctly", () => {
+    const { container } = setup(mockData);
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should display the banner text "Edit student" when the input data has a valid ID', () => {
+    setup(mockDataWithId);
+
+    const banner = screen.getByRole("banner");
+
+    expect(banner.textContent).toEqual("Edit student");
+  });
+
+  it("should prevent submit when data is invalid", async () => {
+    setup(mockData);
+
+    const submitBtn = screen.getByRole("button", {
+      name: /submit/i,
+    });
+
+    expect(submitBtn).toHaveAttribute("disabled");
+  });
+
+  it("should handle upload image", async () => {
+    setup(mockData);
+
+    const uploadInput = screen.getByLabelText("avatar");
+
+    const file = new File(["blob"], "chucknorris.png", { type: "image/png" });
+
+    await userEvent.upload(uploadInput, file);
+  });
+
+  it("should display error message when typing invalid data", async () => {
+    setup(mockData);
+
+    const nameInput = screen.getByRole("textbox", {
+      name: /name/i,
+    });
+
+    const emailInput = screen.getByRole("textbox", {
+      name: /email/i,
+    });
+
+    const phoneInput = screen.getByRole("textbox", {
+      name: /phone/i,
+    });
+
+    await userEvent.type(nameInput, "a");
+
+    await userEvent.tab();
+
+    await userEvent.type(emailInput, "a");
+
+    await userEvent.tab();
+
+    await userEvent.type(phoneInput, "1");
+
+    await userEvent.tab();
+
+    const nameError = screen.getByText(new RegExp(FORM_ERROR.NAME, "i"));
+
+    const emailError = screen.getByText(new RegExp(FORM_ERROR.EMAIL, "i"));
+
+    const phoneError = screen.getByText(new RegExp(FORM_ERROR.PHONE, "i"));
+
+    expect(nameError.textContent).toEqual(FORM_ERROR.NAME);
+
+    expect(emailError.textContent).toEqual(FORM_ERROR.EMAIL);
+
+    expect(phoneError.textContent).toEqual(FORM_ERROR.PHONE);
+  });
+});

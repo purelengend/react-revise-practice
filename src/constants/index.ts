@@ -10,3 +10,4 @@ export * from "./toast";
 export * from "./student";
 export * from "./pagination";
 export * from "./api";
+export * from "./form";

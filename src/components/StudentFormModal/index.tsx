@@ -14,7 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 
@@ -26,9 +26,6 @@ import { Student } from "@/types";
 
 // Schema
 import { StudentSchema } from "@/schema";
-
-// Constants
-import { DEFAULT_STUDENT_AVATAR_URL, DEFAULT_STUDENT_DATA } from "@/constants";
 
 // Hooks
 import { useImage } from "@/hooks";
@@ -59,7 +56,7 @@ const StudentFormModal = memo(
       setValue,
       formState: { errors, isDirty },
     } = useForm<Student>({
-      defaultValues: student ? student : DEFAULT_STUDENT_DATA,
+      defaultValues: student,
       resolver: valibotResolver(StudentSchema),
       mode: "onBlur",
     });
@@ -71,18 +68,15 @@ const StudentFormModal = memo(
 
           uploadImage(imageFile);
 
-          setSelectedImage(imageFile);
+          if (imageUrl) {
+            setSelectedImage(imageFile);
+
+            setValue("avatarUrl", imageUrl);
+          }
         }
       },
-      [uploadImage],
+      [imageUrl, setValue, uploadImage],
     );
-
-    // Set avatar url to form when uploading successfully
-    useEffect(() => {
-      if (imageUrl) {
-        setValue("avatarUrl", imageUrl);
-      }
-    }, [imageUrl, setValue]);
 
     return (
       <Modal
@@ -136,11 +130,7 @@ const StudentFormModal = memo(
                         boxSize={32}
                         objectFit="cover"
                         borderRadius="50%"
-                        src={
-                          student
-                            ? student.avatarUrl
-                            : DEFAULT_STUDENT_AVATAR_URL
-                        }
+                        src={student.avatarUrl}
                       />
                     )}
                     <FormLabel
@@ -148,6 +138,7 @@ const StudentFormModal = memo(
                       pos="absolute"
                       right={0}
                       bottom={0}
+                      aria-label="upload-image"
                     >
                       <AttachmentIcon />
                     </FormLabel>
@@ -155,6 +146,7 @@ const StudentFormModal = memo(
                       id="#avatar"
                       name="avatar"
                       type="file"
+                      aria-label="avatar"
                       isDisabled={isMutating || isUploadingImage}
                       hidden
                       onChange={handleImageUpload}
