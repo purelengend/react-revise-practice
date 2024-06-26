@@ -1,5 +1,9 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Center, ChakraProvider, Heading } from "@chakra-ui/react";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Layout
@@ -26,13 +30,17 @@ const router = createBrowserRouter([
         <MainLayout />
       </SidebarContextProvider>
     ),
-    errorElement: <div>Oops. Path not found!</div>,
+    errorElement: (
+      <Center>
+        <Heading>Oops. Path not found!</Heading>
+      </Center>
+    ),
     children: [
+      { index: true, element: <Navigate to="/students" replace /> },
       {
         path: "/*",
-        element: <div>Oops. Children path not found</div>,
+        element: <Center>Coming Soon!</Center>,
       },
-      { index: true, element: <div>Index page</div> },
       {
         path: "/students",
         element: <StudentPage />,
