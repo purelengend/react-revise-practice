@@ -15,6 +15,8 @@ export const useUrl = () => {
     [state.name, state.order, state.page, state.sort],
   );
 
+  const filterValue = useMemo(() => state.name, [state.name]);
+
   const setSortValue = useCallback((sortValue: string) => {
     dispatch({
       type: URL_ACTION.SORT,
@@ -65,6 +67,6 @@ export const useUrl = () => {
     setPageValue,
     resetPageValue,
     setFilterValue,
-    filterValue: state.name,
+    filterValue,
   };
 };

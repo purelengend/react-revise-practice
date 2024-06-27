@@ -4,16 +4,9 @@ import { useDisclosure } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Component
-// import StudentFormModal from "..";
+import ConfirmModal from "..";
 
-// Types
-// import { Student } from "@/types";
-
-// Constants
-// import { FORM_ERROR } from "@/constants";
-import StudentConfirmModal from "..";
-
-describe("StudentConfirmModal test cases", () => {
+describe("ConfirmModal test cases", () => {
   const mockOnSubmit = jest.fn();
 
   window.URL.createObjectURL = jest.fn();
@@ -36,8 +29,9 @@ describe("StudentConfirmModal test cases", () => {
     userEvent.setup();
     return render(
       <QueryClientProvider client={queryClient}>
-        <StudentConfirmModal
+        <ConfirmModal
           id={mockId}
+          title=""
           isOpen={isOpen}
           isMutating={false}
           onClose={onClose}

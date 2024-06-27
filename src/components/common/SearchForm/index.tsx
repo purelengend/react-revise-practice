@@ -50,8 +50,19 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
     handleSubmit(onSubmit)();
   }, [debouncedText, handleSubmit, onSubmit]);
 
+  const checkKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Enter") event.preventDefault();
+    },
+    [],
+  );
+
   return (
-    <InputGroup as="form" onSubmit={handleSubmit(onSubmit)}>
+    <InputGroup
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={checkKeyDown}
+    >
       <Controller
         name="searchValue"
         control={control}

@@ -5,7 +5,7 @@ import createHttp from "./http";
 import { ImgBBResponse } from "@/types/image";
 
 // Utils
-import { required } from "@/utils/config";
+import { required } from "@/utils";
 
 // Constants
 import { API } from "@/constants";

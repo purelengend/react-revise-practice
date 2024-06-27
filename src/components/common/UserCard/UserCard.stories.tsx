@@ -8,7 +8,7 @@ import { DEFAULT_AVATAR_URL } from "@/constants";
 
 const meta: Meta<typeof UserCard> = {
   title: "Components/UserCard",
-  component: UserCard,
+  component: UserCard.type,
   argTypes: {
     name: {
       description: "The name of the user card",

@@ -38,7 +38,9 @@ const CustomTable = <T,>({ columns, data, isFetching }: TableProps<T>) => {
     () =>
       !data?.length ? (
         <Tr opacity={isFetching ? 0.5 : 1}>
-          <Td colSpan={columns.length}>No data</Td>
+          <Td colSpan={columns.length} textAlign="center">
+            No data
+          </Td>
         </Tr>
       ) : (
         data.map((row, rowIndex) => {

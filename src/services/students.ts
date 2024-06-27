@@ -8,7 +8,7 @@ import { Student } from "@/types";
 import { API, ROUTES } from "@/constants";
 
 // Utils
-import { required } from "@/utils/config";
+import { required } from "@/utils";
 
 const http = createHttp({
   baseURL: `${required(API.STUDENT)}/${ROUTES.STUDENT}`,
@@ -23,7 +23,7 @@ export const getStudentById = async (id: string): Promise<Student[]> =>
 export const createOrUpdateStudent = async (
   data: Student,
 ): Promise<Student> => {
-  if (data.id === "") {
+  if (data.id) {
     const dataWithDate: Student = {
       ...data,
       dateOfAdmission: Date.now(),

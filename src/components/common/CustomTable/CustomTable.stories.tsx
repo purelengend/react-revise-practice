@@ -13,6 +13,9 @@ const meta: Meta<typeof CustomTable> = {
     data: {
       description: "Array of data to render in the table cells",
     },
+    isFetching: {
+      description: "Whether the table is fetching data",
+    },
   },
   args: {
     columns: [
@@ -36,6 +39,7 @@ const meta: Meta<typeof CustomTable> = {
         phone: "0909090909",
       },
     ],
+    isFetching: false,
   },
   parameters: {
     controls: {

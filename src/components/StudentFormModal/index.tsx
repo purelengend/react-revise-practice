@@ -14,7 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 
@@ -29,6 +29,7 @@ import { StudentSchema } from "@/schema";
 
 // Hooks
 import { useImage } from "@/hooks";
+import { DEFAULT_STUDENT_AVATAR_URL } from "@/constants";
 
 export type StudentFormModalProps = {
   isOpen: boolean;
@@ -48,13 +49,15 @@ const StudentFormModal = memo(
   }: StudentFormModalProps) => {
     const [selectedImage, setSelectedImage] = useState<File>();
 
-    const { isUploadingImage, uploadImage, imageUrl } = useImage();
+    const { isUploadingImage, uploadImage, imageUrl, isUploadImageFail } =
+      useImage();
 
     const {
       control,
       handleSubmit,
       setValue,
       formState: { errors, isDirty },
+      getValues,
     } = useForm<Student>({
       defaultValues: student,
       resolver: valibotResolver(StudentSchema),
@@ -66,17 +69,36 @@ const StudentFormModal = memo(
         if (e.target.files) {
           const imageFile = e.target.files[0];
 
-          uploadImage(imageFile);
-
-          if (imageUrl) {
+          try {
+            uploadImage(imageFile);
             setSelectedImage(imageFile);
-
-            setValue("avatarUrl", imageUrl);
+          } catch (error) {
+            console.log(error);
           }
         }
       },
-      [imageUrl, setValue, uploadImage],
+      [uploadImage],
     );
+
+    // Set image url to form when uploading succeed
+    useEffect(() => {
+      if (imageUrl) {
+        setValue("avatarUrl", imageUrl, { shouldDirty: true });
+      }
+    }, [imageUrl, setValue]);
+
+    // Reset image back to placeholder when uploading failed
+    useEffect(() => {
+      if (isUploadImageFail) {
+        console.log(isUploadImageFail);
+        setSelectedImage(undefined);
+      }
+    }, [isUploadImageFail]);
+
+    useEffect(() => {
+      console.log("input data:", student);
+      console.log("form data:", getValues());
+    }, [getValues, student]);
 
     return (
       <Modal
@@ -104,7 +126,7 @@ const StudentFormModal = memo(
             borderBottomColor="white.300"
             fontSize="2xl"
           >
-            {student.id === "" ? "Add student" : "Edit student"}
+            {student.id ? "Add student" : "Edit student"}
           </ModalHeader>
           <form id="#student-form" noValidate onSubmit={handleSubmit(onSubmit)}>
             <ModalBody py={9}>
@@ -124,6 +146,7 @@ const StudentFormModal = memo(
                         borderRadius="50%"
                         opacity={isUploadingImage ? 0.5 : 1}
                         src={URL.createObjectURL(selectedImage)}
+                        fallbackSrc={DEFAULT_STUDENT_AVATAR_URL}
                       />
                     ) : (
                       <Image
@@ -131,6 +154,7 @@ const StudentFormModal = memo(
                         objectFit="cover"
                         borderRadius="50%"
                         src={student.avatarUrl}
+                        fallbackSrc={DEFAULT_STUDENT_AVATAR_URL}
                       />
                     )}
                     <FormLabel
@@ -155,7 +179,7 @@ const StudentFormModal = memo(
                       control={control}
                       name="avatarUrl"
                       render={({ field }) => (
-                        <Input id="#avatar-url" {...field} hidden />
+                        <Input id="#avatarUrl" {...field} hidden />
                       )}
                     />
                   </Box>

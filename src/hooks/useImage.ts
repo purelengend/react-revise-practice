@@ -1,17 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
+import { useCallback } from "react";
 
 // Services
 import { uploadImageAndGetUrl } from "@/services";
 
 // Constants
-import { DEFAULT_AVATAR_URL } from "@/constants";
-import { useCallback } from "react";
+import { DEFAULT_STUDENT_AVATAR_URL } from "@/constants";
 
 export const useImage = () => {
   const {
     data: image,
     mutate,
     isPending: isUploadingImage,
+    error,
   } = useMutation({
     mutationFn: (data: FormData) => uploadImageAndGetUrl(data),
   });
@@ -30,6 +31,7 @@ export const useImage = () => {
   return {
     uploadImage,
     isUploadingImage,
-    imageUrl: image ? image.data.data.url : DEFAULT_AVATAR_URL,
+    imageUrl: image ? image.data.data.url : DEFAULT_STUDENT_AVATAR_URL,
+    isUploadImageFail: !!error,
   };
 };

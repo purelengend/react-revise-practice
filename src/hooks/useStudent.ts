@@ -22,7 +22,10 @@ import { UrlContext } from "@/context";
 import { Student } from "@/types";
 
 // Constants
-import { QUERY_KEY, TOAST_DEFAULT_OPTIONS, TOAST_MSG } from "@/constants";
+import { QUERY_KEY, TOAST_MSG, TOAST_STATUS } from "@/constants";
+
+//Utils
+import { customToast } from "@/utils";
 
 export const useStudent = (id: string = "") => {
   const { path } = useContext(UrlContext);
@@ -51,36 +54,45 @@ export const useStudent = (id: string = "") => {
     mutationKey: [QUERY_KEY.STUDENT, "mutation"],
     mutationFn: (data: Student) => createOrUpdateStudent(data),
     onSuccess: (_, { id }) => {
-      if (id === "") {
-        toast({
-          ...TOAST_DEFAULT_OPTIONS.SUCCESS,
-          title: TOAST_MSG.ADD.SUCCESS.title,
-          description: TOAST_MSG.ADD.SUCCESS.description,
-        });
-      } else {
-        toast({
-          ...TOAST_DEFAULT_OPTIONS.SUCCESS,
-          title: TOAST_MSG.EDIT.SUCCESS.title,
-          description: TOAST_MSG.EDIT.SUCCESS.description,
-        });
+      if (id) {
+        toast(
+          customToast(
+            TOAST_MSG.ADD.SUCCESS.title,
+            TOAST_MSG.ADD.SUCCESS.description,
+            TOAST_STATUS.SUCCESS,
+          ),
+        );
+        return;
       }
+
+      toast(
+        customToast(
+          TOAST_MSG.EDIT.SUCCESS.title,
+          TOAST_MSG.EDIT.SUCCESS.description,
+          TOAST_STATUS.SUCCESS,
+        ),
+      );
 
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT, path] });
     },
     onError: (_, { id }) => {
-      if (id === "") {
-        toast({
-          ...TOAST_DEFAULT_OPTIONS.ERROR,
-          title: TOAST_MSG.ADD.ERROR.title,
-          description: TOAST_MSG.ADD.ERROR.description,
-        });
+      if (id) {
+        toast(
+          customToast(
+            TOAST_MSG.ADD.ERROR.title,
+            TOAST_MSG.ADD.ERROR.description,
+            TOAST_STATUS.ERROR,
+          ),
+        );
         return;
       }
-      toast({
-        ...TOAST_DEFAULT_OPTIONS.ERROR,
-        title: TOAST_MSG.EDIT.ERROR.title,
-        description: TOAST_MSG.EDIT.ERROR.description,
-      });
+      toast(
+        customToast(
+          TOAST_MSG.EDIT.ERROR.title,
+          TOAST_MSG.EDIT.ERROR.description,
+          TOAST_STATUS.ERROR,
+        ),
+      );
     },
   });
 
@@ -97,20 +109,24 @@ export const useStudent = (id: string = "") => {
     mutationKey: [QUERY_KEY.STUDENT, "delete"],
     mutationFn: (id: string) => deleteStudentById(id),
     onSuccess: () => {
-      toast({
-        ...TOAST_DEFAULT_OPTIONS.SUCCESS,
-        title: TOAST_MSG.DELETE.SUCCESS.title,
-        description: TOAST_MSG.DELETE.SUCCESS.description,
-      });
+      toast(
+        customToast(
+          TOAST_MSG.DELETE.SUCCESS.title,
+          TOAST_MSG.DELETE.SUCCESS.description,
+          TOAST_STATUS.SUCCESS,
+        ),
+      );
 
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT, path] });
     },
     onError: () => {
-      toast({
-        ...TOAST_DEFAULT_OPTIONS.ERROR,
-        title: TOAST_MSG.DELETE.ERROR.title,
-        description: TOAST_MSG.DELETE.ERROR.description,
-      });
+      toast(
+        customToast(
+          TOAST_MSG.DELETE.ERROR.title,
+          TOAST_MSG.DELETE.ERROR.description,
+          TOAST_STATUS.ERROR,
+        ),
+      );
     },
   });
   return {

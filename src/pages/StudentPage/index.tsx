@@ -6,7 +6,9 @@ import {
   Heading,
   IconButton,
   Image,
+  Link,
   Stack,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -16,7 +18,7 @@ import {
   CustomTable,
   Pagination,
   SortSelect,
-  StudentConfirmModal,
+  ConfirmModal,
   StudentFormModal,
 } from "@/components";
 import { DeleteIcon, EditIcon } from "@/components/common/Icons";
@@ -25,6 +27,8 @@ import { DeleteIcon, EditIcon } from "@/components/common/Icons";
 import {
   DEFAULT_STUDENT_AVATAR_URL,
   DEFAULT_STUDENT_DATA,
+  FORM_TITLE,
+  PAGE_LIMIT,
   SORT_BY_OPTION_LIST,
 } from "@/constants";
 
@@ -127,24 +131,34 @@ const StudentPage = () => {
       {
         title: "Name",
         key: "name",
+        render: (item: Student) => <Text>{item.name}</Text>,
       },
       {
         title: "Email",
         key: "email",
+        render: (item: Student) => (
+          <Link href={`mailto:${item.email}`} maxW={30}>
+            {item.email}
+          </Link>
+        ),
       },
       {
         title: "Phone",
         key: "phone",
+        render: (item: Student) => (
+          <Link href={`tel:+${item.phone}`}>{item.phone}</Link>
+        ),
       },
       {
         title: "Enroll Number",
         key: "id",
+        render: (item: Student) => <Text>{item.id}</Text>,
       },
       {
         title: "Admission Date",
         key: "dateOfAdmission",
         render: (item: Student) => (
-          <>{new Date(item.dateOfAdmission).toLocaleString()}</>
+          <Text>{new Date(item.dateOfAdmission).toLocaleString()}</Text>
         ),
       },
       {
@@ -202,6 +216,7 @@ const StudentPage = () => {
           }}
         >
           <Heading fontSize="xl">Students List</Heading>
+
           <Stack
             gap={5}
             justify="space-between"
@@ -242,7 +257,12 @@ const StudentPage = () => {
         />
       </Box>
 
-      <Pagination totalRecords={allStudents?.length ?? 0} pageLimit={6} />
+      {!!students && allStudents?.length > PAGE_LIMIT && (
+        <Pagination
+          totalRecords={allStudents?.length ?? 0}
+          pageLimit={PAGE_LIMIT}
+        />
+      )}
 
       {isStudentFormModalOpen && (
         <StudentFormModal
@@ -255,8 +275,9 @@ const StudentPage = () => {
       )}
 
       {isStudentConfirmModalOpen && (
-        <StudentConfirmModal
+        <ConfirmModal
           id={studentId}
+          title={FORM_TITLE.DELETE(studentId)}
           isOpen={isStudentConfirmModalOpen}
           isMutating={isDeletingStudent}
           onClose={onCloseStudentConfirmModal}

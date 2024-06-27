@@ -11,32 +11,27 @@ import {
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 
-// Types
-import { Student } from "@/types";
-
-// Constants
-import { FORM_TITLE } from "@/constants";
-
-export type StudentConFirmModalProps = {
+export type ConfirmFormProps = {
   id: string;
+};
+export type ConfirmModalProps = {
+  id: string;
+  title: string;
   isOpen: boolean;
   isMutating: boolean;
   onClose: () => void;
-  onSubmit: (data: Pick<Student, "id">) => void;
+  onSubmit: (data: ConfirmFormProps) => void;
 };
 
-export type StudentConfirmFormProps = {
-  id: string;
-};
-
-const StudentConfirmModal = ({
+const ConfirmModal = ({
   id,
+  title,
   isOpen,
   isMutating,
   onClose,
   onSubmit,
-}: StudentConFirmModalProps) => {
-  const { control, handleSubmit } = useForm<Pick<Student, "id">>({
+}: ConfirmModalProps) => {
+  const { control, handleSubmit } = useForm<ConfirmFormProps>({
     defaultValues: {
       id,
     },
@@ -52,27 +47,24 @@ const StudentConfirmModal = ({
       <ModalOverlay />
       <ModalContent
         bg="white"
-        px={{
-          base: 0,
-          md: 15.75,
-        }}
+        px={0}
         minW={{
           base: "auto",
-          md: 190,
+          md: 169,
         }}
       >
         <ModalHeader
           textAlign="center"
-          py={9}
+          py={4}
           borderBottom="1px solid"
           borderBottomColor="white.300"
-          fontSize="2xl"
+          fontSize="lg"
         >
-          {FORM_TITLE.DELETE(id)}
+          {title}
         </ModalHeader>
         <form id="#confirm-form" noValidate onSubmit={handleSubmit(onSubmit)}>
-          <ModalBody py={9}>
-            <Text color="gray.200" fontSize="lg" textAlign="center">
+          <ModalBody py={4}>
+            <Text color="gray.200" fontSize="md" textAlign="center">
               This action cannot be undone, so please be careful with this
               action.
             </Text>
@@ -118,4 +110,4 @@ const StudentConfirmModal = ({
   );
 };
 
-export default StudentConfirmModal;
+export default ConfirmModal;

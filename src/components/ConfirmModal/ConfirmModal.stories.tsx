@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Center } from "@chakra-ui/react";
 
 // Components
-import StudentConfirmModal from ".";
+import ConfirmModal from ".";
 
-const meta: Meta<typeof StudentConfirmModal> = {
-  title: "Components/StudentConfirmModal",
-  component: StudentConfirmModal,
+const meta: Meta<typeof ConfirmModal> = {
+  title: "Components/ConfirmModal",
+  component: ConfirmModal,
   decorators: [
     (Story) => (
       <Center style={{ width: "100vh" }}>
@@ -47,6 +47,6 @@ const meta: Meta<typeof StudentConfirmModal> = {
 
 export default meta;
 
-type Story = StoryObj<typeof StudentConfirmModal>;
+type Story = StoryObj<typeof ConfirmModal>;
 
 export const Primary: Story = {};
