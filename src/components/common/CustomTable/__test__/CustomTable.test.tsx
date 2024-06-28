@@ -1,11 +1,7 @@
 import { render } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Component
 import CustomTable from "..";
-
-// Context
-import { UrlContextProvider } from "@/context";
 
 describe("CustomTable test cases", () => {
   const mockColumn = [
@@ -30,8 +26,6 @@ describe("CustomTable test cases", () => {
     },
   ];
 
-  const queryClient = new QueryClient();
-
   const setup = (
     data: Array<{
       value: string;
@@ -40,15 +34,7 @@ describe("CustomTable test cases", () => {
     isFetching: boolean,
   ) =>
     render(
-      <QueryClientProvider client={queryClient}>
-        <UrlContextProvider>
-          <CustomTable
-            columns={mockColumn}
-            data={data}
-            isFetching={isFetching}
-          />
-        </UrlContextProvider>
-      </QueryClientProvider>,
+      <CustomTable columns={mockColumn} data={data} isFetching={isFetching} />,
     );
 
   it("should render correctly", () => {

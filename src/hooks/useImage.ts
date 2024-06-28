@@ -4,9 +4,6 @@ import { useCallback } from "react";
 // Services
 import { uploadImageAndGetUrl } from "@/services";
 
-// Constants
-import { DEFAULT_STUDENT_AVATAR_URL } from "@/constants";
-
 export const useImage = () => {
   const {
     data: image,
@@ -31,7 +28,7 @@ export const useImage = () => {
   return {
     uploadImage,
     isUploadingImage,
-    imageUrl: image ? image.data.data.url : DEFAULT_STUDENT_AVATAR_URL,
+    imageUrl: image ? image.data.data.url : undefined,
     isUploadImageFail: !!error,
   };
 };

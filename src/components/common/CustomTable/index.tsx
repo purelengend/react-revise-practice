@@ -7,7 +7,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { ReactElement, useMemo } from "react";
+import { ReactElement } from "react";
 
 export type ColumnProps<T> = {
   key: string;
@@ -22,54 +22,47 @@ export type TableProps<T> = {
 };
 
 const CustomTable = <T,>({ columns, data, isFetching }: TableProps<T>) => {
-  const headers = useMemo(
-    () =>
-      columns.map((column) => {
-        return (
-          <Th minW={30} key={`tableHeadCell-${column.title}`} color="gray.200">
-            {column.title}
-          </Th>
-        );
-      }),
-    [columns],
-  );
+  const headers = columns.map((column) => {
+    return (
+      <Th minW={30} key={`tableHeadCell-${column.title}`} color="gray.200">
+        {column.title}
+      </Th>
+    );
+  });
 
-  const rows = useMemo(
-    () =>
-      !data?.length ? (
-        <Tr opacity={isFetching ? 0.5 : 1}>
-          <Td colSpan={columns.length} textAlign="center">
-            No data
-          </Td>
+  const rows = !data?.length ? (
+    <Tr opacity={isFetching ? 0.5 : 1}>
+      <Td colSpan={columns.length} textAlign="center">
+        No data
+      </Td>
+    </Tr>
+  ) : (
+    data.map((row, rowIndex) => {
+      return (
+        <Tr
+          opacity={isFetching ? 0.5 : 1}
+          bg="white"
+          h={21.25}
+          borderRadius="lg"
+          key={`row-${rowIndex}`}
+          sx={{
+            "& td:first-of-type, & td:last-of-type": {
+              borderRadius: "lg",
+            },
+          }}
+        >
+          {columns.map((column, columnIndex) => {
+            const value = column.render
+              ? column.render(row as T)
+              : (row[column.key as keyof typeof row] as string);
+
+            return <Td key={`cell-${columnIndex}`}>{value}</Td>;
+          })}
         </Tr>
-      ) : (
-        data.map((row, rowIndex) => {
-          return (
-            <Tr
-              opacity={isFetching ? 0.5 : 1}
-              bg="white"
-              h={21.25}
-              borderRadius="lg"
-              key={`row-${rowIndex}`}
-              sx={{
-                "& td:first-of-type, & td:last-of-type": {
-                  borderRadius: "lg",
-                },
-              }}
-            >
-              {columns.map((column, columnIndex) => {
-                const value = column.render
-                  ? column.render(row as T)
-                  : (row[column.key as keyof typeof row] as string);
-
-                return <Td key={`cell-${columnIndex}`}>{value}</Td>;
-              })}
-            </Tr>
-          );
-        })
-      ),
-    [columns, data, isFetching],
+      );
+    })
   );
+
   return (
     <TableContainer>
       <Table

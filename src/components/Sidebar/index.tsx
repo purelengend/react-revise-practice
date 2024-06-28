@@ -10,7 +10,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useContext } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 
 // Components
@@ -19,16 +18,16 @@ import { UserCard } from "../common";
 // Constants
 import { ROLES, SIDEBAR_ITEM_LIST } from "@/constants";
 
-// Context
-import { SidebarContext } from "@/context";
-
-const Sidebar = () => {
-  const { sidebarState, closeSidebar } = useContext(SidebarContext);
+export type SidebarProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
+const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   return (
     <Drawer
       placement="left"
-      isOpen={sidebarState}
-      onClose={closeSidebar}
+      isOpen={isOpen}
+      onClose={onClose}
       closeOnOverlayClick={true}
       variant={{
         md: "clickThrough",
@@ -95,7 +94,7 @@ const Sidebar = () => {
           boxSize={6}
           top={0}
           right={1}
-          onClick={closeSidebar}
+          onClick={onClose}
         >
           <CloseIcon w={3} h={3} />
         </DrawerCloseButton>

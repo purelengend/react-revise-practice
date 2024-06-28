@@ -1,11 +1,12 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 // Component
 import Pagination, { PaginationProps } from "..";
 
-// Context
-import { UrlContextProvider } from "@/context";
+// Utils
+import { customRender } from "@/utils";
+import { act } from "react";
 
 describe("Pagination test cases", () => {
   const mockPaginationProps: PaginationProps = {
@@ -15,21 +16,17 @@ describe("Pagination test cases", () => {
 
   const setup = () => {
     userEvent.setup();
-    return render(
-      <UrlContextProvider>
-        <Pagination {...mockPaginationProps} />
-      </UrlContextProvider>,
-    );
+    return customRender(<Pagination {...mockPaginationProps} />);
   };
 
-  it("should render correctly", () => {
-    const { container } = setup();
+  it("should render correctly", async () => {
+    const { container } = await act(() => setup());
 
     expect(container).toMatchSnapshot();
   });
 
   it("should invoke handlePageChange function when clicking page number", async () => {
-    setup();
+    await act(() => setup());
 
     const pageNumberBtn = screen.getByRole("button", {
       name: /2/i,

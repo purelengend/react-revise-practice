@@ -57,7 +57,6 @@ const StudentFormModal = memo(
       handleSubmit,
       setValue,
       formState: { errors, isDirty },
-      getValues,
     } = useForm<Student>({
       defaultValues: student,
       resolver: valibotResolver(StudentSchema),
@@ -69,36 +68,26 @@ const StudentFormModal = memo(
         if (e.target.files) {
           const imageFile = e.target.files[0];
 
-          try {
-            uploadImage(imageFile);
-            setSelectedImage(imageFile);
-          } catch (error) {
-            console.log(error);
-          }
+          uploadImage(imageFile);
+
+          setSelectedImage(imageFile);
         }
       },
       [uploadImage],
     );
 
-    // Set image url to form when uploading succeed
-    useEffect(() => {
-      if (imageUrl) {
-        setValue("avatarUrl", imageUrl, { shouldDirty: true });
-      }
-    }, [imageUrl, setValue]);
-
     // Reset image back to placeholder when uploading failed
     useEffect(() => {
       if (isUploadImageFail) {
-        console.log(isUploadImageFail);
         setSelectedImage(undefined);
       }
     }, [isUploadImageFail]);
 
     useEffect(() => {
-      console.log("input data:", student);
-      console.log("form data:", getValues());
-    }, [getValues, student]);
+      if (imageUrl) {
+        setValue("avatarUrl", imageUrl, { shouldDirty: true });
+      }
+    }, [imageUrl, setValue]);
 
     return (
       <Modal
@@ -126,7 +115,7 @@ const StudentFormModal = memo(
             borderBottomColor="white.300"
             fontSize="2xl"
           >
-            {student.id ? "Add student" : "Edit student"}
+            {student.id ? "Edit student" : "Add student"}
           </ModalHeader>
           <form id="#student-form" noValidate onSubmit={handleSubmit(onSubmit)}>
             <ModalBody py={9}>

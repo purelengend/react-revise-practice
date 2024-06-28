@@ -80,7 +80,7 @@ exports[`CustomTable test cases should handle loading state when the page is fir
           class="css-1tzeee1"
         >
           <td
-            class="css-0"
+            class="css-xi606m"
             colspan="2"
           >
             No data
@@ -125,7 +125,7 @@ exports[`CustomTable test cases should handle message when no data is fetched 1`
           class="css-whh5e5"
         >
           <td
-            class="css-0"
+            class="css-xi606m"
             colspan="2"
           >
             No data

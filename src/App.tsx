@@ -9,9 +9,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // Layout
 import MainLayout from "@/layout/MainLayout";
 
-// Context
-import { SidebarContextProvider } from "./context";
-
 // Pages
 import { StudentPage } from "./pages";
 
@@ -25,11 +22,7 @@ import { Fonts } from "./themes/base";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <SidebarContextProvider>
-        <MainLayout />
-      </SidebarContextProvider>
-    ),
+    element: <MainLayout />,
     errorElement: (
       <Center>
         <Heading>Oops. Path not found!</Heading>
@@ -53,7 +46,7 @@ const router = createBrowserRouter([
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 15000,
+      staleTime: 5000,
       refetchOnWindowFocus: false,
     },
   },

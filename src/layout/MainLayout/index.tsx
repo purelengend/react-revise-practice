@@ -1,15 +1,18 @@
 import { Box } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 
 // Components
 import { Header, Sidebar } from "@/components";
 
 // Contexts
-import { SidebarContext, UrlContextProvider } from "@/context";
+import { UrlContextProvider } from "@/context";
+
+// Hooks
+import { useSidebar } from "@/hooks";
 
 const MainLayout = (props: { children?: React.ReactNode }) => {
-  const { sidebarState } = useContext(SidebarContext);
+  const { sidebarState, closeSidebar, toggleSidebar } = useSidebar();
 
   return (
     <Box
@@ -21,10 +24,10 @@ const MainLayout = (props: { children?: React.ReactNode }) => {
       }}
       transition="all 0.325s ease-in-out"
     >
-      <Sidebar />
+      <Sidebar isOpen={sidebarState} onClose={closeSidebar} />
 
       <UrlContextProvider>
-        <Header />
+        <Header onToggleSidebar={toggleSidebar} />
 
         <Outlet />
         {props.children}

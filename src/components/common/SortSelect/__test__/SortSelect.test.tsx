@@ -1,6 +1,6 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { screen, render } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { act } from "react";
 
 // Component
 import SortSelect from "..";
@@ -8,8 +8,8 @@ import SortSelect from "..";
 // Types
 import { SortProps } from "@/types";
 
-// Context
-import { UrlContextProvider } from "@/context";
+// Utils
+import { customRender } from "@/utils";
 
 describe("SortSelect test cases", () => {
   const mockSortList: Array<SortProps> = [
@@ -19,34 +19,29 @@ describe("SortSelect test cases", () => {
     },
   ];
 
-  const queryClient = new QueryClient();
-
   const setup = () => {
     userEvent.setup();
-    return render(
-      <QueryClientProvider client={queryClient}>
-        <UrlContextProvider>
-          <SortSelect sortList={mockSortList} />
-        </UrlContextProvider>
-      </QueryClientProvider>,
-    );
+
+    return customRender(<SortSelect sortList={mockSortList} />);
   };
 
-  it("should render correctly", () => {
-    const { container } = setup();
+  it("should render correctly", async () => {
+    const { container } = await act(() => setup());
 
     expect(container).toMatchSnapshot();
   });
 
-  it("should render with default sort icon", () => {
-    setup();
+  it("should render with default sort icon", async () => {
+    await act(() => setup());
+
     const defaultSortIcon = screen.getByTestId("default");
 
     expect(defaultSortIcon).toBeInTheDocument();
   });
 
   it("should render ascending sort icon when selecting by default", async () => {
-    setup();
+    await act(() => setup());
+
     const selectCombobox = screen.getByRole("combobox");
 
     const selectOption = screen.getByRole("option", { name: "mock title" });
@@ -59,7 +54,8 @@ describe("SortSelect test cases", () => {
   });
 
   it("should toggle state of sort icon", async () => {
-    setup();
+    await act(() => setup());
+
     const selectCombobox = screen.getByRole("combobox");
 
     const selectOption = screen.getByRole("option", { name: "mock title" });

@@ -71,6 +71,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
             {...rest}
             h={9.25}
             placeholder={SEARCH_INPUT_PLACEHOLDER}
+            color="black"
             onChange={(event) => handleOnchange(event, onChange)}
           />
         )}

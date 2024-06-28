@@ -7,14 +7,15 @@ import { NotificationIcon } from "../common/Icons";
 import { SearchForm, SearchFormInput } from "../common";
 
 // Context
-import { SidebarContext, UrlContext } from "@/context";
+import { UrlContext } from "@/context";
 
 // Hooks
 import { useStudentPagination } from "@/hooks";
 
-const Header = () => {
-  const { toggleSidebar } = useContext(SidebarContext);
-
+export type HeaderProps = {
+  onToggleSidebar: () => void;
+};
+const Header = ({ onToggleSidebar }: HeaderProps) => {
   const { setFilterValue, resetPageValue, filterValue } =
     useContext(UrlContext);
 
@@ -40,7 +41,7 @@ const Header = () => {
       <IconButton
         aria-label="Toggle sidebar"
         icon={<HamburgerIcon boxSize={8} />}
-        onClick={toggleSidebar}
+        onClick={onToggleSidebar}
       />
       <HStack gap={6} mr={{ md: 12 }}>
         <SearchForm onSubmit={handleSearchSubmit} />

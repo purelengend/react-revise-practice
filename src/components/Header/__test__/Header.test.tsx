@@ -1,23 +1,14 @@
-import { render } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 // Components
 import Header from "..";
-import { UrlContextProvider } from "@/context";
+import { act } from "react";
+import { customRender } from "@/utils";
 
 describe("Header test cases", () => {
-  const queryClient = new QueryClient();
+  const mockToggle = jest.fn();
 
-  const setup = () =>
-    render(
-      <QueryClientProvider client={queryClient}>
-        <UrlContextProvider>
-          <Header />
-        </UrlContextProvider>
-      </QueryClientProvider>,
-    );
-  it("should render correctly", () => {
-    const { container } = setup();
+  const setup = () => customRender(<Header onToggleSidebar={mockToggle} />);
+  it("should render correctly", async () => {
+    const { container } = await act(() => setup());
 
     expect(container).toMatchSnapshot();
   });

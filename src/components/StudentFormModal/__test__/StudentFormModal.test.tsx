@@ -1,7 +1,6 @@
-import { screen, render, renderHook } from "@testing-library/react";
+import { screen, renderHook } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useDisclosure } from "@chakra-ui/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Component
 import StudentFormModal from "..";
@@ -11,6 +10,9 @@ import { Student } from "@/types";
 
 // Constants
 import { FORM_ERROR } from "@/constants";
+
+// Utils
+import { customRender } from "@/utils";
 
 describe("StudentFormModal test cases", () => {
   const mockOnSubmit = jest.fn();
@@ -38,27 +40,23 @@ describe("StudentFormModal test cases", () => {
 
   const mockDataWithId: Student = {
     id: "0",
-    name: "",
-    email: "",
-    phone: "",
+    name: "valid",
+    email: "valid@gmail.com",
+    phone: "1234567890",
     dateOfAdmission: 0,
-    avatarUrl: "",
+    avatarUrl: "mock",
   };
-
-  const queryClient = new QueryClient();
 
   const setup = (data: Student) => {
     userEvent.setup();
-    return render(
-      <QueryClientProvider client={queryClient}>
-        <StudentFormModal
-          isOpen={isOpen}
-          onClose={onClose}
-          onSubmit={mockOnSubmit}
-          isMutating={false}
-          student={data}
-        />
-      </QueryClientProvider>,
+    return customRender(
+      <StudentFormModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={mockOnSubmit}
+        isMutating={false}
+        student={data}
+      />,
     );
   };
   it("should render correctly", () => {
@@ -67,7 +65,7 @@ describe("StudentFormModal test cases", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should display the banner text "Edit student" when the input data has a valid ID', () => {
+  it('should display the banner text "Edit student" when the input data has a valid ID', async () => {
     setup(mockDataWithId);
 
     const banner = screen.getByRole("banner");

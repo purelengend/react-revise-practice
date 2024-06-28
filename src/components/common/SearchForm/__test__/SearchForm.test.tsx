@@ -23,4 +23,14 @@ describe("SearchForm test cases", () => {
 
     await userEvent.type(searchInput, "mock search");
   });
+
+  it("should prevent the enter key from being pressed", async () => {
+    setup();
+
+    const searchBtn = screen.getByRole("button", {
+      name: /search student/i,
+    });
+
+    await userEvent.type(searchBtn, "{enter}");
+  });
 });
