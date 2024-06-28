@@ -4,7 +4,6 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useContext } from "react";
 import { useToast } from "@chakra-ui/react";
 
 // Services
@@ -12,11 +11,9 @@ import {
   createOrUpdateStudent,
   deleteStudentById,
   getAllStudents,
-  getStudentById,
 } from "@/services";
 
 // Context
-import { UrlContext } from "@/context";
 
 // Types
 import { Student } from "@/types";
@@ -27,8 +24,12 @@ import { QUERY_KEY, TOAST_MSG, TOAST_STATUS } from "@/constants";
 //Utils
 import { customToast } from "@/utils";
 
-export const useStudent = (id: string = "") => {
-  const { path } = useContext(UrlContext);
+// import { useSearchParams } from "react-router-dom";
+
+export const useStudent = () => {
+  // const { path } = useContext(UrlContext);
+
+  // const [params] = useSearchParams();
 
   const queryClient = useQueryClient();
 
@@ -39,9 +40,9 @@ export const useStudent = (id: string = "") => {
     refetch: refetchStudents,
     isFetching: isFetchingStudentData,
   } = useQuery({
-    queryKey: [QUERY_KEY.STUDENT, path],
+    queryKey: [QUERY_KEY.STUDENT],
     queryFn: () => {
-      return getAllStudents(path);
+      return getAllStudents("");
     },
     placeholderData: keepPreviousData,
   });
@@ -73,7 +74,7 @@ export const useStudent = (id: string = "") => {
         ),
       );
 
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT, path] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT] });
     },
     onError: (_, { id }) => {
       if (id) {
@@ -96,10 +97,10 @@ export const useStudent = (id: string = "") => {
     },
   });
 
-  const { data: studentByIdData } = useQuery({
-    queryKey: [QUERY_KEY.STUDENT, id],
-    queryFn: () => getStudentById(id),
-  });
+  // const { data: studentByIdData } = useQuery({
+  //   queryKey: [QUERY_KEY.STUDENT, id],
+  //   queryFn: () => getStudentById(id),
+  // });
 
   const {
     mutate: deleteStudent,
@@ -117,7 +118,7 @@ export const useStudent = (id: string = "") => {
         ),
       );
 
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT, path] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT] });
     },
     onError: () => {
       toast(
@@ -136,7 +137,6 @@ export const useStudent = (id: string = "") => {
     mutateStudent,
     isMutatingStudent,
     isMutateStudentSuccess,
-    studentByIdData,
     deleteStudent,
     isDeletingStudent,
     isDeleteStudentSuccess,

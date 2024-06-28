@@ -14,11 +14,15 @@ const http = createHttp({
   baseURL: `${required(API.STUDENT)}/${ROUTES.STUDENT}`,
 });
 
-export const getAllStudents = async (path: string): Promise<Student[]> =>
-  (await http.get<Student[]>(path)).data;
+export const getAllStudents = async (path: string): Promise<Student[]> => {
+  console.log("get students");
+  return (await http.get<Student[]>(path)).data;
+};
 
-export const getStudentById = async (id: string): Promise<Student[]> =>
-  (await http.get<Student[]>(`/${id}`)).data;
+export const getStudentById = async (id: string): Promise<Student[]> => {
+  console.log("get student by id");
+  return (await http.get<Student[]>(`/${id}`)).data;
+};
 
 export const createOrUpdateStudent = async (
   data: Student,

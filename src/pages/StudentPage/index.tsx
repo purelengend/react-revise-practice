@@ -16,7 +16,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 // Components
 import {
   CustomTable,
-  Pagination,
+  // Pagination,
   SortSelect,
   ConfirmModal,
   StudentFormModal,
@@ -28,7 +28,7 @@ import {
   DEFAULT_STUDENT_AVATAR_URL,
   DEFAULT_STUDENT_DATA,
   FORM_TITLE,
-  PAGE_LIMIT,
+  // PAGE_LIMIT,
   SORT_BY_OPTION_LIST,
 } from "@/constants";
 
@@ -37,7 +37,10 @@ import { Student } from "@/types";
 import { ColumnProps } from "@/components/common/CustomTable";
 
 // Hooks
-import { useStudent, useStudentPagination } from "@/hooks";
+import {
+  useStudent,
+  //  useStudentPagination
+} from "@/hooks";
 
 const StudentPage = () => {
   const {
@@ -61,14 +64,14 @@ const StudentPage = () => {
     students,
     mutateStudent,
     isFetchingStudentData,
-    isMutatingStudent,
     isMutateStudentSuccess,
-    isDeletingStudent,
+    // isMutatingStudent,
+    // isDeletingStudent,
+    // deleteStudent,
     isDeleteStudentSuccess,
-    deleteStudent,
   } = useStudent();
 
-  const { allStudents, refetchAllStudents } = useStudentPagination();
+  // const { allStudents, refetchAllStudents } = useStudentPagination();
 
   const handleOpenAddModal = useCallback(() => {
     setUpdateStudent(DEFAULT_STUDENT_DATA);
@@ -88,9 +91,9 @@ const StudentPage = () => {
       onCloseStudentFormModal();
 
       // Update total pages of students
-      refetchAllStudents();
+      // refetchAllStudents();
     }
-  }, [isMutateStudentSuccess, onCloseStudentFormModal, refetchAllStudents]);
+  }, [isMutateStudentSuccess, onCloseStudentFormModal]);
 
   // Close confirm modal when deleting successfully
   useEffect(() => {
@@ -98,16 +101,15 @@ const StudentPage = () => {
       onCloseStudentConfirmModal();
 
       // Update total pages of students
-      refetchAllStudents();
+      // refetchAllStudents();
     }
-  }, [isDeleteStudentSuccess, onCloseStudentConfirmModal, refetchAllStudents]);
+  }, [isDeleteStudentSuccess, onCloseStudentConfirmModal]);
 
-  const onDeleteStudentSubmit = useCallback(
-    (data: Pick<Student, "id">) => {
-      deleteStudent(data.id);
-    },
-    [deleteStudent],
-  );
+  const onDeleteStudentSubmit = useCallback(() =>
+    // data: Pick<Student, "id">
+    {
+      // deleteStudent(data.id);
+    }, []);
 
   const studentColumns: Array<ColumnProps<Student>> = useMemo(
     () => [
@@ -257,17 +259,17 @@ const StudentPage = () => {
         />
       </Box>
 
-      {!!students && allStudents?.length > PAGE_LIMIT && (
+      {/* {!!students && allStudents?.length > PAGE_LIMIT && (
         <Pagination
           totalRecords={allStudents?.length ?? 0}
           pageLimit={PAGE_LIMIT}
         />
-      )}
+      )} */}
 
       {isStudentFormModalOpen && (
         <StudentFormModal
           isOpen={isStudentFormModalOpen}
-          isMutating={isMutatingStudent}
+          isMutating={true}
           onClose={onCloseStudentFormModal}
           student={updateStudent}
           onSubmit={onMutationStudentSubmit}
@@ -279,7 +281,7 @@ const StudentPage = () => {
           id={studentId}
           title={FORM_TITLE.DELETE(studentId)}
           isOpen={isStudentConfirmModalOpen}
-          isMutating={isDeletingStudent}
+          isMutating={true}
           onClose={onCloseStudentConfirmModal}
           onSubmit={onDeleteStudentSubmit}
         />
