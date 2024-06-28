@@ -1,30 +1,59 @@
-# React + TypeScript + Vite
+# Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- This document is intended to describe the requirements for the React Revise practice improvement.
+- Design: [Figma](https://www.figma.com/design/vw0YhUhB15lc20iAVQdNzU/Basic-CRUD-Student?node-id=93-160&m=dev)
+- Plan: [Note](https://docs.google.com/document/d/1NLubZDTbB9xh6iM8gFxqweEsYYR9WJF2DB9bZ60_gQQ/edit)
 
-Currently, two official plugins are available:
+# Target
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Revise React knowledge
+- Apply React Hook Form for form management.
+- Apply Valibot for form validation.
+- Apply Tanstack query for server state management.
 
-## Expanding the ESLint configuration
+# Techstacks
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Vite
+- TypeScript
+- React
+- Chakra UI
+- Storybook
+- Tanstack Query
+- Jest
+- React-testing-library
+- React Hook Form
+- Valibot
+- React Router
 
-- Configure the top-level `parserOptions` property like this:
+# Development Tools
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: ["./tsconfig.json", "./tsconfig.node.json"],
-    tsconfigRootDir: __dirname,
-  },
-};
-```
+- [Eslint](https://eslint.org/docs/latest/)
+- [Prettier](https://prettier.io/docs/en/)
+- [Lint-staged](https://github.com/okonet/lint-staged)
+- [Husky](https://github.com/typicode/husky)
+- [Commitlint](https://commitlint.js.org/#/)
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+# Timeline
+
+- Estimate time: 10 days (from 10th June 2024 to 21st June 2024).
+- Actual time: 13 days (from 24th June 2024 to 26th June 2024).
+
+# Requirements
+
+- Build a CRUD React application with pagination, filter, order.
+- Need to handle form, modal.
+
+# Getting Started
+
+- Clone the `react-revise` branch of this repository via HTTP: `git clone -b practice-one https://gitlab.asoft-python.com/huy.phamnhat/react-training/-/tree/react-revise?ref_type=heads`.
+- Open the project folder with your code editor.
+- Open terminal and run command: `pnpm i`.
+- Before running the project, you must create an `.env` file at the the `practice-two` folder, you can get it [here](https://drive.google.com/file/d/132lmzCgpF7dVj2YZnXX1huOTN4XS8Doh/view?usp=drive_link).
+- After that run this command to host the web: `pnpm dev`.
+- Open browser and browse `http://localhost:5173`.
+- To start Storybook, run the following command: `pnpm storybook`.
+
+# Author
+
+- Huy Pham Nhat.
+- Email: huy.phamnhat@asnet.com.vn.
