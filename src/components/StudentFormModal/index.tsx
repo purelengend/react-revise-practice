@@ -14,7 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 
@@ -49,8 +49,7 @@ const StudentFormModal = memo(
   }: StudentFormModalProps) => {
     const [selectedImage, setSelectedImage] = useState<File>();
 
-    const { isUploadingImage, uploadImage, imageUrl, isUploadImageFail } =
-      useImage();
+    const { mutate: uploadImage, isPending: isUploadingImage } = useImage();
 
     const {
       control,
@@ -68,26 +67,39 @@ const StudentFormModal = memo(
         if (e.target.files) {
           const imageFile = e.target.files[0];
 
-          uploadImage(imageFile);
+          const imageFormData = new FormData();
+
+          imageFormData.append("image", imageFile);
+
+          uploadImage(imageFormData, {
+            onSuccess: (response) => {
+              const imageUrl = response.data.data.url;
+
+              setValue("avatarUrl", imageUrl, { shouldDirty: true });
+            },
+            onError: () => {
+              setSelectedImage(undefined);
+            },
+          });
 
           setSelectedImage(imageFile);
         }
       },
-      [uploadImage],
+      [setValue, uploadImage],
     );
 
     // Reset image back to placeholder when uploading failed
-    useEffect(() => {
-      if (isUploadImageFail) {
-        setSelectedImage(undefined);
-      }
-    }, [isUploadImageFail]);
+    // useEffect(() => {
+    //   if (isUploadImageFail) {
+    //     setSelectedImage(undefined);
+    //   }
+    // }, [isUploadImageFail]);
 
-    useEffect(() => {
-      if (imageUrl) {
-        setValue("avatarUrl", imageUrl, { shouldDirty: true });
-      }
-    }, [imageUrl, setValue]);
+    // useEffect(() => {
+    //   if (imageUrl) {
+    //     setValue("avatarUrl", imageUrl, { shouldDirty: true });
+    //   }
+    // }, [imageUrl, setValue]);
 
     return (
       <Modal

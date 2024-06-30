@@ -2,19 +2,16 @@
 import { RenderOptions, render } from "@testing-library/react";
 import { ReactElement, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter } from "react-router-dom";
-
-// Contexts
-import { UrlContextProvider } from "@/context";
+import { MemoryRouter } from "react-router-dom";
 
 const queryClient = new QueryClient({});
 export const AllTheProviders = (props: { children: ReactNode }) => {
   return (
-    <BrowserRouter>
+    <MemoryRouter initialEntries={["/"]}>
       <QueryClientProvider client={queryClient}>
-        <UrlContextProvider>{props.children}</UrlContextProvider>
+        {props.children}
       </QueryClientProvider>
-    </BrowserRouter>
+    </MemoryRouter>
   );
 };
 

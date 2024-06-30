@@ -46,7 +46,7 @@ const router = createBrowserRouter([
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5000,
+      staleTime: 300000,
       refetchOnWindowFocus: false,
     },
   },

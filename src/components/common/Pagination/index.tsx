@@ -1,6 +1,7 @@
-import { UrlContext } from "@/context";
+import { QUERY_PARAMS } from "@/constants";
 import { Button, Center } from "@chakra-ui/react";
-import { memo, useCallback, useContext } from "react";
+import { memo, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export type PaginationProps = {
   totalRecords: number;
@@ -8,7 +9,9 @@ export type PaginationProps = {
 };
 
 const Pagination = memo(({ totalRecords, pageLimit }: PaginationProps) => {
-  const { setPageValue, currentPage } = useContext(UrlContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get(QUERY_PARAMS.PAGE)) || 1;
 
   const pages: Array<number> = [];
 
@@ -18,9 +21,11 @@ const Pagination = memo(({ totalRecords, pageLimit }: PaginationProps) => {
 
   const handlePageChange = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      setPageValue(parseInt(e.currentTarget.value));
+      searchParams.set(QUERY_PARAMS.PAGE, e.currentTarget.value);
+
+      setSearchParams(searchParams);
     },
-    [setPageValue],
+    [searchParams, setSearchParams],
   );
   return (
     <Center mt={15} gap={5}>

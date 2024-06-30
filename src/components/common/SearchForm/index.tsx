@@ -14,16 +14,17 @@ import { SearchIcon } from "../Icons";
 import { SEARCH_INPUT_PLACEHOLDER } from "@/constants";
 
 // Hooks
-import { useDebounce } from "@/hooks/useDebounce";
+import { useDebounce } from "@/hooks";
 
 export type SearchFormProps = {
   onSubmit: (args: SearchFormInput) => void;
+  searchParam: string;
 };
 
 export type SearchFormInput = {
   searchValue: string;
 };
-const SearchForm = ({ onSubmit }: SearchFormProps) => {
+const SearchForm = ({ onSubmit, searchParam }: SearchFormProps) => {
   const { control, handleSubmit } = useForm<SearchFormInput>({
     defaultValues: {
       searchValue: "",
@@ -45,17 +46,16 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
     [],
   );
 
-  // Submit form when debouncedText changes
-  useEffect(() => {
-    handleSubmit(onSubmit)();
-  }, [debouncedText, handleSubmit, onSubmit]);
-
   const checkKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === "Enter") event.preventDefault();
     },
     [],
   );
+
+  useEffect(() => {
+    if (searchParam !== debouncedText) handleSubmit(onSubmit)();
+  }, [debouncedText, handleSubmit, onSubmit, searchParam]);
 
   return (
     <InputGroup

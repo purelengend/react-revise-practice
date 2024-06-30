@@ -1,40 +1,36 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Center, HStack, IconButton } from "@chakra-ui/react";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 
 // Components
 import { NotificationIcon } from "../common/Icons";
 import { SearchForm, SearchFormInput } from "../common";
-
-// Context
-import { UrlContext } from "@/context";
-
-// Hooks
-import { useStudentPagination } from "@/hooks";
+import { QUERY_PARAMS } from "@/constants";
 
 export type HeaderProps = {
   onToggleSidebar: () => void;
 };
 const Header = ({ onToggleSidebar }: HeaderProps) => {
-  const { setFilterValue, resetPageValue, filterValue } =
-    useContext(UrlContext);
+  // const { refetchAllStudents } = useStudentPagination();
 
-  const { refetchAllStudents } = useStudentPagination();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const name = searchParams.get(QUERY_PARAMS.NAME) || "";
 
   const handleSearchSubmit = useCallback(
     ({ searchValue }: SearchFormInput) => {
-      setFilterValue(searchValue);
+      // Reset page index when searching
+      searchParams.delete(QUERY_PARAMS.PAGE);
+
+      searchValue
+        ? searchParams.set(QUERY_PARAMS.NAME, searchValue)
+        : searchParams.delete(QUERY_PARAMS.NAME);
+
+      setSearchParams(searchParams);
     },
-    [setFilterValue],
+    [searchParams, setSearchParams],
   );
-
-  useEffect(() => {
-    // Update total pages of students
-    refetchAllStudents();
-
-    // Reset page index to 1
-    resetPageValue();
-  }, [filterValue, refetchAllStudents, resetPageValue]);
 
   return (
     <Center px={4} justifyContent="space-between" h={15}>
@@ -44,7 +40,7 @@ const Header = ({ onToggleSidebar }: HeaderProps) => {
         onClick={onToggleSidebar}
       />
       <HStack gap={6} mr={{ md: 12 }}>
-        <SearchForm onSubmit={handleSearchSubmit} />
+        <SearchForm searchParam={name} onSubmit={handleSearchSubmit} />
         <NotificationIcon />
       </HStack>
     </Center>

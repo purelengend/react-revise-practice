@@ -1,4 +1,5 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Select } from "@chakra-ui/react";
 
 // Components
@@ -7,46 +8,52 @@ import { SortArrowDownIcon, SortArrowUpIcon, SortIcon } from "../Icons";
 // Types
 import { SortProps } from "@/types";
 
-// Hooks
-import { useStudent } from "@/hooks";
-import { UrlContext } from "@/context";
+// Constants
+import { QUERY_PARAMS } from "@/constants";
 
 const SortSelect = (props: { sortList: Array<SortProps> }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [isAscending, setIsAscending] = useState(true);
 
-  const { sortValue, setSortValue, setOrderValue, path, resetPageValue } =
-    useContext(UrlContext);
-
-  const { refetchStudents } = useStudent();
+  const sortBy = searchParams.get(QUERY_PARAMS.SORTBY);
+  // const { refetchStudents } = useStudent();
 
   useEffect(() => {
-    if (sortValue !== "") {
-      isAscending ? setOrderValue("asc") : setOrderValue("desc");
-      resetPageValue();
+    if (sortBy) {
+      isAscending
+        ? searchParams.set(QUERY_PARAMS.ORDER, "asc")
+        : searchParams.set(QUERY_PARAMS.ORDER, "desc");
+
+      setSearchParams(searchParams);
     }
-  }, [sortValue, isAscending, setOrderValue, setSortValue, resetPageValue]);
+  }, [isAscending, searchParams, setSearchParams, sortBy]);
 
-  useEffect(() => {
-    refetchStudents();
-  }, [path, refetchStudents]);
+  // useEffect(() => {
+  //   refetchStudents();
+  // }, [path, refetchStudents]);
 
   const SortByStateIcon = useMemo(
     () =>
-      sortValue === "" ? (
+      !sortBy ? (
         <SortIcon data-testid="default" />
       ) : isAscending ? (
         <SortArrowUpIcon data-testid="asc" />
       ) : (
         <SortArrowDownIcon data-testid="desc" />
       ),
-    [sortValue, isAscending],
+    [isAscending, sortBy],
   );
 
   const orderCallback = useCallback(() => setIsAscending((prev) => !prev), []);
 
   const sortCallback = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => setSortValue(e.target.value),
-    [setSortValue],
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      searchParams.set(QUERY_PARAMS.SORTBY, e.target.value);
+
+      setSearchParams(searchParams);
+    },
+    [searchParams, setSearchParams],
   );
 
   return (
@@ -58,7 +65,7 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
           bg: "blackAlpha.100",
         }}
         onClick={orderCallback}
-        isDisabled={sortValue === ""}
+        isDisabled={!sortBy}
         data-testid="sort-button"
       >
         {SortByStateIcon}
@@ -69,7 +76,7 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
         h={11}
         color="gray.200"
         fontSize="sm"
-        value={sortValue}
+        value={sortBy ?? ""}
         onChange={sortCallback}
       >
         <option hidden disabled value="">

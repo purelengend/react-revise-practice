@@ -7,7 +7,7 @@ exports[`SearchForm test cases should render correctly 1`] = `
     data-group="true"
   >
     <input
-      class="chakra-input css-1foxot0"
+      class="chakra-input css-sh2byc"
       name="searchValue"
       placeholder="Search..."
       value=""
