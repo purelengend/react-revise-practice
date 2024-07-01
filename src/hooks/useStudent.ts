@@ -14,23 +14,21 @@ import {
 } from "@/services";
 
 // Types
-import { Student } from "@/types";
+import { Student, StudentQuery } from "@/types";
 
 // Constants
 import { QUERY_KEY } from "@/constants";
 
-//Utils
-
-export const useGetStudents = (
-  page: number,
-  limit: number,
-  sortBy: string,
-  order: string,
-  name: string,
-) => {
+export const useGetStudents = ({
+  page,
+  limit,
+  sortBy,
+  order,
+  name,
+}: StudentQuery) => {
   return useQuery({
     queryKey: [QUERY_KEY.STUDENT, page, limit, sortBy, order, name],
-    queryFn: () => getAllStudents(page, limit, sortBy, order, name),
+    queryFn: () => getAllStudents({ page, limit, sortBy, order, name }),
     placeholderData: keepPreviousData,
   });
 };

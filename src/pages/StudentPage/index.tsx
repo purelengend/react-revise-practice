@@ -82,7 +82,7 @@ const StudentPage = () => {
   const name = searchParams.get(QUERY_PARAMS.NAME) || "";
 
   const { data: students = [], isFetching: isFetchingStudents } =
-    useGetStudents(page, limit, sortBy, order, name);
+    useGetStudents({ page, limit, sortBy, order, name });
 
   const { data: totalStudents = 0 } = useGetStudentCount(name);
 

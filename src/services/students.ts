@@ -2,7 +2,7 @@
 import createHttp from "./http";
 
 // Types
-import { Student } from "@/types";
+import { Student, StudentQuery } from "@/types";
 
 // Constants
 import { API, ROUTES } from "@/constants";
@@ -14,13 +14,13 @@ const http = createHttp({
   baseURL: `${required(API.STUDENT)}/${ROUTES.STUDENT}`,
 });
 
-export const getAllStudents = async (
-  page: number,
-  limit: number,
-  sortBy: string,
-  order: string,
-  name: string,
-): Promise<Student[]> => {
+export const getAllStudents = async ({
+  page,
+  limit,
+  sortBy,
+  order,
+  name,
+}: StudentQuery): Promise<Student[]> => {
   const params = name
     ? { page, limit, sortBy, order, name }
     : { page, limit, sortBy, order };
