@@ -1,22 +1,22 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Center, HStack, IconButton } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
 
 // Components
 import { NotificationIcon } from "../common/Icons";
 import { SearchForm, SearchFormInput } from "../common";
+
+// Constants
 import { QUERY_PARAMS } from "@/constants";
+
+// Hooks
+import { useStudentQueryParams } from "@/hooks";
 
 export type HeaderProps = {
   onToggleSidebar: () => void;
 };
 const Header = ({ onToggleSidebar }: HeaderProps) => {
-  // const { refetchAllStudents } = useStudentPagination();
-
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const name = searchParams.get(QUERY_PARAMS.NAME) || "";
+  const { name, searchParams, setSearchParams } = useStudentQueryParams();
 
   const handleSearchSubmit = useCallback(
     ({ searchValue }: SearchFormInput) => {

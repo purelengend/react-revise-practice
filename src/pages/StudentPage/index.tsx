@@ -12,7 +12,6 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useSearchParams } from "react-router-dom";
 import { useCallback, useMemo, useState } from "react";
 
 // Components
@@ -31,8 +30,6 @@ import {
   DEFAULT_STUDENT_DATA,
   FORM_TITLE,
   PAGE_LIMIT,
-  QUERY_PARAMS,
-  // PAGE_LIMIT,
   SORT_BY_OPTION_LIST,
   TOAST_MSG,
   TOAST_STATUS,
@@ -48,6 +45,7 @@ import {
   useGetStudentCount,
   useGetStudents,
   useMutateStudent,
+  useStudentQueryParams,
 } from "@/hooks";
 
 // Utils
@@ -73,13 +71,7 @@ const StudentPage = () => {
 
   const [studentId, setStudentId] = useState<string>("");
 
-  const [searchParams] = useSearchParams();
-
-  const page = Number(searchParams.get(QUERY_PARAMS.PAGE)) || 1;
-  const limit = Number(searchParams.get(QUERY_PARAMS.LIMIT)) || PAGE_LIMIT;
-  const sortBy = searchParams.get(QUERY_PARAMS.SORTBY) || "";
-  const order = searchParams.get(QUERY_PARAMS.ORDER) || "";
-  const name = searchParams.get(QUERY_PARAMS.NAME) || "";
+  const { page, limit, sortBy, order, name } = useStudentQueryParams();
 
   const { data: students = [], isFetching: isFetchingStudents } =
     useGetStudents({ page, limit, sortBy, order, name });

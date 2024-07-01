@@ -1,4 +1,3 @@
-import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Select } from "@chakra-ui/react";
 
@@ -10,14 +9,12 @@ import { SortProps } from "@/types";
 
 // Constants
 import { QUERY_PARAMS } from "@/constants";
+import { useStudentQueryParams } from "@/hooks";
 
 const SortSelect = (props: { sortList: Array<SortProps> }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const [isAscending, setIsAscending] = useState(true);
 
-  const sortBy = searchParams.get(QUERY_PARAMS.SORTBY);
-  // const { refetchStudents } = useStudent();
+  const { searchParams, setSearchParams, sortBy } = useStudentQueryParams();
 
   useEffect(() => {
     if (sortBy) {
@@ -28,10 +25,6 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
       setSearchParams(searchParams);
     }
   }, [isAscending, searchParams, setSearchParams, sortBy]);
-
-  // useEffect(() => {
-  //   refetchStudents();
-  // }, [path, refetchStudents]);
 
   const SortByStateIcon = useMemo(
     () =>

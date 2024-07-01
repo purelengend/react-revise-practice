@@ -24,6 +24,7 @@ export type SearchFormProps = {
 export type SearchFormInput = {
   searchValue: string;
 };
+
 const SearchForm = ({ onSubmit, searchParam }: SearchFormProps) => {
   const { control, handleSubmit } = useForm<SearchFormInput>({
     defaultValues: {

@@ -2,7 +2,7 @@
 import createHttp from "./http";
 
 // Types
-import { Student, StudentQuery } from "@/types";
+import { Student, StudentQueryParams } from "@/types";
 
 // Constants
 import { API, ROUTES } from "@/constants";
@@ -20,7 +20,7 @@ export const getAllStudents = async ({
   sortBy,
   order,
   name,
-}: StudentQuery): Promise<Student[]> => {
+}: StudentQueryParams): Promise<Student[]> => {
   const params = name
     ? { page, limit, sortBy, order, name }
     : { page, limit, sortBy, order };
@@ -30,6 +30,8 @@ export const getAllStudents = async ({
 
 export const getTotalStudents = async (name: string) => {
   const params = name ? { name } : {};
+
+  console.log(required(API.STUDENT));
 
   try {
     return (await http.get<Student[]>("", params)).data.length;
