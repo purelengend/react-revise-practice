@@ -8,7 +8,7 @@ describe("SearchForm test cases", () => {
 
   const setup = () => {
     userEvent.setup();
-    return render(<SearchForm onSubmit={mockOnSubmit} />);
+    return render(<SearchForm searchParam="mock" onSubmit={mockOnSubmit} />);
   };
   it("should render correctly", () => {
     const { container } = setup();

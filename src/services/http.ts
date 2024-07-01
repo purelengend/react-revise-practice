@@ -26,8 +26,11 @@ const createHttp = (config: AxiosRequestConfig) => {
 
   const get = async <T>(
     path: string = "",
-    config?: object,
-  ): Promise<AxiosResponse<T>> => http.get<T>(`${path}`, config);
+    params: object = {},
+  ): Promise<AxiosResponse<T>> =>
+    http.get<T>(`${path}`, {
+      params,
+    });
 
   const post = async <T, U>(
     path: string = "",
