@@ -14,7 +14,7 @@ import {
 } from "@/services";
 
 // Types
-import { Student, StudentQuery } from "@/types";
+import { Student, StudentQueryParams } from "@/types";
 
 // Constants
 import { QUERY_KEY } from "@/constants";
@@ -25,7 +25,7 @@ export const useGetStudents = ({
   sortBy,
   order,
   name,
-}: StudentQuery) => {
+}: StudentQueryParams) => {
   return useQuery({
     queryKey: [QUERY_KEY.STUDENT, page, limit, sortBy, order, name],
     queryFn: () => getAllStudents({ page, limit, sortBy, order, name }),

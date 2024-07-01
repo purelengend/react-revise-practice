@@ -5,7 +5,6 @@ import { MemoryRouter } from "react-router-dom";
 import Sidebar from ".";
 
 // Contexts
-import { SidebarContextProvider } from "@/context";
 
 const meta: Meta<typeof Sidebar> = {
   title: "Components/Sidebar",
@@ -13,9 +12,7 @@ const meta: Meta<typeof Sidebar> = {
   decorators: [
     (Story) => (
       <MemoryRouter initialEntries={["/"]}>
-        <SidebarContextProvider>
-          <Story />
-        </SidebarContextProvider>
+        <Story />
       </MemoryRouter>
     ),
   ],
