@@ -10,16 +10,18 @@ import {
   Stack,
   Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useCallback, useMemo, useState } from "react";
 
 // Components
 import {
   CustomTable,
-  Pagination,
   SortSelect,
   ConfirmModal,
   StudentFormModal,
+  Pagination,
 } from "@/components";
 import { DeleteIcon, EditIcon } from "@/components/common/Icons";
 
@@ -29,7 +31,11 @@ import {
   DEFAULT_STUDENT_DATA,
   FORM_TITLE,
   PAGE_LIMIT,
+  QUERY_PARAMS,
+  // PAGE_LIMIT,
   SORT_BY_OPTION_LIST,
+  TOAST_MSG,
+  TOAST_STATUS,
 } from "@/constants";
 
 // Types
@@ -37,7 +43,15 @@ import { Student } from "@/types";
 import { ColumnProps } from "@/components/common/CustomTable";
 
 // Hooks
-import { useStudent, useStudentPagination } from "@/hooks";
+import {
+  useDeleteStudent,
+  useGetStudentCount,
+  useGetStudents,
+  useMutateStudent,
+} from "@/hooks";
+
+// Utils
+import { customToast } from "@/utils";
 
 const StudentPage = () => {
   const {
@@ -52,23 +66,31 @@ const StudentPage = () => {
     onClose: onCloseStudentConfirmModal,
   } = useDisclosure();
 
+  const toast = useToast();
+
   const [updateStudent, setUpdateStudent] =
     useState<Student>(DEFAULT_STUDENT_DATA);
 
   const [studentId, setStudentId] = useState<string>("");
 
-  const {
-    students,
-    mutateStudent,
-    isFetchingStudentData,
-    isMutatingStudent,
-    isMutateStudentSuccess,
-    isDeletingStudent,
-    isDeleteStudentSuccess,
-    deleteStudent,
-  } = useStudent();
+  const [searchParams] = useSearchParams();
 
-  const { allStudents, refetchAllStudents } = useStudentPagination();
+  const page = Number(searchParams.get(QUERY_PARAMS.PAGE)) || 1;
+  const limit = Number(searchParams.get(QUERY_PARAMS.LIMIT)) || PAGE_LIMIT;
+  const sortBy = searchParams.get(QUERY_PARAMS.SORTBY) || "";
+  const order = searchParams.get(QUERY_PARAMS.ORDER) || "";
+  const name = searchParams.get(QUERY_PARAMS.NAME) || "";
+
+  const { data: students = [], isFetching: isFetchingStudents } =
+    useGetStudents({ page, limit, sortBy, order, name });
+
+  const { data: totalStudents = 0 } = useGetStudentCount(name);
+
+  const { mutate: mutateStudent, isPending: isMutatingStudent } =
+    useMutateStudent();
+
+  const { mutate: deleteStudent, isPending: isDeleteStudent } =
+    useDeleteStudent();
 
   const handleOpenAddModal = useCallback(() => {
     setUpdateStudent(DEFAULT_STUDENT_DATA);
@@ -76,37 +98,76 @@ const StudentPage = () => {
   }, [onOpenStudentFormModal]);
 
   const onMutationStudentSubmit = useCallback(
-    (data: Student) => {
-      mutateStudent(data);
+    async (data: Student) => {
+      return mutateStudent(data, {
+        onSuccess: (_, { id }) => {
+          onCloseStudentFormModal();
+
+          if (!id) {
+            toast(
+              customToast(
+                TOAST_MSG.ADD.SUCCESS.title,
+                TOAST_MSG.ADD.SUCCESS.description,
+                TOAST_STATUS.SUCCESS,
+              ),
+            );
+            return;
+          }
+          toast(
+            customToast(
+              TOAST_MSG.EDIT.SUCCESS.title,
+              TOAST_MSG.EDIT.SUCCESS.description,
+              TOAST_STATUS.SUCCESS,
+            ),
+          );
+        },
+        onError: (_, { id }) => {
+          if (!id) {
+            toast(
+              customToast(
+                TOAST_MSG.ADD.ERROR.title,
+                TOAST_MSG.ADD.ERROR.description,
+                TOAST_STATUS.ERROR,
+              ),
+            );
+            return;
+          }
+          toast(
+            customToast(
+              TOAST_MSG.EDIT.ERROR.title,
+              TOAST_MSG.EDIT.ERROR.description,
+              TOAST_STATUS.ERROR,
+            ),
+          );
+        },
+      });
     },
-    [mutateStudent],
+    [mutateStudent, onCloseStudentFormModal, toast],
   );
-
-  // Close mutation modal when mutating successfully
-  useEffect(() => {
-    if (isMutateStudentSuccess) {
-      onCloseStudentFormModal();
-
-      // Update total pages of students
-      refetchAllStudents();
-    }
-  }, [isMutateStudentSuccess, onCloseStudentFormModal, refetchAllStudents]);
-
-  // Close confirm modal when deleting successfully
-  useEffect(() => {
-    if (isDeleteStudentSuccess) {
-      onCloseStudentConfirmModal();
-
-      // Update total pages of students
-      refetchAllStudents();
-    }
-  }, [isDeleteStudentSuccess, onCloseStudentConfirmModal, refetchAllStudents]);
 
   const onDeleteStudentSubmit = useCallback(
     (data: Pick<Student, "id">) => {
-      deleteStudent(data.id);
+      deleteStudent(data.id, {
+        onSuccess: () => {
+          onCloseStudentConfirmModal();
+          toast(
+            customToast(
+              TOAST_MSG.DELETE.SUCCESS.title,
+              TOAST_MSG.DELETE.SUCCESS.description,
+              TOAST_STATUS.SUCCESS,
+            ),
+          );
+        },
+        onError: () => {
+          customToast(
+            TOAST_MSG.DELETE.ERROR.title,
+            TOAST_MSG.DELETE.ERROR.description,
+            TOAST_STATUS.ERROR,
+          );
+        },
+      });
     },
-    [deleteStudent],
+    [deleteStudent, onCloseStudentConfirmModal, toast],
   );
 
   const studentColumns: Array<ColumnProps<Student>> = useMemo(
@@ -253,15 +314,12 @@ const StudentPage = () => {
         <CustomTable
           columns={studentColumns}
           data={students}
-          isFetching={isFetchingStudentData}
+          isFetching={isFetchingStudents}
         />
       </Box>
 
-      {!!students && allStudents?.length > PAGE_LIMIT && (
-        <Pagination
-          totalRecords={allStudents?.length ?? 0}
-          pageLimit={PAGE_LIMIT}
-        />
+      {!!students && totalStudents > PAGE_LIMIT && (
+        <Pagination totalRecords={totalStudents} pageLimit={PAGE_LIMIT} />
       )}
 
       {isStudentFormModalOpen && (
@@ -279,7 +337,7 @@ const StudentPage = () => {
           id={studentId}
           title={FORM_TITLE.DELETE(studentId)}
           isOpen={isStudentConfirmModalOpen}
-          isMutating={isDeletingStudent}
+          isMutating={isDeleteStudent}
           onClose={onCloseStudentConfirmModal}
           onSubmit={onDeleteStudentSubmit}
         />

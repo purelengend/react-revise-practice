@@ -5,9 +5,6 @@ import { Outlet } from "react-router-dom";
 // Components
 import { Header, Sidebar } from "@/components";
 
-// Contexts
-import { UrlContextProvider } from "@/context";
-
 // Hooks
 import { useSidebar } from "@/hooks";
 
@@ -26,12 +23,10 @@ const MainLayout = (props: { children?: React.ReactNode }) => {
     >
       <Sidebar isOpen={sidebarState} onClose={closeSidebar} />
 
-      <UrlContextProvider>
-        <Header onToggleSidebar={toggleSidebar} />
+      <Header onToggleSidebar={toggleSidebar} />
 
-        <Outlet />
-        {props.children}
-      </UrlContextProvider>
+      <Outlet />
+      {props.children}
     </Box>
   );
 };
