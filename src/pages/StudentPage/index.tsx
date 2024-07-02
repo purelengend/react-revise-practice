@@ -45,7 +45,7 @@ import {
   useGetStudentCount,
   useGetStudents,
   useMutateStudent,
-  useStudentQueryParams,
+  useQueryParams,
 } from "@/hooks";
 
 // Utils
@@ -71,7 +71,7 @@ const StudentPage = () => {
 
   const [studentId, setStudentId] = useState<string>("");
 
-  const { page, limit, sortBy, order, name } = useStudentQueryParams();
+  const { page, limit, sortBy, order, name } = useQueryParams();
 
   const { data: students = [], isFetching: isFetchingStudents } =
     useGetStudents({ page, limit, sortBy, order, name });

@@ -28,6 +28,7 @@ exports[`Header test cases should render correctly 1`] = `
       <form
         class="chakra-input__group css-bx0blc"
         data-group="true"
+        id="search-form"
       >
         <input
           class="chakra-input css-sh2byc"

@@ -1,4 +1,4 @@
-export type StudentQueryParams = {
+export type QueryParams = {
   page: number;
   limit: number;
   sortBy: string;

@@ -5,6 +5,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 
 const queryClient = new QueryClient({});
+
+export const customWrapper = (router: string) => {
+  return ({ children }: { children?: ReactNode }) => (
+    <MemoryRouter initialEntries={[router]}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </MemoryRouter>
+  );
+};
 export const AllTheProviders = (props: { children: ReactNode }) => {
   return (
     <MemoryRouter initialEntries={["/"]}>

@@ -1,15 +1,18 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
 // Components
 import { Header, Sidebar } from "@/components";
 
-// Hooks
-import { useSidebar } from "@/hooks";
-
 const MainLayout = (props: { children?: React.ReactNode }) => {
-  const { sidebarState, closeSidebar, toggleSidebar } = useSidebar();
+  const {
+    isOpen: sidebarState,
+    onClose: closeSidebar,
+    onToggle: toggleSidebar,
+  } = useDisclosure({
+    defaultIsOpen: true,
+  });
 
   return (
     <Box
