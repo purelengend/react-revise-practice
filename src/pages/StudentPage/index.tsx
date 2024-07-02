@@ -44,7 +44,7 @@ import {
 } from "@/hooks";
 
 // Utils
-import { customToast } from "@/utils";
+import { customToast, formatPhoneNumber } from "@/utils";
 
 const StudentFormModal = lazy(() => import("@/components/StudentFormModal"));
 
@@ -172,6 +172,7 @@ const StudentPage = () => {
           <Image
             display="block"
             borderRadius="lg"
+            objectFit="contain"
             w={16.25}
             h={13.75}
             src={
@@ -201,7 +202,9 @@ const StudentPage = () => {
         title: "Phone",
         key: "phone",
         render: (item: Student) => (
-          <Link href={`tel:+${item.phone}`}>{item.phone}</Link>
+          <Link href={`tel:+${item.phone}`}>
+            {formatPhoneNumber(item.phone)}
+          </Link>
         ),
       },
       {
