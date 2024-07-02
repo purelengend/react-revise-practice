@@ -5,3 +5,4 @@ export * from "./SearchForm";
 export { default as SortSelect } from "./SortSelect";
 export { default as CustomTable } from "./CustomTable";
 export { default as Pagination } from "./Pagination";
+export { default as Fallback } from "./Fallback";

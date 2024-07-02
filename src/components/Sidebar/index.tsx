@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useLocation } from "react-router-dom";
 
 // Components
 import { UserCard } from "../common";
@@ -23,6 +23,7 @@ export type SidebarProps = {
   onClose: () => void;
 };
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+  const { pathname } = useLocation();
   return (
     <Drawer
       placement="left"
@@ -48,6 +49,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         maxW={67.5}
         px={6.25}
         py={4.5}
+        aria-label="sidebar"
       >
         <Center borderLeft="4px solid" borderLeftColor="yellow.100">
           <Link
@@ -72,6 +74,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 key={item.title}
                 to={item.destination}
                 _hover={{ textDecoration: "none", bg: "yellow.200" }}
+                bg={pathname === item.destination ? "yellow.200" : "none"}
                 w="full"
                 py={2.5}
                 borderRadius={4}

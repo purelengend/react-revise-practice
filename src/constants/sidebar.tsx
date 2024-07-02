@@ -15,7 +15,7 @@ export const SIDEBAR_ITEM_LIST: SideBarItemList = [
   {
     title: "Home",
     icon: <HomeIcon />,
-    destination: "/",
+    destination: "/home",
   },
   {
     title: "Course",

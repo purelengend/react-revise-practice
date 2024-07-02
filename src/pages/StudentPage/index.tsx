@@ -7,21 +7,16 @@ import {
   IconButton,
   Image,
   Link,
+  Spinner,
   Stack,
   Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useCallback, useMemo, useState } from "react";
+import { Suspense, lazy, useCallback, useMemo, useState } from "react";
 
 // Components
-import {
-  CustomTable,
-  SortSelect,
-  ConfirmModal,
-  StudentFormModal,
-  Pagination,
-} from "@/components";
+import { CustomTable, SortSelect } from "@/components";
 import { DeleteIcon, EditIcon } from "@/components/common/Icons";
 
 // Constants
@@ -50,6 +45,12 @@ import {
 
 // Utils
 import { customToast } from "@/utils";
+
+const StudentFormModal = lazy(() => import("@/components/StudentFormModal"));
+
+const ConfirmModal = lazy(() => import("@/components/ConfirmModal"));
+
+const Pagination = lazy(() => import("@/components/common/Pagination"));
 
 const StudentPage = () => {
   const {
@@ -178,6 +179,7 @@ const StudentPage = () => {
                 ? DEFAULT_STUDENT_AVATAR_URL
                 : item.avatarUrl
             }
+            alt={`avatar-of-${item.name}`}
           />
         ),
       },
@@ -311,28 +313,34 @@ const StudentPage = () => {
       </Box>
 
       {!!students && totalStudents > PAGE_LIMIT && (
-        <Pagination totalRecords={totalStudents} pageLimit={PAGE_LIMIT} />
+        <Suspense fallback={<Spinner />}>
+          <Pagination totalRecords={totalStudents} pageLimit={PAGE_LIMIT} />
+        </Suspense>
       )}
 
       {isStudentFormModalOpen && (
-        <StudentFormModal
-          isOpen={isStudentFormModalOpen}
-          isMutating={isMutatingStudent}
-          onClose={onCloseStudentFormModal}
-          student={updateStudent}
-          onSubmit={onMutationStudentSubmit}
-        />
+        <Suspense fallback={<Spinner />}>
+          <StudentFormModal
+            isOpen={isStudentFormModalOpen}
+            isMutating={isMutatingStudent}
+            onClose={onCloseStudentFormModal}
+            student={updateStudent}
+            onSubmit={onMutationStudentSubmit}
+          />
+        </Suspense>
       )}
 
       {isStudentConfirmModalOpen && (
-        <ConfirmModal
-          id={studentId}
-          title={FORM_TITLE.DELETE(studentId)}
-          isOpen={isStudentConfirmModalOpen}
-          isMutating={isDeleteStudent}
-          onClose={onCloseStudentConfirmModal}
-          onSubmit={onDeleteStudentSubmit}
-        />
+        <Suspense fallback={<Spinner />}>
+          <ConfirmModal
+            id={studentId}
+            title={FORM_TITLE.DELETE(studentId)}
+            isOpen={isStudentConfirmModalOpen}
+            isMutating={isDeleteStudent}
+            onClose={onCloseStudentConfirmModal}
+            onSubmit={onDeleteStudentSubmit}
+          />
+        </Suspense>
       )}
     </Box>
   );

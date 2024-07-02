@@ -28,6 +28,7 @@ const UserCard = memo(
           <Image
             boxSize={32}
             src={avatarUrl}
+            alt={`avatar-of-${name}`}
             borderRadius="50%"
             objectFit="contain"
           />

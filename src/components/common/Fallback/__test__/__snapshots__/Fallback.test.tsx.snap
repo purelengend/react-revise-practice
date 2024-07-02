@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Fallback component test case should render correctly 1`] = `
+<div>
+  <p
+    class="chakra-text css-1vhs2ha"
+  >
+    Fallback
+  </p>
+</div>
+`;
