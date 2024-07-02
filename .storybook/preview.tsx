@@ -2,13 +2,11 @@ import { Center, ChakraProvider } from "@chakra-ui/react";
 import type { Preview } from "@storybook/react";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter } from "react-router-dom";
 
 // Themes
 import themes from "../src/themes";
 import { Fonts } from "../src/themes/base";
-
-// Context
-import { UrlContextProvider, SidebarContextProvider } from "../src/context";
 
 const queryClient = new QueryClient({});
 const preview: Preview = {
@@ -23,16 +21,14 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <ChakraProvider theme={themes}>
-        <QueryClientProvider client={queryClient}>
-          <UrlContextProvider>
-            <SidebarContextProvider>
-              <Fonts />
-              <Center>
-                <Story />
-              </Center>
-            </SidebarContextProvider>
-          </UrlContextProvider>
-        </QueryClientProvider>
+        <BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <Fonts />
+            <Center>
+              <Story />
+            </Center>
+          </QueryClientProvider>
+        </BrowserRouter>
       </ChakraProvider>
     ),
   ],

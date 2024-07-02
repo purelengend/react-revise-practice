@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { MemoryRouter } from "react-router-dom";
 
 // Components
 import Sidebar from ".";
@@ -9,13 +8,18 @@ import Sidebar from ".";
 const meta: Meta<typeof Sidebar> = {
   title: "Components/Sidebar",
   component: Sidebar,
-  decorators: [
-    (Story) => (
-      <MemoryRouter initialEntries={["/"]}>
-        <Story />
-      </MemoryRouter>
-    ),
-  ],
+  decorators: [(Story) => <Story />],
+  argTypes: {
+    isOpen: {
+      description: "Whether the sidebar is open or closed",
+    },
+    onClose: {
+      description: "Function to close the sidebar",
+    },
+  },
+  args: {
+    isOpen: true,
+  },
   parameters: {
     controls: {
       expanded: true,
