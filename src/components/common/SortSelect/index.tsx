@@ -62,6 +62,7 @@ const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
         onClick={orderCallback}
         isDisabled={!sortBy}
         data-testid="sort-button"
+        aria-label="sort-button"
       >
         {SortByStateIcon}
       </Button>
@@ -73,6 +74,7 @@ const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
         fontSize="sm"
         value={sortBy ?? ""}
         onChange={sortCallback}
+        aria-label="sort-select"
       >
         <option hidden disabled value="">
           Select a field
