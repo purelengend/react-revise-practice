@@ -1,24 +1,15 @@
-import { screen, renderHook, render } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useDisclosure } from "@chakra-ui/react";
 
 // Component
 import ConfirmModal from "..";
 
 describe("ConfirmModal test cases", () => {
-  const mockOnSubmit = jest.fn();
-
   window.URL.createObjectURL = jest.fn();
 
-  const {
-    result: {
-      current: { isOpen, onClose },
-    },
-  } = renderHook(() =>
-    useDisclosure({
-      defaultIsOpen: true,
-    }),
-  );
+  const mockOnSubmit = jest.fn();
+
+  const mockOnClose = jest.fn();
 
   const mockId: string = "0";
 
@@ -28,9 +19,9 @@ describe("ConfirmModal test cases", () => {
       <ConfirmModal
         id={mockId}
         title=""
-        isOpen={isOpen}
+        isOpen={true}
         isMutating={false}
-        onClose={onClose}
+        onClose={mockOnClose}
         onSubmit={mockOnSubmit}
       />,
     );
@@ -51,5 +42,17 @@ describe("ConfirmModal test cases", () => {
     await userEvent.click(submitBtn);
 
     expect(mockOnSubmit).toHaveBeenCalled();
+  });
+
+  it("should invoke close function when clicking close button", async () => {
+    setup();
+
+    const closeBtn = screen.getByRole("button", {
+      name: /cancel/i,
+    });
+
+    await userEvent.click(closeBtn);
+
+    expect(mockOnClose).toHaveBeenCalled();
   });
 });

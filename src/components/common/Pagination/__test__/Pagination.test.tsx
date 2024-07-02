@@ -1,12 +1,12 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { act } from "react";
 
 // Component
 import Pagination, { PaginationProps } from "..";
 
 // Utils
 import { customRender } from "@/utils";
-import { act } from "react";
 
 describe("Pagination test cases", () => {
   const mockPaginationProps: PaginationProps = {
@@ -33,5 +33,7 @@ describe("Pagination test cases", () => {
     });
 
     await userEvent.click(pageNumberBtn);
+
+    expect(pageNumberBtn).toHaveAttribute("data-active", "");
   });
 });

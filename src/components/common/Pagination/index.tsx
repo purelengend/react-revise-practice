@@ -1,7 +1,7 @@
 import { QUERY_PARAMS } from "@/constants";
+import { useQueryParams } from "@/hooks";
 import { Button, Center } from "@chakra-ui/react";
 import { memo, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
 
 export type PaginationProps = {
   totalRecords: number;
@@ -9,9 +9,7 @@ export type PaginationProps = {
 };
 
 const Pagination = memo(({ totalRecords, pageLimit }: PaginationProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const currentPage = Number(searchParams.get(QUERY_PARAMS.PAGE)) || 1;
+  const { page: currentPage, searchParams, setSearchParams } = useQueryParams();
 
   const pages: Array<number> = [];
 

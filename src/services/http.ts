@@ -25,7 +25,7 @@ const createHttp = (config: AxiosRequestConfig) => {
   http.interceptors.response.use(onFulfilled, onRejected);
 
   const get = async <T>(
-    path: string = "",
+    path: string,
     params: object = {},
   ): Promise<AxiosResponse<T>> =>
     http.get<T>(`${path}`, {
@@ -33,21 +33,22 @@ const createHttp = (config: AxiosRequestConfig) => {
     });
 
   const post = async <T, U>(
-    path: string = "",
+    path: string,
     data: T,
     config?: object,
   ): Promise<AxiosResponse<U>> => http.post<U>(`${path}`, data, config);
 
   const put = async <T>(
-    path: string = "",
+    path: string,
     data: T,
     config?: object,
   ): Promise<AxiosResponse<T>> => http.put<T>(`${path}`, data, config);
 
   const deleteRequest = async <T>(
-    path: string = "",
+    path: string,
     config?: object,
   ): Promise<AxiosResponse<T>> => http.delete<T>(`${path}`, config);
+
   return { get, post, put, delete: deleteRequest };
 };
 

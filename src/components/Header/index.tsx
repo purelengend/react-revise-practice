@@ -10,13 +10,13 @@ import { SearchForm, SearchFormInput } from "../common";
 import { QUERY_PARAMS } from "@/constants";
 
 // Hooks
-import { useStudentQueryParams } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 
 export type HeaderProps = {
   onToggleSidebar: () => void;
 };
 const Header = ({ onToggleSidebar }: HeaderProps) => {
-  const { name, searchParams, setSearchParams } = useStudentQueryParams();
+  const { name, searchParams, setSearchParams } = useQueryParams();
 
   const handleSearchSubmit = useCallback(
     ({ searchValue }: SearchFormInput) => {

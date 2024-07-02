@@ -7,7 +7,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { ReactElement } from "react";
+import { ReactElement, memo } from "react";
 
 export type ColumnProps<T> = {
   key: string;
@@ -21,7 +21,11 @@ export type TableProps<T> = {
   isFetching: boolean;
 };
 
-const CustomTable = <T,>({ columns, data, isFetching }: TableProps<T>) => {
+const CustomTableComponent = <T,>({
+  columns,
+  data,
+  isFetching,
+}: TableProps<T>) => {
   const headers = columns.map((column) => {
     return (
       <Th minW={30} key={`tableHeadCell-${column.title}`} color="gray.200">
@@ -81,5 +85,7 @@ const CustomTable = <T,>({ columns, data, isFetching }: TableProps<T>) => {
     </TableContainer>
   );
 };
+
+const CustomTable = memo(CustomTableComponent) as typeof CustomTableComponent;
 
 export default CustomTable;

@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 // Constants
 import { PAGE_LIMIT, QUERY_PARAMS } from "@/constants";
 
-export const useStudentQueryParams = () => {
+export const useQueryParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = Number(searchParams.get(QUERY_PARAMS.PAGE)) || 1;

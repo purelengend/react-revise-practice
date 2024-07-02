@@ -5,7 +5,7 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 
 // Components
 import { SearchIcon } from "../Icons";
@@ -25,7 +25,7 @@ export type SearchFormInput = {
   searchValue: string;
 };
 
-const SearchForm = ({ onSubmit, searchParam }: SearchFormProps) => {
+const SearchForm = memo(({ onSubmit, searchParam }: SearchFormProps) => {
   const { control, handleSubmit } = useForm<SearchFormInput>({
     defaultValues: {
       searchValue: "",
@@ -63,6 +63,7 @@ const SearchForm = ({ onSubmit, searchParam }: SearchFormProps) => {
       as="form"
       onSubmit={handleSubmit(onSubmit)}
       onKeyDown={checkKeyDown}
+      id="search-form"
     >
       <Controller
         name="searchValue"
@@ -90,6 +91,6 @@ const SearchForm = ({ onSubmit, searchParam }: SearchFormProps) => {
       </InputRightElement>
     </InputGroup>
   );
-};
+});
 
 export default SearchForm;

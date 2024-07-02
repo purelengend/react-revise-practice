@@ -10,7 +10,7 @@ import { required } from "@/utils";
 // Constants
 import { API } from "@/constants";
 
-const http = createHttp({
+export const imageHttp = createHttp({
   baseURL: `${required(API.IMAGE)}?key=${required(API.IMGBB_KEY)}`,
   headers: {
     "Content-Type": "multipart/form-data",
@@ -20,5 +20,5 @@ const http = createHttp({
 export const uploadImageAndGetUrl = async (
   image: FormData,
 ): Promise<AxiosResponse<ImgBBResponse>> => {
-  return await http.post<FormData, ImgBBResponse>("", image);
+  return await imageHttp.post<FormData, ImgBBResponse>("", image);
 };

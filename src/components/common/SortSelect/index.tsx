@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Select } from "@chakra-ui/react";
 
 // Components
@@ -9,12 +9,14 @@ import { SortProps } from "@/types";
 
 // Constants
 import { QUERY_PARAMS } from "@/constants";
-import { useStudentQueryParams } from "@/hooks";
 
-const SortSelect = (props: { sortList: Array<SortProps> }) => {
+// Hooks
+import { useQueryParams } from "@/hooks";
+
+const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
   const [isAscending, setIsAscending] = useState(true);
 
-  const { searchParams, setSearchParams, sortBy } = useStudentQueryParams();
+  const { searchParams, setSearchParams, sortBy } = useQueryParams();
 
   useEffect(() => {
     if (sortBy) {
@@ -84,6 +86,6 @@ const SortSelect = (props: { sortList: Array<SortProps> }) => {
       </Select>
     </>
   );
-};
+});
 
 export default SortSelect;
