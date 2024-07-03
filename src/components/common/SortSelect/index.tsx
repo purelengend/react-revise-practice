@@ -44,8 +44,12 @@ const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
 
   const sortCallback = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      searchParams.set(QUERY_PARAMS.SORTBY, e.target.value);
-
+      if (e.target.value) {
+        searchParams.set(QUERY_PARAMS.SORTBY, e.target.value);
+      } else {
+        searchParams.delete(QUERY_PARAMS.SORTBY);
+        searchParams.delete(QUERY_PARAMS.ORDER);
+      }
       setSearchParams(searchParams);
     },
     [searchParams, setSearchParams],

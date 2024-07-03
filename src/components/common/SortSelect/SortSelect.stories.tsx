@@ -8,7 +8,7 @@ import SortSelect from ".";
 import { SORT_BY_OPTION_LIST } from "@/constants";
 
 const meta: Meta<typeof SortSelect> = {
-  title: "Components/SortSelect",
+  title: "Components/common/SortSelect",
   component: SortSelect,
   decorators: [
     (Story) => (

@@ -5,7 +5,7 @@ import { Center } from "@chakra-ui/react";
 import Fallback from ".";
 
 const meta: Meta<typeof Fallback> = {
-  title: "Components/Fallback",
+  title: "Components/common/Fallback",
   component: Fallback,
   decorators: [
     (Story) => (

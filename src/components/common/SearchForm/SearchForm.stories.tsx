@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import SearchForm from ".";
 
 const meta: Meta<typeof SearchForm> = {
-  title: "Components/SearchForm",
+  title: "Components/common/SearchForm",
   component: SearchForm,
   argTypes: {
     onSubmit: {

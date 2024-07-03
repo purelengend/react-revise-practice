@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import CustomTable from ".";
 
 const meta: Meta<typeof CustomTable> = {
-  title: "Components/CustomTable",
+  title: "Components/common/CustomTable",
   component: CustomTable,
   argTypes: {
     columns: {

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Center } from "@chakra-ui/react";
+import { useArgs } from "@storybook/preview-api";
 
 // Components
 import StudentFormModal from ".";
@@ -34,20 +35,6 @@ const meta: Meta<typeof StudentFormModal> = {
       description: "Student data of the form",
     },
   },
-  args: {
-    isOpen: true,
-    onClose: () => {},
-    onSubmit: () => {},
-    isMutating: false,
-    student: {
-      id: "1",
-      name: "John Doe",
-      email: "john.doe@gmail.com",
-      avatarUrl: DEFAULT_STUDENT_AVATAR_URL,
-      dateOfAdmission: Date.now(),
-      phone: "0905150899",
-    },
-  },
   parameters: {
     controls: {
       expanded: true,
@@ -59,4 +46,27 @@ export default meta;
 
 type Story = StoryObj<typeof StudentFormModal>;
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  args: {
+    isOpen: true,
+    onSubmit: () => {},
+    isMutating: false,
+    student: {
+      id: "1",
+      name: "John Doe",
+      email: "john.doe@gmail.com",
+      avatarUrl: DEFAULT_STUDENT_AVATAR_URL,
+      dateOfAdmission: Date.now(),
+      phone: "0905150899",
+    },
+  },
+  render: function Render(args) {
+    const [, updateArgs] = useArgs<typeof args>();
+
+    const onClose = () => {
+      updateArgs({ isOpen: false });
+    };
+
+    return <StudentFormModal {...args} onClose={onClose} />;
+  },
+};

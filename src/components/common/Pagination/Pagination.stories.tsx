@@ -5,7 +5,7 @@ import { Center } from "@chakra-ui/react";
 import Pagination from ".";
 
 const meta: Meta<typeof Pagination> = {
-  title: "Components/Pagination",
+  title: "Components/common/Pagination",
   component: Pagination,
   decorators: [
     (Story) => (

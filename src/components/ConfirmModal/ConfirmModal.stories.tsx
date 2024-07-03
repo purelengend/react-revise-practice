@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Center } from "@chakra-ui/react";
+import { useArgs } from "@storybook/preview-api";
 
 // Components
 import ConfirmModal from ".";
@@ -31,13 +32,7 @@ const meta: Meta<typeof ConfirmModal> = {
       description: "Function to submit the form",
     },
   },
-  args: {
-    id: "0",
-    isMutating: false,
-    isOpen: true,
-    onClose: () => {},
-    onSubmit: () => {},
-  },
+
   parameters: {
     controls: {
       expanded: true,
@@ -49,4 +44,20 @@ export default meta;
 
 type Story = StoryObj<typeof ConfirmModal>;
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  args: {
+    id: "0",
+    isMutating: false,
+    isOpen: true,
+    onSubmit: () => {},
+  },
+  render: function Render(args) {
+    const [, updateArgs] = useArgs<typeof args>();
+
+    const onClose = () => {
+      updateArgs({ isOpen: false });
+    };
+
+    return <ConfirmModal {...args} onClose={onClose} />;
+  },
+};
