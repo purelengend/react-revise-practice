@@ -287,12 +287,22 @@ const StudentPage = () => {
               sm: "initial",
             }}
           >
-            <HStack gap={5} justify="space-between">
+            <HStack
+              w={{
+                base: "90vw",
+                sm: "auto",
+              }}
+              gap={5}
+              justify="space-between"
+            >
               <SortSelect sortList={SORT_BY_OPTION_LIST} />
             </HStack>
 
             <Button
-              w={50}
+              w={{
+                base: "90vw",
+                sm: 50,
+              }}
               px={6}
               py={3}
               fontSize="sm"

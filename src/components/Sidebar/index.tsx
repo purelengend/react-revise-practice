@@ -16,7 +16,7 @@ import { Link as ReactRouterLink, useLocation } from "react-router-dom";
 import { UserCard } from "../common";
 
 // Constants
-import { ROLES, SIDEBAR_ITEM_LIST } from "@/constants";
+import { DEFAULT_STUDENT_NAME, ROLES, SIDEBAR_ITEM_LIST } from "@/constants";
 
 export type SidebarProps = {
   isOpen: boolean;
@@ -65,7 +65,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           </Link>
         </Center>
 
-        <UserCard mt={13.5} name="Karthi Madesh" role={ROLES.ADMIN} />
+        <UserCard mt={13.5} name={DEFAULT_STUDENT_NAME} role={ROLES.ADMIN} />
+
         <VStack mt={22.5} px={3.75}>
           {SIDEBAR_ITEM_LIST.map((item) => {
             return (

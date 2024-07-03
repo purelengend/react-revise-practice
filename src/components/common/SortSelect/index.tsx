@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Select } from "@chakra-ui/react";
 
 // Components
-import { SortArrowDownIcon, SortArrowUpIcon, SortIcon } from "../Icons";
+import { SortArrowDownIcon, SortArrowUpIcon } from "../Icons";
 
 // Types
 import { SortProps } from "@/types";
@@ -14,30 +14,37 @@ import { QUERY_PARAMS } from "@/constants";
 import { useQueryParams } from "@/hooks";
 
 const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
-  const [isAscending, setIsAscending] = useState(true);
+  const [isAscending, setIsAscending] = useState(false);
 
   const { searchParams, setSearchParams, sortBy } = useQueryParams();
 
+  // Set default sort parameter
   useEffect(() => {
-    if (sortBy) {
-      isAscending
-        ? searchParams.set(QUERY_PARAMS.ORDER, "asc")
-        : searchParams.set(QUERY_PARAMS.ORDER, "desc");
-
+    if (!sortBy) {
+      searchParams.set(
+        QUERY_PARAMS.SORTBY,
+        props.sortList[props.sortList.length - 1].value,
+      );
       setSearchParams(searchParams);
     }
+  }, [props.sortList, searchParams, setSearchParams, sortBy]);
+
+  useEffect(() => {
+    isAscending
+      ? searchParams.set(QUERY_PARAMS.ORDER, "asc")
+      : searchParams.set(QUERY_PARAMS.ORDER, "desc");
+
+    setSearchParams(searchParams);
   }, [isAscending, searchParams, setSearchParams, sortBy]);
 
   const SortByStateIcon = useMemo(
     () =>
-      !sortBy ? (
-        <SortIcon data-testid="default" />
-      ) : isAscending ? (
+      isAscending ? (
         <SortArrowUpIcon data-testid="asc" />
       ) : (
         <SortArrowDownIcon data-testid="desc" />
       ),
-    [isAscending, sortBy],
+    [isAscending],
   );
 
   const orderCallback = useCallback(() => setIsAscending((prev) => !prev), []);
@@ -46,14 +53,13 @@ const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       if (e.target.value) {
         searchParams.set(QUERY_PARAMS.SORTBY, e.target.value);
-      } else {
-        searchParams.delete(QUERY_PARAMS.SORTBY);
-        searchParams.delete(QUERY_PARAMS.ORDER);
       }
       setSearchParams(searchParams);
     },
     [searchParams, setSearchParams],
   );
+
+  const defaultSortValue = props.sortList[props.sortList.length - 1].value;
 
   return (
     <>
@@ -64,7 +70,6 @@ const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
           bg: "blackAlpha.100",
         }}
         onClick={orderCallback}
-        isDisabled={!sortBy}
         data-testid="sort-button"
         aria-label="sort-button"
       >
@@ -72,18 +77,17 @@ const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
       </Button>
 
       <Select
-        w={45}
+        w={{
+          base: "full",
+          sm: 45,
+        }}
         h={11}
         color="gray.200"
         fontSize="sm"
-        value={sortBy ?? ""}
         onChange={sortCallback}
         aria-label="sort-select"
+        defaultValue={defaultSortValue}
       >
-        <option hidden disabled value="">
-          Select a field
-        </option>
-
         {props.sortList.map((sort) => (
           <option key={sort.title} value={sort.value}>
             {sort.title}

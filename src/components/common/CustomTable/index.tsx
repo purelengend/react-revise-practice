@@ -7,7 +7,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { ReactElement, memo } from "react";
+import { ReactElement, memo, useMemo } from "react";
 
 export type ColumnProps<T> = {
   key: string;
@@ -26,13 +26,17 @@ const CustomTableComponent = <T,>({
   data,
   isFetching,
 }: TableProps<T>) => {
-  const headers = columns.map((column) => {
-    return (
-      <Th minW={30} key={`tableHeadCell-${column.title}`} color="gray.200">
-        {column.title}
-      </Th>
-    );
-  });
+  const headers = useMemo(
+    () =>
+      columns.map((column) => {
+        return (
+          <Th minW={30} key={`tableHeadCell-${column.title}`} color="gray.200">
+            {column.title}
+          </Th>
+        );
+      }),
+    [columns],
+  );
 
   const rows = !data?.length ? (
     <Tr opacity={isFetching ? 0.5 : 1}>

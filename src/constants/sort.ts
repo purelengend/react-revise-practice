@@ -1,7 +1,6 @@
 import { SortProps } from "@/types";
 
 export const SORT_BY_OPTION_LIST: Array<SortProps> = [
-  { title: "Reset field", value: "" },
   {
     title: "Name",
     value: "name",

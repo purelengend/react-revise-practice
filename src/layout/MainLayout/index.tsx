@@ -13,7 +13,6 @@ const MainLayout = (props: { children?: React.ReactNode }) => {
   } = useDisclosure({
     defaultIsOpen: true,
   });
-
   return (
     <Box
       w="full"

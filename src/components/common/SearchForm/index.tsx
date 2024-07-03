@@ -1,4 +1,5 @@
 import {
+  Box,
   IconButton,
   Input,
   InputGroup,
@@ -15,6 +16,7 @@ import { SEARCH_INPUT_PLACEHOLDER } from "@/constants";
 
 // Hooks
 import { useDebounce } from "@/hooks";
+import { CloseIcon } from "@chakra-ui/icons";
 
 export type SearchFormProps = {
   onSubmit: (args: SearchFormInput) => void;
@@ -26,7 +28,12 @@ export type SearchFormInput = {
 };
 
 const SearchForm = memo(({ onSubmit, searchParam }: SearchFormProps) => {
-  const { control, handleSubmit } = useForm<SearchFormInput>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isDirty },
+  } = useForm<SearchFormInput>({
     defaultValues: {
       searchValue: "",
     },
@@ -35,6 +42,11 @@ const SearchForm = memo(({ onSubmit, searchParam }: SearchFormProps) => {
   const [searchText, setSearchText] = useState("");
 
   const debouncedText = useDebounce(searchText.replace(/\s+/g, " ").trim()); // remove extra spaces of the search text
+
+  // Submit search on debounced text change
+  useEffect(() => {
+    if (searchParam !== debouncedText) handleSubmit(onSubmit)();
+  }, [debouncedText, handleSubmit, onSubmit, searchParam]);
 
   const handleOnchange = useCallback(
     (
@@ -54,9 +66,10 @@ const SearchForm = memo(({ onSubmit, searchParam }: SearchFormProps) => {
     [],
   );
 
-  useEffect(() => {
-    if (searchParam !== debouncedText) handleSubmit(onSubmit)();
-  }, [debouncedText, handleSubmit, onSubmit, searchParam]);
+  const resetSearchForm = useCallback(() => {
+    reset();
+    setSearchText("");
+  }, [reset]);
 
   return (
     <InputGroup
@@ -64,18 +77,36 @@ const SearchForm = memo(({ onSubmit, searchParam }: SearchFormProps) => {
       onSubmit={handleSubmit(onSubmit)}
       onKeyDown={checkKeyDown}
       id="search-form"
+      display="block"
     >
       <Controller
         name="searchValue"
         control={control}
         render={({ field: { onChange, ...rest } }) => (
-          <Input
-            {...rest}
-            h={9.25}
-            placeholder={SEARCH_INPUT_PLACEHOLDER}
-            color="black"
-            onChange={(event) => handleOnchange(event, onChange)}
-          />
+          <Box position="relative">
+            <Input
+              {...rest}
+              h={9.25}
+              placeholder={SEARCH_INPUT_PLACEHOLDER}
+              color="black"
+              onChange={(event) => handleOnchange(event, onChange)}
+            />
+            {isDirty && (
+              <IconButton
+                as="button"
+                type="button"
+                aria-label="Reset search"
+                borderRadius="50%"
+                size="sm"
+                pos="absolute"
+                right={10}
+                bottom={1}
+                zIndex={99}
+                onClick={resetSearchForm}
+                icon={<CloseIcon boxSize={2} />}
+              />
+            )}
+          </Box>
         )}
       />
       <InputRightElement>

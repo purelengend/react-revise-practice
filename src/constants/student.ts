@@ -12,3 +12,5 @@ export const DEFAULT_STUDENT_DATA: Student = {
   dateOfAdmission: 0,
   avatarUrl: DEFAULT_STUDENT_AVATAR_URL,
 } as const;
+
+export const DEFAULT_STUDENT_NAME = "Karthi Madesh";

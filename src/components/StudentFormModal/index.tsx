@@ -242,6 +242,7 @@ const StudentFormModal = memo(
                         id="#phone"
                         type="text"
                         variant="filled"
+                        maxLength={10}
                         isInvalid={!!errors.phone}
                         isDisabled={isMutating}
                       />
