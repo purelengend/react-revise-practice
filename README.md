@@ -36,7 +36,7 @@
 # Timeline
 
 - Estimate time: 10 days (from 10th June 2024 to 21st June 2024).
-- Actual time: 16 days (from 24th June 2024 to 03th July 2024).
+- Actual time: 16 days (from 24th June 2024 to 03rd July 2024).
 
 # Requirements
 
