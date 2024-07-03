@@ -45,14 +45,6 @@
 
 # Getting Started
 
-- Clone the `react-revise` branch of this repository via HTTP: `git clone -b practice-one https://gitlab.asoft-python.com/huy.phamnhat/react-training/-/tree/react-revise?ref_type=heads`.
-- Open the project folder with your code editor.
-- Open terminal and run command: `pnpm i`.
-- Before running the project, you must create an `.env` file at the the `practice-two` folder, you can get it [here](https://drive.google.com/file/d/132lmzCgpF7dVj2YZnXX1huOTN4XS8Doh/view?usp=drive_link).
-- After that run this command to host the web: `pnpm dev`.
-- Open browser and browse `http://localhost:5173`.
-- To start Storybook, run the following command: `pnpm storybook`.
-
 | Command                                                                 | Action                                       |
 | ----------------------------------------------------------------------- | -------------------------------------------- |
 | `git clone git@gitlab.asoft-python.com:huy.phamnhat/react-training.git` | Clone repository from GitLab                 |
