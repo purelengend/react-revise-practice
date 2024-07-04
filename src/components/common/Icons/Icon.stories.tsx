@@ -41,6 +41,7 @@ const meta: Meta<typeof StoryWrapper> = {
     color: { control: "color" },
   },
   parameters: {
+    layout: "centered",
     controls: {
       expanded: true,
     },
@@ -61,6 +62,8 @@ export const attachmentIcon: Story = {
   ...template,
   args: {
     children: <AttachmentIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -68,6 +71,8 @@ export const courseIcon: Story = {
   ...template,
   args: {
     children: <CourseIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -75,6 +80,8 @@ export const defaultAvatarIcon: Story = {
   ...template,
   args: {
     children: <DefaultAvatarIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -83,6 +90,8 @@ export const deleteIcon: Story = {
 
   args: {
     children: <DeleteIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -91,6 +100,8 @@ export const editIcon: Story = {
 
   args: {
     children: <EditIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -98,6 +109,8 @@ export const homeIcon: Story = {
   ...template,
   args: {
     children: <HomeIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -105,6 +118,8 @@ export const notificationIcon: Story = {
   ...template,
   args: {
     children: <NotificationIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -112,6 +127,8 @@ export const paymentIcon: Story = {
   ...template,
   args: {
     children: <PaymentIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -119,6 +136,8 @@ export const reportIcon: Story = {
   ...template,
   args: {
     children: <ReportIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -126,6 +145,8 @@ export const searchIcon: Story = {
   ...template,
   args: {
     children: <SearchIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -133,6 +154,8 @@ export const settingsIcon: Story = {
   ...template,
   args: {
     children: <SettingsIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -140,6 +163,8 @@ export const sortArrowDownIcon: Story = {
   ...template,
   args: {
     children: <SortArrowDownIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -147,6 +172,8 @@ export const sortArrowUpIcon: Story = {
   ...template,
   args: {
     children: <SortArrowUpIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -154,6 +181,8 @@ export const sortIcon: Story = {
   ...template,
   args: {
     children: <SortIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
 
@@ -161,5 +190,7 @@ export const studentsIcon: Story = {
   ...template,
   args: {
     children: <StudentsIcon />,
+    boxSize: 4,
+    color: "#000",
   },
 };
