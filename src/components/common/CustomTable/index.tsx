@@ -61,8 +61,8 @@ const CustomTableComponent = <T,>({
         >
           {columns.map((column, columnIndex) => {
             const value = column.render
-              ? column.render(row as T)
-              : (row[column.key as keyof typeof row] as string);
+              ? column.render(row)
+              : (row[column.key as keyof T] as string);
 
             return <Td key={`cell-${columnIndex}`}>{value}</Td>;
           })}

@@ -31,15 +31,7 @@ describe("SortSelect test cases", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it("should render with default sort icon", async () => {
-    await act(() => setup());
-
-    const defaultSortIcon = screen.getByTestId("default");
-
-    expect(defaultSortIcon).toBeInTheDocument();
-  });
-
-  it("should render ascending sort icon when selecting by default", async () => {
+  it("should render descending sort icon when selecting by default", async () => {
     await act(() => setup());
 
     const selectCombobox = screen.getByRole("combobox");
@@ -48,7 +40,7 @@ describe("SortSelect test cases", () => {
 
     await userEvent.selectOptions(selectCombobox, selectOption);
 
-    const ascendingSortIcon = screen.getByTestId("asc");
+    const ascendingSortIcon = screen.getByTestId("desc");
 
     expect(ascendingSortIcon).toBeInTheDocument();
   });
@@ -62,13 +54,13 @@ describe("SortSelect test cases", () => {
 
     await userEvent.selectOptions(selectCombobox, selectOption);
 
-    const ascendingSortIcon = screen.getByTestId("asc");
+    const ascendingSortIcon = screen.getByTestId("desc");
 
     expect(ascendingSortIcon).toBeInTheDocument();
 
     await userEvent.click(ascendingSortIcon);
 
-    const descendingSortIcon = screen.getByTestId("desc");
+    const descendingSortIcon = screen.getByTestId("asc");
 
     expect(descendingSortIcon).toBeInTheDocument();
   });

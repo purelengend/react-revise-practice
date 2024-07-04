@@ -46,6 +46,7 @@ const config: Config = {
     "!<rootDir>/src/layout/**",
     "!<rootDir>/public/**",
     "!**/*.config.ts",
+    "!**/*wdyr.ts",
   ],
   coveragePathIgnorePatterns: ["^.*index\\.ts$"],
 

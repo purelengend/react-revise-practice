@@ -26,16 +26,20 @@ exports[`Header test cases should render correctly 1`] = `
       class="chakra-stack css-1fvwrdw"
     >
       <form
-        class="chakra-input__group css-bx0blc"
+        class="chakra-input__group css-1utxn56"
         data-group="true"
         id="search-form"
       >
-        <input
-          class="chakra-input css-sh2byc"
-          name="searchValue"
-          placeholder="Search..."
-          value=""
-        />
+        <div
+          class="css-79elbk"
+        >
+          <input
+            class="chakra-input css-sh2byc"
+            name="searchValue"
+            placeholder="Search..."
+            value=""
+          />
+        </div>
         <div
           class="chakra-input__right-element css-dp9r5f"
         >
@@ -46,7 +50,7 @@ exports[`Header test cases should render correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="chakra-icon css-gvh95d"
+              class="chakra-icon css-1vc1jog"
               focusable="false"
               viewBox="0 0 14 14"
             >
@@ -56,7 +60,7 @@ exports[`Header test cases should render correctly 1`] = `
               >
                 <path
                   d="M13.9043 13.1687L10.377 9.64141C10.3141 9.57852 10.232 9.5457 10.1445 9.5457H9.86289C10.8008 8.53125 11.375 7.17773 11.375 5.6875C11.375 2.5457 8.8293 0 5.6875 0C2.5457 0 0 2.5457 0 5.6875C0 8.8293 2.5457 11.375 5.6875 11.375C7.17773 11.375 8.53125 10.8008 9.5457 9.86562V10.1445C9.5457 10.232 9.58125 10.3141 9.64141 10.377L13.1688 13.9043C13.2973 14.0328 13.5051 14.0328 13.6336 13.9043L13.9043 13.6336C14.0328 13.5051 14.0328 13.2973 13.9043 13.1687ZM5.6875 10.5C3.02695 10.5 0.875 8.34805 0.875 5.6875C0.875 3.02695 3.02695 0.875 5.6875 0.875C8.34805 0.875 10.5 3.02695 10.5 5.6875C10.5 8.34805 8.34805 10.5 5.6875 10.5Z"
-                  fill="#C4C4C4"
+                  fill="currentColor"
                   id="Vector"
                 />
               </g>
@@ -76,7 +80,7 @@ exports[`Header test cases should render correctly 1`] = `
         </div>
       </form>
       <svg
-        class="chakra-icon css-146j6cz"
+        class="chakra-icon css-123b05o"
         focusable="false"
         viewBox="0 0 17 20"
       >
@@ -85,7 +89,7 @@ exports[`Header test cases should render correctly 1`] = `
         >
           <path
             d="M8.50024 18.75C9.17038 18.75 9.71453 18.1883 9.71453 17.4988H10.9288C10.9288 18.8781 9.83899 20 8.50024 20C7.16149 20 6.07167 18.8781 6.07167 17.4988H7.28596C7.28596 18.1883 7.83011 18.75 8.50024 18.75ZM0.555017 13.0785C1.616 12.0387 2.42729 10.9504 2.42729 7.26172C2.42729 4.15273 4.83272 1.61719 7.8931 1.31055V0.625C7.8931 0.279687 8.1648 0 8.50024 0C8.83569 0 9.10739 0.279687 9.10739 0.625V1.31094C12.1678 1.61758 14.5732 4.15273 14.5732 7.26172C14.5732 10.95 15.3849 12.0387 16.4458 13.0785C16.976 13.598 17.1433 14.3836 16.8727 15.0797C16.5965 15.7906 15.9317 16.25 15.1788 16.25H1.82167C1.06881 16.25 0.40399 15.7902 0.127739 15.0793C-0.142818 14.3832 0.0249043 13.598 0.555017 13.0785ZM1.82167 15H15.1788C15.7188 15 15.9886 14.3566 15.6084 13.984C14.2856 12.6875 13.3589 11.2363 13.3589 7.26211C13.3589 4.63008 11.1857 2.5 8.50024 2.5C5.81515 2.5 3.64158 4.62969 3.64158 7.26172C3.64158 11.2207 2.7229 12.6797 1.39212 13.9836C1.01037 14.3582 1.28397 15 1.82167 15Z"
-            fill="#C4C4C4"
+            fill="currentColor"
           />
         </g>
         <defs>

@@ -45,15 +45,15 @@
 
 # Getting Started
 
-| Command                                                                 | Action                                       |
-| ----------------------------------------------------------------------- | -------------------------------------------- |
-| `git clone git@gitlab.asoft-python.com:huy.phamnhat/react-training.git` | Clone repository from GitLab                 |
-| `git checkout -b feat/react-revise`                                     | Checkout branch                              |
-| `pnpm i`                                                                | Install dependencies                         |
-| `pnpm dev`                                                              | Host local web app at http://localhost:5173/ |
-| `pnpm run storybook`                                                    | Host local storybook httpp://localhost:6006/ |
-| `pnpm test`                                                             | Run all test cases                           |
-| `pnpm coverage`                                                         | Coverage all test cases                      |
+| Command                                                                 | Action                                         |
+| ----------------------------------------------------------------------- | ---------------------------------------------- |
+| `git clone git@gitlab.asoft-python.com:huy.phamnhat/react-training.git` | Clone repository from GitLab                   |
+| `git checkout -b feat/react-revise`                                     | Checkout branch                                |
+| `pnpm i`                                                                | Install dependencies                           |
+| `pnpm dev`                                                              | Host local web app at http://localhost:5173/   |
+| `pnpm run storybook`                                                    | Host local storybook at http://localhost:6006/ |
+| `pnpm test`                                                             | Run all test cases                             |
+| `pnpm coverage`                                                         | Coverage all test cases                        |
 
 # Author
 

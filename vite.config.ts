@@ -5,7 +5,12 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [
+    react({
+      jsxImportSource: "@welldone-software/why-did-you-render",
+    }),
+    tsconfigPaths(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src/"),

@@ -123,6 +123,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.2.1
         version: 4.3.1(vite@5.3.1(@types/node@20.14.2))
+      '@welldone-software/why-did-you-render':
+        specifier: ^8.0.3
+        version: 8.0.3(react@18.3.1)
       chromatic:
         specifier: ^11.5.4
         version: 11.5.4
@@ -2739,6 +2742,11 @@ packages:
 
   '@vitest/utils@1.6.0':
     resolution: {integrity: sha512-21cPiuGMoMZwiOHa2i4LXkMkMkCGzA+MVFV70jRwHo95dL4x/ts5GZhML1QWuy7yfp3WzK3lRvZi3JnXTYqrBw==}
+
+  '@welldone-software/why-did-you-render@8.0.3':
+    resolution: {integrity: sha512-bb5bKPMStYnocyTBVBu4UTegZdBqzV1mPhxc0UIV/S43KFUSRflux9gvzJfu2aM4EWLJ3egTvdjOi+viK+LKGA==}
+    peerDependencies:
+      react: ^18
 
   '@yarnpkg/esbuild-plugin-pnp@3.0.0-rc.15':
     resolution: {integrity: sha512-kYzDJO5CA9sy+on/s2aIW0411AklfCi8Ck/4QDivOqsMKpStZA2SsR+X27VTggGwpStWaLrjJcDcdDMowtG8MA==}
@@ -9629,6 +9637,11 @@ snapshots:
       estree-walker: 3.0.3
       loupe: 2.3.7
       pretty-format: 29.7.0
+
+  '@welldone-software/why-did-you-render@8.0.3(react@18.3.1)':
+    dependencies:
+      lodash: 4.17.21
+      react: 18.3.1
 
   '@yarnpkg/esbuild-plugin-pnp@3.0.0-rc.15(esbuild@0.20.2)':
     dependencies:

@@ -13,7 +13,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { Suspense, lazy, useCallback, useMemo, useState } from "react";
+import { Suspense, lazy, useCallback, useMemo } from "react";
 
 // Components
 import { CustomTable, SortSelect } from "@/components";
@@ -41,6 +41,7 @@ import {
   useGetStudents,
   useMutateStudent,
   useQueryParams,
+  useStudentModal,
 } from "@/hooks";
 
 // Utils
@@ -67,10 +68,7 @@ const StudentPage = () => {
 
   const toast = useToast();
 
-  const [updateStudent, setUpdateStudent] =
-    useState<Student>(DEFAULT_STUDENT_DATA);
-
-  const [studentId, setStudentId] = useState<string>("");
+  const { student, setStudent, studentId, setStudentId } = useStudentModal();
 
   const { page, limit, sortBy, order, name } = useQueryParams();
 
@@ -86,9 +84,9 @@ const StudentPage = () => {
     useDeleteStudent();
 
   const handleOpenAddModal = useCallback(() => {
-    setUpdateStudent(DEFAULT_STUDENT_DATA);
+    setStudent(DEFAULT_STUDENT_DATA);
     onOpenStudentFormModal();
-  }, [onOpenStudentFormModal]);
+  }, [onOpenStudentFormModal, setStudent]);
 
   const onMutationStudentSubmit = useCallback(
     async (data: Student) => {
@@ -229,7 +227,7 @@ const StudentPage = () => {
                 aria-label="edit-student"
                 value={item.id}
                 onClick={() => {
-                  setUpdateStudent(item);
+                  setStudent(item);
                   onOpenStudentFormModal();
                 }}
               >
@@ -250,7 +248,12 @@ const StudentPage = () => {
         },
       },
     ],
-    [onOpenStudentConfirmModal, onOpenStudentFormModal],
+    [
+      onOpenStudentConfirmModal,
+      onOpenStudentFormModal,
+      setStudent,
+      setStudentId,
+    ],
   );
 
   return (
@@ -337,7 +340,7 @@ const StudentPage = () => {
             isOpen={isStudentFormModalOpen}
             isMutating={isMutatingStudent}
             onClose={onCloseStudentFormModal}
-            student={updateStudent}
+            student={student}
             onSubmit={onMutationStudentSubmit}
           />
         </Suspense>

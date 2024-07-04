@@ -3,9 +3,9 @@
 exports[`Fallback component test case should render correctly 1`] = `
 <div>
   <p
-    class="chakra-text css-1vhs2ha"
+    class="chakra-text css-1v157jv"
   >
-    Fallback
+    Something went wrong.
   </p>
 </div>
 `;

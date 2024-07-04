@@ -9,6 +9,7 @@ exports[`UserCard test cases should render correctly 1`] = `
       class="chakra-card__body css-xe2qne"
     >
       <img
+        alt="avatar-of-test name"
         class="chakra-image css-161novc"
         src="test avatarUrl"
       />

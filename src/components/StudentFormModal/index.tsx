@@ -88,19 +88,6 @@ const StudentFormModal = memo(
       [setValue, uploadImage],
     );
 
-    // Reset image back to placeholder when uploading failed
-    // useEffect(() => {
-    //   if (isUploadImageFail) {
-    //     setSelectedImage(undefined);
-    //   }
-    // }, [isUploadImageFail]);
-
-    // useEffect(() => {
-    //   if (imageUrl) {
-    //     setValue("avatarUrl", imageUrl, { shouldDirty: true });
-    //   }
-    // }, [imageUrl, setValue]);
-
     return (
       <Modal
         autoFocus={false}

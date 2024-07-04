@@ -8,7 +8,7 @@ export type PaginationProps = {
   pageLimit: number;
 };
 
-const Pagination = memo(({ totalRecords, pageLimit }: PaginationProps) => {
+const Pagination = ({ totalRecords, pageLimit }: PaginationProps) => {
   const { page: currentPage, searchParams, setSearchParams } = useQueryParams();
 
   const pages: Array<number> = [];
@@ -51,6 +51,7 @@ const Pagination = memo(({ totalRecords, pageLimit }: PaginationProps) => {
       })}
     </Center>
   );
-});
+};
 
-export default Pagination;
+const MemorizedPagination = memo(Pagination);
+export default MemorizedPagination;
