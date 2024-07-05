@@ -1,13 +1,23 @@
-export const formatPhoneNumber = (phoneNumber: string) => {
-  // Check if the phone number is valid (10 digits)
-  if (!/^\d{10}$/.test(phoneNumber)) {
-    throw new Error("Invalid phone number. Must be a 10-digit number.");
-  }
+import { ChangeEvent, KeyboardEvent } from "react";
 
-  // Format the phone number
-  const areaCode = phoneNumber.slice(0, 3);
-  const middlePart = phoneNumber.slice(3, 6);
-  const lastPart = phoneNumber.slice(6, 10);
+export const formatPhoneNumber =
+  (onChange: (value: string) => void) =>
+  (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    let input = e.target.value;
 
-  return `${areaCode}-${middlePart}-${lastPart}`;
-};
+    if (input.length > 3 && input[3] !== "-") {
+      input = input.slice(0, 3) + "-" + input.slice(3);
+    }
+    if (input.length > 7 && input[7] !== "-") {
+      input = input.slice(0, 7) + "-" + input.slice(7);
+    }
+
+    onChange(input);
+  };
+
+export const onlyNumberKeyDown = (
+  e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+) =>
+  !/[0-9]/.test(e.key) &&
+  !(e.key === "Backspace" || e.key === "Delete" || e.key === "Tab") &&
+  e.preventDefault();

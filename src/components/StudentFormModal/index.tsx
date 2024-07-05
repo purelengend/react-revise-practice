@@ -30,6 +30,7 @@ import { StudentSchema } from "@/schema";
 // Hooks
 import { useImage } from "@/hooks";
 import { DEFAULT_STUDENT_AVATAR_URL } from "@/constants";
+import { formatPhoneNumber, onlyNumberKeyDown } from "@/utils";
 
 export type StudentFormModalProps = {
   isOpen: boolean;
@@ -221,17 +222,22 @@ const StudentFormModal = memo(
                 <Controller
                   control={control}
                   name="phone"
-                  render={({ field, formState: { errors } }) => (
+                  render={({
+                    field: { onChange, ...rest },
+                    formState: { errors },
+                  }) => (
                     <Box>
                       <FormLabel htmlFor="#phone">Phone</FormLabel>
                       <Input
-                        {...field}
+                        {...rest}
                         id="#phone"
                         type="text"
                         variant="filled"
-                        maxLength={10}
+                        maxLength={12}
                         isInvalid={!!errors.phone}
                         isDisabled={isMutating}
+                        onChange={formatPhoneNumber(onChange)}
+                        onKeyDown={onlyNumberKeyDown}
                       />
                       {errors.phone && (
                         <FormErrorMessage>

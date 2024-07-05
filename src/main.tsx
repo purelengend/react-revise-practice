@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import "./wdyr";
+// import "./wdyr";
 
 // Components
 import App from "./App.tsx";

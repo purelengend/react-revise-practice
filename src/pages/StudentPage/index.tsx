@@ -45,7 +45,7 @@ import {
 } from "@/hooks";
 
 // Utils
-import { customToast, formatPhoneNumber } from "@/utils";
+import { customToast } from "@/utils";
 
 const StudentFormModal = lazy(() => import("@/components/StudentFormModal"));
 
@@ -200,9 +200,7 @@ const StudentPage = () => {
         title: "Phone",
         key: "phone",
         render: (item: Student) => (
-          <Link href={`tel:+${item.phone}`}>
-            {formatPhoneNumber(item.phone)}
-          </Link>
+          <Link href={`tel:+${item.phone}`}>{item.phone}</Link>
         ),
       },
       {

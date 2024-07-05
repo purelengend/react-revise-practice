@@ -1,4 +1,5 @@
 import {
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -38,8 +39,14 @@ const CustomTableComponent = <T,>({
     [columns],
   );
 
-  const rows = !data?.length ? (
-    <Tr opacity={isFetching ? 0.5 : 1}>
+  const rows = isFetching ? (
+    <Tr h="50vh">
+      <Td colSpan={columns.length} textAlign="center">
+        <Spinner boxSize={8} />
+      </Td>
+    </Tr>
+  ) : !data?.length ? (
+    <Tr>
       <Td colSpan={columns.length} textAlign="center">
         No data
       </Td>
@@ -48,7 +55,6 @@ const CustomTableComponent = <T,>({
     data.map((row, rowIndex) => {
       return (
         <Tr
-          opacity={isFetching ? 0.5 : 1}
           bg="white"
           h={21.25}
           borderRadius="lg"

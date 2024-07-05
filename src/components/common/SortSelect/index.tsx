@@ -27,15 +27,13 @@ const SortSelect = memo((props: { sortList: Array<SortProps> }) => {
       );
       setSearchParams(searchParams);
     }
-  }, [props.sortList, searchParams, setSearchParams, sortBy]);
+  }, []);
 
   useEffect(() => {
-    isAscending
-      ? searchParams.set(QUERY_PARAMS.ORDER, "asc")
-      : searchParams.set(QUERY_PARAMS.ORDER, "desc");
+    searchParams.set(QUERY_PARAMS.ORDER, isAscending ? "asc" : "desc");
 
     setSearchParams(searchParams);
-  }, [isAscending, searchParams, setSearchParams, sortBy]);
+  }, [isAscending, searchParams]);
 
   const SortByStateIcon = useMemo(
     () =>

@@ -46,7 +46,8 @@ const SearchForm = memo(({ onSubmit, searchParam }: SearchFormProps) => {
   // Submit search on debounced text change
   useEffect(() => {
     if (searchParam !== debouncedText) handleSubmit(onSubmit)();
-  }, [debouncedText, handleSubmit, onSubmit, searchParam]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedText, searchParam]);
 
   const handleOnchange = useCallback(
     (
