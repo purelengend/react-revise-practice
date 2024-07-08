@@ -25,14 +25,14 @@ export const getAllStudents = async ({
     ? { page, limit, sortBy, order, name }
     : { page, limit, sortBy, order };
 
-  return (await studentHttp.get<Student[]>("", params)).data;
+  return (await studentHttp.get<Student[]>("", { params })).data;
 };
 
 export const getTotalStudents = async (name: string) => {
   const params = name ? { name } : {};
 
   try {
-    return (await studentHttp.get<Student[]>("", params)).data.length;
+    return (await studentHttp.get<Student[]>("", { params })).data.length;
   } catch (error) {
     return 0;
   }

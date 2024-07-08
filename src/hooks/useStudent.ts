@@ -45,11 +45,12 @@ export const useMutateStudent = () => {
 
   return useMutation({
     mutationFn: (data: Student) => createOrUpdateStudent(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT] });
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT] }),
 
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT_COUNT] });
-    },
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT_COUNT] }),
+      ]),
   });
 };
 
@@ -58,10 +59,11 @@ export const useDeleteStudent = () => {
 
   return useMutation({
     mutationFn: (id: string) => deleteStudentById(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT] });
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT] }),
 
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT_COUNT] });
-    },
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY.STUDENT_COUNT] }),
+      ]),
   });
 };

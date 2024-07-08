@@ -26,16 +26,13 @@ const createHttp = (config: AxiosRequestConfig) => {
 
   const get = async <T>(
     path: string,
-    params: object = {},
-  ): Promise<AxiosResponse<T>> =>
-    http.get<T>(`${path}`, {
-      params,
-    });
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> => http.get<T>(`${path}`, config);
 
   const post = async <T, U>(
     path: string,
     data: T,
-    config?: object,
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<U>> => http.post<U>(`${path}`, data, config);
 
   const put = async <T>(
