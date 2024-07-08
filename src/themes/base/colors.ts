@@ -3,7 +3,7 @@ import { ThemeOverride } from "@chakra-ui/react";
 export const colors: ThemeOverride["colors"] = {
   yellow: {
     100: "#F8D442",
-    200: "#AA6600",
+    200: "#FEAF00",
   },
   white: {
     100: "#F8F8F8",

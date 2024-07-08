@@ -41,7 +41,7 @@ const UserCard = memo(
             textAlign="center"
             fontWeight="500"
             fontSize="sm"
-            color="yellow.200"
+            color="black"
           >
             {role}
           </Text>

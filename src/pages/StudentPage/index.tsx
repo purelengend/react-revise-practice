@@ -307,7 +307,7 @@ const StudentPage = () => {
               px={6}
               py={3}
               fontSize="sm"
-              color="white"
+              color="black"
               bg="yellow.200"
               _hover={{
                 bg: "orange.400",
