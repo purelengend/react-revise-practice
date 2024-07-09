@@ -48,6 +48,16 @@ export const TOAST_MSG = {
       description: "An error occurred while deleting this student.",
     },
   },
+  UPLOAD_IMG: {
+    SUCCESS: {
+      title: "Image uploaded.",
+      description: "The student's image has been successfully uploaded.",
+    },
+    ERROR: {
+      title: "Image upload failed.",
+      description: "An error occurred while uploading the student's image.",
+    },
+  },
 };
 
 export enum TOAST_STATUS {

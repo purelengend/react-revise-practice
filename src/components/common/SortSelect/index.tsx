@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Select } from "@chakra-ui/react";
 

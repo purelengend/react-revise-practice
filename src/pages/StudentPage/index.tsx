@@ -150,10 +150,12 @@ const StudentPage = () => {
           );
         },
         onError: () => {
-          customToast(
-            TOAST_MSG.DELETE.ERROR.title,
-            TOAST_MSG.DELETE.ERROR.description,
-            TOAST_STATUS.ERROR,
+          toast(
+            customToast(
+              TOAST_MSG.DELETE.ERROR.title,
+              TOAST_MSG.DELETE.ERROR.description,
+              TOAST_STATUS.ERROR,
+            ),
           );
         },
       });
@@ -179,6 +181,7 @@ const StudentPage = () => {
                 : item.avatarUrl
             }
             alt={`avatar-of-${item.name}`}
+            fallbackSrc={DEFAULT_STUDENT_AVATAR_URL}
           />
         ),
       },

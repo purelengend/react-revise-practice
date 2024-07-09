@@ -19,7 +19,7 @@ exports[`UserCard test cases should render correctly 1`] = `
         test name
       </h2>
       <p
-        class="chakra-text css-fmlsi3"
+        class="chakra-text css-f57azp"
       >
         Admin
       </p>

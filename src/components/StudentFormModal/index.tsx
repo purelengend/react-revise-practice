@@ -13,8 +13,15 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  useToast,
 } from "@chakra-ui/react";
-import { memo, useCallback, useState } from "react";
+import {
+  BaseSyntheticEvent,
+  FormEvent,
+  memo,
+  useCallback,
+  useState,
+} from "react";
 import { Controller, useForm } from "react-hook-form";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 
@@ -29,8 +36,16 @@ import { StudentSchema } from "@/schema";
 
 // Hooks
 import { useImage } from "@/hooks";
-import { DEFAULT_STUDENT_AVATAR_URL } from "@/constants";
-import { formatPhoneNumber, onlyNumberKeyDown } from "@/utils";
+
+// Constants
+import {
+  DEFAULT_STUDENT_AVATAR_URL,
+  TOAST_MSG,
+  TOAST_STATUS,
+} from "@/constants";
+
+// Utils
+import { customToast, formatPhoneNumber, onlyNumberKeyDown } from "@/utils";
 
 export type StudentFormModalProps = {
   isOpen: boolean;
@@ -56,37 +71,72 @@ const StudentFormModal = memo(
       control,
       handleSubmit,
       setValue,
-      formState: { errors, isDirty },
+      formState: { errors, isDirty, isValid },
     } = useForm<Student>({
       defaultValues: student,
       resolver: valibotResolver(StudentSchema),
       mode: "onBlur",
     });
 
-    const handleImageUpload = useCallback(
-      async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const toast = useToast();
+
+    const handleImageUploadAndSubmit = useCallback(
+      async (
+        image: File,
+        callbackSubmit: (e?: BaseSyntheticEvent) => Promise<void>,
+      ) => {
+        const imageFormData = new FormData();
+
+        imageFormData.append("image", image);
+
+        uploadImage(imageFormData, {
+          onSuccess: (response) => {
+            const imageUrl = response.data.data.url;
+
+            setValue("avatarUrl", imageUrl);
+
+            callbackSubmit();
+          },
+          onError: () => {
+            toast(
+              customToast(
+                TOAST_MSG.UPLOAD_IMG.ERROR.title,
+                TOAST_MSG.UPLOAD_IMG.ERROR.description,
+                TOAST_STATUS.ERROR,
+              ),
+            );
+          },
+        });
+      },
+      [setValue, toast, uploadImage],
+    );
+
+    const handleSelectImage = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-          const imageFile = e.target.files[0];
+          setSelectedImage(e.target.files[0]);
 
-          const imageFormData = new FormData();
-
-          imageFormData.append("image", imageFile);
-
-          uploadImage(imageFormData, {
-            onSuccess: (response) => {
-              const imageUrl = response.data.data.url;
-
-              setValue("avatarUrl", imageUrl, { shouldDirty: true });
-            },
-            onError: () => {
-              setSelectedImage(undefined);
-            },
+          setValue("avatarUrl", e.target.files[0].name, {
+            shouldDirty: true,
           });
-
-          setSelectedImage(imageFile);
         }
       },
-      [setValue, uploadImage],
+      [setValue],
+    );
+
+    const handleSubmitForm = useCallback(
+      async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        // Submit when there is an image
+        if (selectedImage)
+          await handleImageUploadAndSubmit(
+            selectedImage,
+            handleSubmit(onSubmit),
+          );
+        // Submit when no image
+        else handleSubmit(onSubmit)();
+      },
+      [handleImageUploadAndSubmit, handleSubmit, onSubmit, selectedImage],
     );
 
     return (
@@ -117,7 +167,7 @@ const StudentFormModal = memo(
           >
             {student.id ? "Edit student" : "Add student"}
           </ModalHeader>
-          <form id="#student-form" noValidate onSubmit={handleSubmit(onSubmit)}>
+          <form id="#student-form" noValidate onSubmit={handleSubmitForm}>
             <ModalBody py={9}>
               <FormControl
                 isInvalid={!!errors}
@@ -128,41 +178,34 @@ const StudentFormModal = memo(
               >
                 <Center>
                   <Box bg="gray.400" borderRadius="50%" pos="relative">
-                    {selectedImage ? (
+                    <FormLabel
+                      m={0}
+                      htmlFor="#avatar"
+                      aria-label="upload-image"
+                    >
                       <Image
                         boxSize={32}
                         objectFit="cover"
                         borderRadius="50%"
                         opacity={isUploadingImage ? 0.5 : 1}
-                        src={URL.createObjectURL(selectedImage)}
+                        src={
+                          selectedImage
+                            ? URL.createObjectURL(selectedImage)
+                            : student.avatarUrl
+                              ? student.avatarUrl
+                              : DEFAULT_STUDENT_AVATAR_URL
+                        }
                         fallbackSrc={DEFAULT_STUDENT_AVATAR_URL}
                       />
-                    ) : (
-                      <Image
-                        boxSize={32}
-                        objectFit="cover"
-                        borderRadius="50%"
-                        src={student.avatarUrl}
-                        fallbackSrc={DEFAULT_STUDENT_AVATAR_URL}
-                      />
-                    )}
-                    <FormLabel
-                      htmlFor="#avatar"
-                      pos="absolute"
-                      right={0}
-                      bottom={0}
-                      aria-label="upload-image"
-                    >
-                      <AttachmentIcon />
+                      <AttachmentIcon pos="absolute" right={3} bottom={3} />
                     </FormLabel>
                     <Input
                       id="#avatar"
                       name="avatar"
                       type="file"
                       aria-label="avatar"
-                      isDisabled={isMutating || isUploadingImage}
                       hidden
-                      onChange={handleImageUpload}
+                      onChange={handleSelectImage}
                     />
                     <Controller
                       control={control}
@@ -282,7 +325,7 @@ const StudentFormModal = memo(
                 _hover={{
                   bg: "blackAlpha.300",
                 }}
-                isDisabled={isMutating || isUploadingImage}
+                isDisabled={isMutating}
               >
                 Cancel
               </Button>
@@ -295,7 +338,7 @@ const StudentFormModal = memo(
                 _hover={{
                   bg: "orange.400",
                 }}
-                isDisabled={isMutating || isUploadingImage || !isDirty}
+                isDisabled={isMutating || !isDirty || !isValid}
               >
                 Submit
               </Button>
