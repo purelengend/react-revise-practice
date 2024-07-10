@@ -175,11 +175,7 @@ const StudentPage = () => {
             objectFit="contain"
             w={16.25}
             h={13.75}
-            src={
-              item.avatarUrl === ""
-                ? DEFAULT_STUDENT_AVATAR_URL
-                : item.avatarUrl
-            }
+            src={item.avatarUrl ? item.avatarUrl : undefined}
             alt={`avatar-of-${item.name}`}
             fallbackSrc={DEFAULT_STUDENT_AVATAR_URL}
           />
@@ -260,7 +256,7 @@ const StudentPage = () => {
   return (
     <Box
       w="full"
-      minH="95.5vh"
+      minH="calc(100vh - 60px)"
       display="flex"
       flexDir="column"
       justifyContent="space-between"

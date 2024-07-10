@@ -20,7 +20,7 @@ export const getAllStudents = async ({
   sortBy,
   order,
   name,
-}: QueryParams): Promise<Student[]> => {
+}: QueryParams) => {
   const params = name
     ? { page, limit, sortBy, order, name }
     : { page, limit, sortBy, order };
@@ -38,13 +38,11 @@ export const getTotalStudents = async (name: string) => {
   }
 };
 
-export const getStudentById = async (id: string): Promise<Student> => {
+export const getStudentById = async (id: string) => {
   return (await studentHttp.get<Student>(`/${id}`)).data;
 };
 
-export const createOrUpdateStudent = async (
-  data: Student,
-): Promise<Student> => {
+export const createOrUpdateStudent = async (data: Student) => {
   if (!data.id) {
     const dataWithDate: Student = {
       ...data,
@@ -56,5 +54,5 @@ export const createOrUpdateStudent = async (
   return (await studentHttp.put<Student>(`/${data.id}`, data)).data;
 };
 
-export const deleteStudentById = async (id: string): Promise<Student> =>
+export const deleteStudentById = async (id: string) =>
   (await studentHttp.delete<Student>(`/${id}`)).data;
